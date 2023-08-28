@@ -1,3 +1,8 @@
+// Early Proof of Concept for creating users (UNFINISHED)
+// Implement:
+// * email sending
+// * verification flags
+// * unique n digit account activation
 package main
 
 import (

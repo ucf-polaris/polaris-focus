@@ -1,3 +1,4 @@
+// A bunch of JWT functions for reference
 package main
 
 import (

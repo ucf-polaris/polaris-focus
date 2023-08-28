@@ -1,3 +1,6 @@
+// Early Proof of Concept for verification of users
+// Implement:
+// * sending back the JWT token and Refresh Token
 package main
 
 import (

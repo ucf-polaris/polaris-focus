@@ -1,3 +1,4 @@
+// Email sending capabillity through Amazon SES
 package main
 
 import (

@@ -2,11 +2,9 @@
 package main
 
 import (
-	"log"
-	"os"
+	"fmt"
 	"time"
 
-	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/golang-jwt/jwt/v4"
 )
 
@@ -23,19 +21,30 @@ type JWTResponse struct {
 	Token string `json:"token"`
 }
 
+type JWTPackage struct {
+	Token        string `json:"token"`
+	RefreshToken string `json:"refreshToken,omitempty"`
+}
+
 var secretKey []byte
 
 func init() {
-	key := os.Getenv("SECRET_KEY")
+	/*key := os.Getenv("SECRET_KEY")
 
 	if key == "" {
 		log.Fatal("missing environment variable SECRET_KEY")
 	}
-	secretKey = []byte(key)
+	secretKey = []byte(key)*/
+	secretKey = []byte("potato")
 }
 
 func main() {
-	lambda.Start(handler)
+	/*p := &JWTPackage{Token: "allow"}
+	a, _ := json.Marshal(p)
+	fmt.Println(string(a))*/
+	tkn, _ := generateJWT(1)
+	fmt.Println(tkn)
+	//lambda.Start(handler)
 }
 
 func generateJWT(timeExp int) (string, error) {

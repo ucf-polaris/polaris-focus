@@ -61,14 +61,14 @@ func main() {
 	lambda.Start(handler)
 }
 
-func unpackRequest(body string) User {
+func unpackRequest(body string) map[string]interface{} {
 	if body == "" {
-		return User{}
+		return nil
 	}
 
 	log.Println("body: ", body)
 
-	search := User{}
+	search := map[string]any{}
 	err := json.Unmarshal([]byte(body), &search)
 
 	if err != nil {
@@ -106,20 +106,32 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	//get the body
 	search := unpackRequest(request.Body)
 
+	//field checking and extract username and password fields
+	var email string
+	var password string
+
+	if val, ok := search["password"].(string); ok {
+		password = val
+	}
+
+	if val, ok := search["email"].(string); ok {
+		email = val
+	}
+
 	//error check username and pass
-	if search.Username == "" || search.Password == "" {
+	if email == "" || password == "" {
 		return responseGeneration("field not set", http.StatusBadRequest)
 	}
 	//-----------------------------------------THE QUERY-----------------------------------------
 	//pass parameters into query
 	item_username := make(map[string]types.AttributeValue)
-	item_username[":username"] = &types.AttributeValueMemberS{Value: search.Username}
+	item_username[":email"] = &types.AttributeValueMemberS{Value: email}
 
 	//the query
 	QueryResults, err := client.Query(context.Background(), &dynamodb.QueryInput{
 		TableName:                 aws.String(table),
-		IndexName:                 aws.String("username-index"),
-		KeyConditionExpression:    aws.String("username = :username"),
+		IndexName:                 aws.String("email-index"),
+		KeyConditionExpression:    aws.String("email = :email"),
 		ExpressionAttributeValues: item_username,
 	})
 	//-----------------------------------------ERROR CHECKING-----------------------------------------
@@ -130,21 +142,26 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	//No username found
 	if QueryResults.Count == 0 {
-		return responseGeneration("invalid username/password", http.StatusBadRequest)
+		return responseGeneration("invalid email/password", http.StatusBadRequest)
 	}
 
 	//More than one username found (shouldn't happen, but could)
 	if QueryResults.Count > 1 {
-		return responseGeneration("more than one username found", http.StatusBadRequest)
+		return responseGeneration("more than one email found", http.StatusBadRequest)
 	}
 	//-----------------------------------------PACKING RESULTS-----------------------------------------
 	//get results in
-	newUser := User{}
+	newUser := map[string]any{}
 	attributevalue.UnmarshalMap(QueryResults.Items[0], &newUser)
 
 	//store and hide the password
-	check_pass := newUser.Password
-	newUser.Password = ""
+	var check_pass string
+	var ok bool
+	if check_pass, ok = newUser["password"].(string); !ok {
+		return responseGeneration("query returned no password field", http.StatusBadRequest)
+	}
+
+	delete(newUser, "password")
 
 	//-----------------------------------------TOKEN-----------------------------------------
 	//make and return token and refresh token
@@ -158,8 +175,8 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		return responseGeneration(err.Error(), http.StatusBadRequest)
 	}
 
-	newUser.Token = tkn
-	newUser.RefreshToken = rfs
+	newUser["token"] = tkn
+	newUser["refreshToken"] = rfs
 
 	//package the results
 	js, err := json.Marshal(newUser)
@@ -169,7 +186,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}
 
 	//checking the password, if nothing return error
-	if check_pass != search.Password {
+	if check_pass != password {
 		return responseGeneration("invalid username/password", http.StatusBadRequest)
 	}
 

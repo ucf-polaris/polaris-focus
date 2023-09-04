@@ -9,7 +9,7 @@ import (
 )
 
 type Claims struct {
-	//Username string `json:"username"`
+	UserID string `json:"userID,omitempty"`
 	jwt.RegisteredClaims
 }
 
@@ -42,12 +42,12 @@ func main() {
 	/*p := &JWTPackage{Token: "allow"}
 	a, _ := json.Marshal(p)
 	fmt.Println(string(a))*/
-	tkn, _ := generateJWT(10)
+	tkn, _ := generateJWT(10, "hi")
 	fmt.Println(tkn)
 	//lambda.Start(handler)
 }
 
-func generateJWT(timeExp int) (string, error) {
+func generateJWT(timeExp int, id string) (string, error) {
 	//The claims (24 hours till expire)
 	expirationTime := time.Now().UTC().Add(time.Duration(timeExp) * time.Minute)
 
@@ -55,6 +55,7 @@ func generateJWT(timeExp int) (string, error) {
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(expirationTime),
 		},
+		UserID: id,
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS512, claims)
@@ -66,7 +67,7 @@ func generateJWT(timeExp int) (string, error) {
 }
 
 func handler(payload JWTConstructor) (JWTResponse, error) {
-	token, err := generateJWT(payload.TimeTil)
+	token, err := generateJWT(payload.TimeTil, "")
 	if err != nil {
 		return JWTResponse{}, err
 	}

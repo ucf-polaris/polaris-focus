@@ -24,6 +24,7 @@ type User struct {
 	Username     string   `json:"username"`
 	Token        string   `json:"token"`
 	RefreshToken string   `json:"refreshToken,omitempty"`
+	FromJWT      string   `json:"fromJWT,omitempty"`
 }
 
 type UserSearch struct {
@@ -35,6 +36,7 @@ type UserSearch struct {
 type JWTPackage struct {
 	Token        string `json:"token"`
 	RefreshToken string `json:"refreshToken,omitempty"`
+	Email        string `json:"email, omitempty"`
 }
 
 var table string
@@ -107,6 +109,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	if pack.RefreshToken != "" {
 		newUser.RefreshToken = pack.RefreshToken
 	}
+	newUser.FromJWT = pack.Email
 
 	js, err := json.Marshal(newUser)
 

@@ -121,13 +121,18 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	valUser, okUser := search["username"].(string)
 	valPass, okPass := search["password"].(string)
 	valEmail, okEmail := search["email"].(string)
+	valTempPass, okTemp := search["temp_pass"].(string)
 
-	if !okUser || !okPass || !okEmail {
+	if !okUser || !okPass || !okEmail || !okTemp {
 		return responseGeneration("field not set", http.StatusBadRequest)
 	}
 
 	item_email := make(map[string]types.AttributeValue)
 	item_email[":email"] = &types.AttributeValueMemberS{Value: valEmail}
+
+	if valTempPass != "potato" {
+		return responseGeneration("field not set", http.StatusBadRequest)
+	}
 
 	//-----------------------------------------EXTRACT NONREQUIRED FIELDS-----------------------------------------
 	var valName string

@@ -1,7 +1,7 @@
 {
-"Username" : "mine",
-"Password" : "also mine",
-"Email" : "mine@gmail.com",
-"Schedule" : ["CAP 3289", "Some class"],
-"Name": "Bartholomew"
+"username" : "mine",
+"password" : "also mine",
+"email" : "mine3@gmail.com",
+"schedule" : ["CAP 3289", "Some class"],
+"name": "Bartholomew"
 }

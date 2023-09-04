@@ -15,16 +15,12 @@ import (
 )
 
 type Claims struct {
-	//Username string `json:"username"`
+	UserID string `json:"userID"`
 	jwt.RegisteredClaims
 }
 
-type JWTPackage struct {
-	Token        string `json:"token"`
-	RefreshToken string `json:"refreshToken,omitempty"`
-}
-
 var secretKey []byte
+var claims *Claims
 
 func init() {
 	key := os.Getenv("SECRET_KEY")
@@ -40,7 +36,7 @@ func main() {
 }
 
 func verifyJWT(token string) error {
-	claims := &Claims{}
+	claims = &Claims{}
 	tkn, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
 		return secretKey, nil
 	})
@@ -99,18 +95,25 @@ func generatePolicy(stringKey, principalId, effect, resource string) events.APIG
 
 func handler(event events.APIGatewayCustomAuthorizerRequest) (events.APIGatewayCustomAuthorizerResponse, error) {
 	var token string
-	var ret_pack JWTPackage
+	var refreshToken string
+	var ok bool
 	body := event.AuthorizationToken
 	if event.AuthorizationToken == "" {
 		return generatePolicy("AuthorizationToken Header Empty", "user", "Deny", event.MethodArn), nil
 	}
 
-	pack := JWTPackage{}
+	pack := make(map[string]interface{})
 
 	//check the regular token
 	json.Unmarshal([]byte(body), &pack)
-	token = pack.Token
-	refreshToken := pack.RefreshToken
+
+	if token, ok = pack["token"].(string); !ok {
+		return generatePolicy("token field not found", "user", "Deny", event.MethodArn), nil
+	}
+
+	if val, ok := pack["refreshToken"].(string); ok {
+		refreshToken = val
+	}
 
 	err := verifyJWT(token)
 	//if and only if the token is expired due to a bad date, make new key
@@ -137,14 +140,7 @@ func handler(event events.APIGatewayCustomAuthorizerRequest) (events.APIGatewayC
 				return generatePolicy(err.Error(), "user", "Deny", event.MethodArn), nil
 			}
 
-			//return everything and generate policy (as long as refresh is okay, you're okay), security risk?
-			ret_pack := JWTPackage{Token: newTok, RefreshToken: refreshToken}
-			ret, err := json.Marshal(ret_pack)
-			if err != nil {
-				return generatePolicy(err.Error(), "user", "Deny", event.MethodArn), nil
-			}
-
-			return generatePolicy(string(ret), "user", "Allow", event.MethodArn), nil
+			token = newTok
 
 		} else {
 			return generatePolicy(err.Error(), "user", "Deny", event.MethodArn), nil
@@ -152,23 +148,21 @@ func handler(event events.APIGatewayCustomAuthorizerRequest) (events.APIGatewayC
 
 	}
 
-	//give keys back
-	ret, err := json.Marshal(JWTPackage{Token: token, RefreshToken: refreshToken})
+	//give data back
+	maker := map[string]interface{}{
+		"token":        token,
+		"refreshToken": refreshToken,
+	}
+
+	if claims.UserID != "" {
+		maker["UserID"] = claims.UserID
+	}
+
+	ret, err := json.Marshal(maker)
 	if err != nil {
-		return generatePolicy(err.Error(), "user", "Deny", event.MethodArn), err
+		return generatePolicy(err.Error(), "user", "Deny", event.MethodArn), nil
 	}
 
 	//check the refresh token here and implement logic to get token
 	return generatePolicy(string(ret), "user", "Allow", event.MethodArn), nil
-
-	/*switch strings.ToLower(token) {
-	case "allow":
-		return generatePolicy("user", "Allow", event.MethodArn), nil
-	case "deny":
-		return generatePolicy("user", "Deny", event.MethodArn), nil
-	case "unauthorized":
-		return events.APIGatewayCustomAuthorizerResponse{}, errors.New("Unauthorized") // Return a 401 Unauthorized response
-	default:
-		return events.APIGatewayCustomAuthorizerResponse{}, errors.New("Error: Invalid token")
-	}*/
 }

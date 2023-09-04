@@ -17,18 +17,11 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	lambdaCall "github.com/aws/aws-sdk-go/service/lambda"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"
 )
-
-type User struct {
-	UserID   string   `json:"UserID"`
-	Email    string   `json:"email"`
-	Password string   `json:"password"`
-	Schedule []string `json:"schedule"`
-	Username string   `json:"username"`
-	Name     string   `json:"name"`
-}
 
 type Claims struct {
 	UserID string `json:"userID"`
@@ -38,6 +31,7 @@ type Claims struct {
 var table string
 var secretKey []byte
 var client *dynamodb.Client
+var lambdaClient *lambdaCall.Lambda
 
 func init() {
 	table = os.Getenv("TABLE_NAME")
@@ -54,8 +48,15 @@ func init() {
 
 	secretKey = []byte(key)
 
+	//create session for dynamodb
 	cfg, _ := config.LoadDefaultConfig(context.Background())
 	client = dynamodb.NewFromConfig(cfg)
+
+	//create session for lambda
+	sess := session.Must(session.NewSessionWithOptions(session.Options{
+		SharedConfigState: session.SharedConfigEnable,
+	}))
+	lambdaClient = lambdaCall.New(sess, &aws.Config{Region: aws.String("us-east-2")})
 }
 
 func main() {
@@ -165,6 +166,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	//-----------------------------------------NEW USER CONSTRUCTION-----------------------------------------
 	item := make(map[string]types.AttributeValue)
 	uuid_new := uuid.Must(uuid.NewRandom()).String()
+	code := produceRandomNDigits(5)
 
 	item["UserID"] = &types.AttributeValueMemberS{Value: uuid_new}
 	item["email"] = &types.AttributeValueMemberS{Value: valEmail}
@@ -172,7 +174,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	item["username"] = &types.AttributeValueMemberS{Value: valUser}
 	item["name"] = &types.AttributeValueMemberS{Value: valName}
 	item["timeTilExpire"] = &types.AttributeValueMemberN{Value: strconv.FormatInt(time.Now().UTC().Add(time.Minute*15).Unix(), 10)}
-	item["verificationCode"] = &types.AttributeValueMemberN{Value: produceRandomNDigits(5)}
+	item["verificationCode"] = &types.AttributeValueMemberN{Value: code}
 
 	//put list of strings into correct format
 	av, err := attributevalue.MarshalList(valSchedule)
@@ -191,6 +193,27 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	if err != nil {
 		return responseGeneration(err.Error(), http.StatusBadRequest)
 	}
+
+	//-----------------------------------------SEND EMAIL CODE-----------------------------------------
+	body := make(map[string]interface{})
+	body["email"] = valEmail
+	body["code"], err = strconv.ParseFloat(code, 64)
+
+	if err != nil {
+		return responseGeneration(err.Error(), http.StatusBadRequest)
+	}
+
+	payload, err := json.Marshal(body)
+	if err != nil {
+		return responseGeneration(err.Error(), http.StatusBadRequest)
+	}
+
+	result, err := lambdaClient.Invoke(&lambdaCall.InvokeInput{FunctionName: aws.String("email_code"), Payload: payload})
+	if err != nil {
+		return responseGeneration(err.Error(), http.StatusBadRequest)
+	}
+
+	log.Println(result.Payload)
 
 	//-----------------------------------------RETURN FIELDS-----------------------------------------
 	ret := make(map[string]interface{})

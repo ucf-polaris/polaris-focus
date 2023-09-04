@@ -1,31 +1,53 @@
 package main
 
 import (
-	"fmt"
+	"errors"
+	"log"
+	"strconv"
 
+	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ses"
 )
 
-func main() {
-	// Create a new session in the us-west-2 region.
-	// Replace us-west-2 with the AWS Region you're using for Amazon SES.
-	sess, err := session.NewSessionWithOptions(session.Options{
-		Profile: "email",
-		Config: aws.Config{
-			Region: aws.String("us-east-2"),
-		},
-	})
+var emailClient *ses.SES
 
-	Recipient := "kaedenle@gmail.com"
-	Sender := "ucfarexperiences@gmail.com"
-	CharSet := "UTF-8"
-	TextBody := "This email was sent with Amazon SES using the AWS SDK for Go."
-	Subject := "testing"
+func init() {
+	sess := session.Must(session.NewSessionWithOptions(session.Options{
+		SharedConfigState: session.SharedConfigEnable,
+	}))
 
 	// Create an SES session.
-	svc := ses.New(sess)
+	emailClient = ses.New(sess)
+}
+
+func main() {
+	lambda.Start(handler)
+}
+
+func handler(request map[string]interface{}) error {
+
+	var email string
+	var code int
+
+	if val, ok := request["email"].(string); ok {
+		email = val
+	} else {
+		return errors.New("email not found in body")
+	}
+
+	if val, ok := request["code"].(float64); ok {
+		code = int(val)
+	} else {
+		return errors.New("code not found in body")
+	}
+
+	Recipient := email
+	Sender := "ucfarexperiences@gmail.com"
+	CharSet := "UTF-8"
+	TextBody := "Your registration code for UCF Polaris is " + strconv.Itoa(code) + "."
+	Subject := "UCF Polaris Registration Code"
 
 	// Attempt to send the email.
 	input := &ses.SendEmailInput{
@@ -48,13 +70,14 @@ func main() {
 			},
 		},
 		Source: aws.String(Sender),
-		// Uncomment to use a configuration set
-		//ConfigurationSetName: aws.String(ConfigurationSet),
 	}
-	result, err := svc.SendEmail(input)
+	result, err := emailClient.SendEmail(input)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("Email Sent to address: " + Recipient)
-	fmt.Println(result)
+
+	log.Println("Email Sent to address: " + Recipient)
+	log.Println(result)
+
+	return nil
 }

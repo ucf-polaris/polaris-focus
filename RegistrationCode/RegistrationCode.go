@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -58,7 +59,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	//-----------------------------------------EXTRACT FIELDS-----------------------------------------
 	body := unpackRequest(request.Body)
 	log.Println(request.Body)
-	var codeStr string
+	var code float64
 	var ok bool
 	var contextString string
 	var userID string
@@ -78,9 +79,11 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		}
 	}
 
-	if codeStr, ok = body["code"].(string); !ok {
+	if code, ok = body["code"].(float64); !ok {
 		return responseGeneration("code field not set", http.StatusBadRequest)
 	}
+
+	codeStr := strconv.Itoa(int(code))
 
 	//-----------------------------------------THE UPDATE CALL-----------------------------------------
 	//pass changes into update

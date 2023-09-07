@@ -19,17 +19,10 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	lambdaCall "github.com/aws/aws-sdk-go/service/lambda"
-	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"
 )
 
-type Claims struct {
-	UserID string `json:"userID"`
-	jwt.RegisteredClaims
-}
-
 var table string
-var secretKey []byte
 var client *dynamodb.Client
 var lambdaClient *lambdaCall.Lambda
 
@@ -39,14 +32,6 @@ func init() {
 	if table == "" {
 		log.Fatal("missing environment variable TABLE_NAME")
 	}
-
-	key := os.Getenv("SECRET_KEY")
-
-	if key == "" {
-		log.Fatal("missing environment variable SECRET_KEY")
-	}
-
-	secretKey = []byte(key)
 
 	//create session for dynamodb
 	cfg, _ := config.LoadDefaultConfig(context.Background())
@@ -75,23 +60,32 @@ func produceRandomNDigits(N int) string {
 	return number
 }
 
-func generateJWT(timeTil int, addOn string) (string, error) {
-	//The claims
-	expirationTime := time.Now().UTC().Add(time.Duration(timeTil) * time.Minute)
+func createToken(timeTil int, userID string, mode float64) (string, error) {
+	//-----------------------------------------GET VARIABLES-----------------------------------------
+	JWTFields := make(map[string]interface{})
 
-	claims := &Claims{
-		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(expirationTime),
-		},
-		UserID: addOn,
+	JWTFields["timeTil"] = timeTil
+	JWTFields["mode"] = mode
+
+	if userID != "" {
+		JWTFields["UserID"] = userID
 	}
-
-	token := jwt.NewWithClaims(jwt.SigningMethodHS512, claims)
-	tokenString, err := token.SignedString(secretKey)
+	//-----------------------------------------PACKAGE RESPONSE-----------------------------------------
+	payload, err := json.Marshal(JWTFields)
 	if err != nil {
-		panic(err)
+		return "", err
 	}
-	return tokenString, nil
+
+	resultToken, err := lambdaClient.Invoke(&lambdaCall.InvokeInput{FunctionName: aws.String("token_create"), Payload: payload})
+	if err != nil {
+		return "", err
+	}
+
+	result_json := unpackRequest(string(resultToken.Payload))
+
+	token := result_json["token"].(string)
+
+	return token, nil
 }
 
 func responseGeneration(msg string, status int) (events.APIGatewayProxyResponse, error) {
@@ -118,6 +112,7 @@ func unpackRequest(body string) map[string]interface{} {
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	//-----------------------------------------EXTRACT REQUIRED FIELDS-----------------------------------------
 	search := unpackRequest(request.Body)
+	var outputError string
 
 	valUser, okUser := search["username"].(string)
 	valPass, okPass := search["password"].(string)
@@ -125,14 +120,30 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	valTempPass, okTemp := search["temp_pass"].(string)
 
 	if !okUser || !okPass || !okEmail || !okTemp {
-		return responseGeneration("field not set", http.StatusBadRequest)
+		if !okUser {
+			outputError += "user "
+		}
+
+		if !okPass {
+			outputError += "password "
+		}
+
+		if !okEmail {
+			outputError += "email "
+		}
+
+		if !okTemp {
+			outputError += "temp pass "
+		}
+
+		return responseGeneration("field not set ("+outputError+")", http.StatusBadRequest)
 	}
 
 	item_email := make(map[string]types.AttributeValue)
 	item_email[":email"] = &types.AttributeValueMemberS{Value: valEmail}
 
 	if valTempPass != "potato" {
-		return responseGeneration("field not set", http.StatusBadRequest)
+		return responseGeneration("temp pass wrong", http.StatusBadRequest)
 	}
 
 	//-----------------------------------------EXTRACT NONREQUIRED FIELDS-----------------------------------------
@@ -210,20 +221,24 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	result, err := lambdaClient.Invoke(&lambdaCall.InvokeInput{FunctionName: aws.String("email_code"), Payload: payload})
 	if err != nil {
-		return responseGeneration(err.Error(), http.StatusBadRequest)
+		return responseGeneration("email error: "+err.Error(), http.StatusBadRequest)
 	}
 
 	log.Println(result.Payload)
 
-	//-----------------------------------------RETURN FIELDS-----------------------------------------
-	ret := make(map[string]interface{})
-
-	ret["UserID"] = uuid_new
-	ret["token"], err = generateJWT(15, uuid_new)
-
+	//-----------------------------------------CREATE TOKEN-----------------------------------------
+	tokenRet, err := createToken(15, uuid_new, 2)
 	if err != nil {
 		return responseGeneration(err.Error(), http.StatusBadRequest)
 	}
+
+	//-----------------------------------------PACK RETURN VALUES-----------------------------------------
+	ret := make(map[string]interface{})
+	ret["token"] = tokenRet
+
+	ret["UserID"] = uuid_new
+
+	ret["email"] = valEmail
 
 	js, err := json.Marshal(ret)
 

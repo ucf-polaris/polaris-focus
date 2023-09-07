@@ -7,10 +7,12 @@ import (
 	"log"
 	"os"
 	"strings"
-	"time"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	lambdaCall "github.com/aws/aws-sdk-go/service/lambda"
 	"github.com/golang-jwt/jwt/v4"
 )
 
@@ -20,7 +22,9 @@ type Claims struct {
 }
 
 var secretKey []byte
+var refreshKey []byte
 var claims *Claims
+var lambdaClient *lambdaCall.Lambda
 
 func init() {
 	key := os.Getenv("SECRET_KEY")
@@ -29,16 +33,37 @@ func init() {
 		log.Fatal("missing environment variable SECRET_KEY")
 	}
 	secretKey = []byte(key)
+
+	rkey := os.Getenv("REFRESH_KEY")
+
+	if rkey == "" {
+		log.Fatal("missing environment variable REFRESH_KEY")
+	}
+	refreshKey = []byte(rkey)
+
+	//create session for lambda
+	sess := session.Must(session.NewSessionWithOptions(session.Options{
+		SharedConfigState: session.SharedConfigEnable,
+	}))
+	lambdaClient = lambdaCall.New(sess, &aws.Config{Region: aws.String("us-east-2")})
 }
 
 func main() {
 	lambda.Start(handler)
 }
 
-func verifyJWT(token string) error {
+func verifyJWT(token string, mode float64) error {
+
+	var key []byte
+	switch mode {
+	case 1:
+		key = refreshKey
+	default:
+		key = secretKey
+	}
 	claims = &Claims{}
 	tkn, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
-		return secretKey, nil
+		return key, nil
 	})
 
 	if err != nil {
@@ -51,22 +76,49 @@ func verifyJWT(token string) error {
 	return nil
 }
 
-func generateJWT(timeTil int) (string, error) {
-	//The claims
-	expirationTime := time.Now().UTC().Add(time.Duration(timeTil) * time.Minute)
+func createToken(timeTil int, userID string, mode float64) (string, error) {
+	//-----------------------------------------GET VARIABLES-----------------------------------------
+	JWTFields := make(map[string]interface{})
 
-	claims := &Claims{
-		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(expirationTime),
-		},
+	JWTFields["timeTil"] = timeTil
+	JWTFields["mode"] = mode
+
+	if userID != "" {
+		JWTFields["UserID"] = userID
+	}
+	//-----------------------------------------PACKAGE RESPONSE-----------------------------------------
+	payload, err := json.Marshal(JWTFields)
+	if err != nil {
+		return "", err
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodHS512, claims)
-	tokenString, err := token.SignedString(secretKey)
+	resultToken, err := lambdaClient.Invoke(&lambdaCall.InvokeInput{FunctionName: aws.String("token_create"), Payload: payload})
+	if err != nil {
+		return "", err
+	}
+
+	result_json := unpackRequest(string(resultToken.Payload))
+
+	token := result_json["token"].(string)
+
+	return token, nil
+}
+
+func unpackRequest(body string) map[string]interface{} {
+	if body == "" {
+		return nil
+	}
+
+	log.Println("body: ", body)
+
+	search := map[string]any{}
+	err := json.Unmarshal([]byte(body), &search)
+
 	if err != nil {
 		panic(err)
 	}
-	return tokenString, nil
+
+	return search
 }
 
 // Help function to generate an IAM policy
@@ -115,7 +167,7 @@ func handler(event events.APIGatewayCustomAuthorizerRequest) (events.APIGatewayC
 		refreshToken = val
 	}
 
-	err := verifyJWT(token)
+	err := verifyJWT(token, 0)
 	//if and only if the token is expired due to a bad date, make new key
 	if err != nil {
 
@@ -128,13 +180,13 @@ func handler(event events.APIGatewayCustomAuthorizerRequest) (events.APIGatewayC
 			}
 
 			//check if refresh token is valid
-			err := verifyJWT(refreshToken)
+			err := verifyJWT(refreshToken, 1)
 			if err != nil {
 				return generatePolicy(err.Error(), "user", "Deny", event.MethodArn), nil
 			}
 
 			//generate new JWT token (if refresh token is valid)
-			newTok, err := generateJWT(15)
+			newTok, err := createToken(15, "", 0)
 			//if error comes up, throw exception
 			if err != nil {
 				return generatePolicy(err.Error(), "user", "Deny", event.MethodArn), nil

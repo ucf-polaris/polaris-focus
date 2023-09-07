@@ -73,7 +73,7 @@ func handler(request map[string]interface{}) error {
 	}
 	result, err := emailClient.SendEmail(input)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	log.Println("Email Sent to address: " + Recipient)

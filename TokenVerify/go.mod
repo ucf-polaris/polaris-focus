@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/aws/aws-lambda-go v1.41.0 // indirect
+	github.com/aws/aws-sdk-go v1.45.2 // indirect
 	github.com/aws/aws-sdk-go-v2 v1.21.0 // indirect
 	github.com/aws/aws-sdk-go-v2/config v1.18.36 // indirect
 	github.com/aws/aws-sdk-go-v2/credentials v1.13.35 // indirect
@@ -18,4 +19,5 @@ require (
 	github.com/aws/smithy-go v1.14.2 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
 )

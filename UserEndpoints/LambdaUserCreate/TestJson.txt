@@ -1,0 +1,7 @@
+{
+"username" : "mine",
+"password" : "also mine",
+"email" : "mine3@gmail.com",
+"schedule" : ["CAP 3289", "Some class"],
+"name": "Bartholomew"
+}

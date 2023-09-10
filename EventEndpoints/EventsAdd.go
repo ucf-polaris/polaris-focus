@@ -151,6 +151,24 @@ func inTimeSpan(start, end, check time.Time) bool {
 	return check.After(start) && check.Before(end)
 }
 
+func mapEnforceSchema(m map[string]interface{}, schema []string) error {
+
+	//match up the schema
+	for _, element := range schema {
+		_, ok := m[element]
+		if !ok {
+			return errors.New(element + " not found")
+		}
+	}
+
+	//if get past schema match, test for any foreign keys (look at length)
+	if len(schema) != len(m) {
+		return errors.New("foreign keys detected in map")
+	}
+
+	return nil
+}
+
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	//-----------------------------------------EXTRACT TOKEN FIELDS-----------------------------------------
 	var token string
@@ -192,6 +210,10 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	uuid_new := uuid.Must(uuid.NewRandom()).String()
 	item["EventID"] = &types.AttributeValueMemberS{Value: uuid_new}
 
+	errs = mapEnforceSchema(search["location"].(map[string]interface{}), []string{"BuildingLong", "BuildingLat"})
+	if errs != nil {
+		return responseGeneration(errs.Error(), http.StatusBadRequest)
+	}
 	//-----------------------------------------MAKE TTL VALUE-----------------------------------------
 	date, _ := search["dateTime"].(string)
 	thetime, errs := time.Parse(time.RFC3339, date)

@@ -103,7 +103,7 @@ func ConstructVerified(queryResponse map[string]interface{}, password string) (s
 
 	//checking the password, if nothing return error
 	if check_pass != password {
-		return "", errors.New("invalid username/password")
+		return "", errors.New("invalid email/password")
 	}
 
 	delete(queryResponse, "password")
@@ -163,8 +163,19 @@ func ConstructNonVerified(queryResponse map[string]interface{}) (string, error) 
 	return string(js), nil
 }
 
+func isLambdaLocal() bool {
+	thing := os.Getenv("AWS_SAM_LOCAL")
+	log.Println("LOCAL? " + thing)
+	return thing == "true"
+}
+
 // TO-DO: create a function that handles response returns (more clean and more info/debug info)
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	if isLambdaLocal() {
+		log.Println("YES")
+	} else {
+		log.Println("NO")
+	}
 	//-----------------------------------------PREPARATION-----------------------------------------
 	//get the body
 	search := unpackRequest(request.Body)

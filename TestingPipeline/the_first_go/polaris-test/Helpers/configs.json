@@ -1,0 +1,8 @@
+{
+    "schema":{
+        "UserID": "S",
+        "id": "N",
+        "carry-on": "S"
+    },
+    "keys":["UserID", "id"]
+}

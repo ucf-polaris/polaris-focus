@@ -1,0 +1,30 @@
+DATABASE ADD
+* Try to put incorrect schema
+	* for basic types
+	* For map and list
+* It exists in DynamoDB
+* Overrides existing things
+* Missing fields
+* More fields???
+
+DATABASE GET
+* Doesn't exist in database (actually)
+* Regular test
+* Get with incorrect key schema
+
+DATABASE QUERY
+* Get n pieces of data (it returns n pieces of data)
+* Query 1 item more than 1 MB
+* Query 3 items that totals more than 1 MB
+* Same as GET above
+
+DATABASE UPDATE
+* Update and then get
+* Update nothing then get
+* Update a field that doesn't exist
+* Invalid value (passed in)
+
+DATABASE DELETE
+* Delete something well
+* Delete something that doesn't exist
+* Delete one primary key

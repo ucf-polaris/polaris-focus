@@ -35,6 +35,10 @@ func init() {
 
 	//create session for dynamodb
 	cfg, _ := config.LoadDefaultConfig(context.Background())
+	/*config.WithEndpointResolver(aws.EndpointResolverFunc(
+	func(service, region string) (aws.Endpoint, error) {
+		return aws.Endpoint{URL: "http://localhost:8000"}, nil
+	})),*/
 	client = dynamodb.NewFromConfig(cfg)
 
 	//create session for lambda

@@ -28,6 +28,9 @@ type Event struct {
 	Location        EventLocation   `json:"location"`
 	Name            string          `json:"name"`
 }
+type Payload struct {
+	EventID			string			`json:"EventID"`
+}
 
 var table string
 var db *dynamodb.Client
@@ -42,16 +45,18 @@ func init() {
 }
 
 func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	log.Printf("HEEELELLLLLOOORUOWIHOASHFVSDG")
-	// Extract event ID from request
-	id, good := request.QueryStringParameters["EventID"]
-	// If EventID wasn't present, return and ask for the Event ID
-	if !good {
+	// Create a payload struct
+	var payload Payload
+	// Unmarshal the request body into the payload struct and error check it
+	err := json.Unmarshal([]byte(request.Body), &payload)
+	if err != nil {
 		return events.APIGatewayProxyResponse{
-			StatusCode: http.StatusBadRequest,
-			Body:		"EventID is required",
+			StatusCode:	http.StatusBadRequest,
+			Body: 		"Invalid input format",
 		}, nil
 	}
+	// Extract the ID and use this to get the item from dynamo
+	id := payload.EventID
 
 	// Fetch the Event in the form of a go struct from the database
 	event, err := getEventByID(ctx, id)

@@ -24,7 +24,9 @@ type User struct {
 	Username         string   `json:"username"`
 	Name             string   `json:"name"`
 }
-
+type Payload struct {
+	UserID			string		`json:"UserID"`
+}
 var table string
 var db *dynamodb.Client
 
@@ -38,15 +40,15 @@ func init() {
 }
 
 func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	// Extract user ID from request
-	id, good := request.QueryStringParameters["UserID"]
-	// If UserID wasn't present, return and ask for the user ID
-	if !good {
+	var payload Payload
+	err := json.Unmarshal([]byte(request.Body), &payload)
+	if err != nil {
 		return events.APIGatewayProxyResponse{
 			StatusCode: http.StatusBadRequest,
-			Body:		"UserID is required",
+			Body:		"Invalid input format",
 		}, nil
 	}
+	id := payload.UserID
 
 	// Fetch the user in the form of a go struct from the database
 	usr, err := getUserByID(ctx, id)

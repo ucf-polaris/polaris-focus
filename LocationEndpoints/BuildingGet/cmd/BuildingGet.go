@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"encoding/json"
 	"fmt"
-	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -24,6 +23,10 @@ type Building struct {
 	BuildingEvents  []string        `json:"BuildingEvents"`
 	BuildingName    string   		`json:"BuildingName"`
 }
+type Payload struct {
+	BuildingLong	float64		`json:"BuildingLong"`
+	BuildingLat		float64		`json:"BuildingLat"`
+}
 
 var table string
 var db *dynamodb.Client
@@ -38,39 +41,19 @@ func init() {
 }
 
 func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	// Extract building long from request
-	bLongS, good := request.QueryStringParameters["BuildingLong"]
-	if !good {
-		return events.APIGatewayProxyResponse{
-			StatusCode: http.StatusBadRequest,
-			Body:		"BuildingLong is required",
-		}, nil
-	}
-	// Extract building lat from request
-	bLatS, good := request.QueryStringParameters["BuildingLat"]
-	if !good {
-		return events.APIGatewayProxyResponse{
-			StatusCode: http.StatusBadRequest,
-			Body:		"BuildingLat is required",
-		}, nil
-	}
+	var payload Payload
 
-	// Both long and lat existed, convert them to floats
-	bLong, err := strconv.ParseFloat(bLongS, 64)
-	if err != nil {
-		return events.APIGatewayProxyResponse{
-			StatusCode: http.StatusBadRequest,
-			Body: 		"Invalid BuildingLong",
-		}, nil
-	}
-	bLat, err := strconv.ParseFloat(bLatS, 64)
-	if err != nil {
-		return events.APIGatewayProxyResponse{
-			StatusCode: http.StatusBadRequest,
-			Body:		"Invalid BuildingLat",
-		}, nil
-	}
-	
+    err := json.Unmarshal([]byte(request.Body), &payload)
+    if err != nil {
+        return events.APIGatewayProxyResponse{
+            StatusCode: http.StatusBadRequest,
+            Body:       "Invalid input format",
+        }, nil
+    }
+
+    bLong := payload.BuildingLong
+    bLat := payload.BuildingLat
+
 	// Fetch the building in the form of a go struct from the database
 	building, err := getBuildingByLongLat(ctx, bLong, bLat)
 	// If an error came up, early exit and return the error

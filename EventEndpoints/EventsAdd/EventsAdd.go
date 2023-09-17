@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -56,6 +57,17 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	uuid_new := uuid.Must(uuid.NewRandom()).String()
 	item["EventID"] = &types.AttributeValueMemberS{Value: uuid_new}
+	//-----------------------------------------GET QUERY LOCATION FIELD-----------------------------------------
+	if val, ok := search["location"].(map[string]interface{}); ok {
+		long := val["BuildingLong"].(float64)
+		lat := val["BuildingLat"].(float64)
+
+		slong := strconv.FormatFloat(long, 'f', -1, 64)
+		slat := strconv.FormatFloat(lat, 'f', -1, 64)
+		item["locationQueryID"] = &types.AttributeValueMemberS{Value: (slong + " " + slat)}
+	} else {
+		return responseGeneration("location schema missing BuildingLong and/or BuildingLat", http.StatusBadRequest)
+	}
 
 	//-----------------------------------------MAKE TTL VALUE-----------------------------------------
 	expire := -2

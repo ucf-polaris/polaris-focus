@@ -86,7 +86,7 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	// Great success!
     return events.APIGatewayProxyResponse{
         StatusCode: http.StatusOK,
-        Body:       "Yay!",
+        Body:       "User updated successfully!",
     }, nil
 }
 

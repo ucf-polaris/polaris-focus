@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"polaris-test/Helpers"
+	"strings"
 	"testing"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -11,12 +12,8 @@ import (
 )
 
 func onShutdown(err error) {
-	_, errs := client.DeleteTable(context.TODO(), &dyn2.DeleteTableInput{
+	_, _ = client.DeleteTable(context.TODO(), &dyn2.DeleteTableInput{
 		TableName: aws.String("THENEWTABLE")})
-	if errs != nil {
-		panic(errs)
-	}
-
 	if err != nil {
 		panic(err)
 	}
@@ -25,7 +22,7 @@ func onShutdown(err error) {
 
 func TestADD(t *testing.T) {
 	//get configs
-	schema, partition, sort, err := Helpers.ImportConfigs()
+	schema, override, partition, sort, err := Helpers.ImportConfigs()
 	if err != nil {
 		onShutdown(err)
 	}
@@ -36,11 +33,18 @@ func TestADD(t *testing.T) {
 	}
 
 	//get data
-	_, values, _ := Helpers.ProduceRandomData(schema)
-
+	_, values, _ := Helpers.ProduceRandomData(schema, override)
 	//setup json requests for test cases
 	_, tokens := Helpers.ProduceToken(make(map[string]interface{}))
 	tkn_str := Helpers.MarshalWrapper(tokens)
+
+	//setup extra (wrong) field
+	extra_values := Helpers.CopyMap(values)
+	extra_values["Extra One Lol"] = "Ya done it wrong!"
+
+	//setup missing field
+	missing_values := Helpers.CopyMap(values)
+	Helpers.DeleteAField(missing_values, partition, sort)
 
 	testCases := []struct {
 		name          string
@@ -61,15 +65,49 @@ func TestADD(t *testing.T) {
 			expectedBody:  tkn_str,
 			expectedError: nil,
 		},
+		{
+			name: "Request with one extra field",
+			request: events.APIGatewayProxyRequest{
+				RequestContext: events.APIGatewayProxyRequestContext{
+					Authorizer: map[string]interface{}{
+						"stringKey": tkn_str,
+					},
+				},
+				Body: Helpers.MarshalWrapper(extra_values),
+			},
+			expectedBody:  tkn_str,
+			expectedError: nil,
+		},
+		{
+			name: "Request with one missing field",
+			request: events.APIGatewayProxyRequest{
+				RequestContext: events.APIGatewayProxyRequestContext{
+					Authorizer: map[string]interface{}{
+						"stringKey": tkn_str,
+					},
+				},
+				Body: Helpers.MarshalWrapper(missing_values),
+			},
+			expectedBody:  "ERROR missing field(s)",
+			expectedError: nil,
+		},
 	}
 
+	//OTHER TEST CASES
+	/*
+		- incorrect key type (string instead of number, etc.)
+		- override existing
+	*/
 	for _, testCase := range testCases {
 		t.Run(testCase.name, func(t *testing.T) {
 			response, err := handler(testCase.request)
 
+			//for log testing
+			//Helpers.ScanTable(client, table)
+
 			cond, expected_str, obtained_str := Helpers.IsInTable(client, partition, sort, values)
 
-			if cond == false {
+			if cond == false && !strings.Contains(response.Body, "ERROR") {
 				t.Errorf("Expected item %q, but got %q", expected_str, obtained_str)
 			}
 
@@ -78,12 +116,21 @@ func TestADD(t *testing.T) {
 			}
 
 			if response.Body != testCase.expectedBody {
-				t.Errorf("Expected response %v, but got %v", testCase.expectedBody, response.Body)
+				// in case of error
+				if strings.Contains(response.Body, "ERROR") {
+					if !strings.Contains(response.Body, testCase.expectedBody) {
+						t.Errorf("Expected response %v, but got %v", testCase.expectedBody, response.Body)
+					}
+				} else {
+					t.Errorf("Expected response %v, but got %v", testCase.expectedBody, response.Body)
+				}
 			}
 
 			if response.StatusCode != 200 {
 				t.Errorf("Expected status code 200, but got %v", response.StatusCode)
 			}
+
+			Helpers.ResetTable(client, partition, sort, schema)
 		})
 	}
 	onShutdown(nil)
@@ -91,7 +138,7 @@ func TestADD(t *testing.T) {
 
 func TestGET(t *testing.T) {
 	//get configs
-	schema, partition, sort, err := Helpers.ImportConfigs()
+	schema, override, partition, sort, err := Helpers.ImportConfigs()
 	if err != nil {
 		onShutdown(err)
 	}
@@ -102,7 +149,7 @@ func TestGET(t *testing.T) {
 	}
 
 	//add a value to table
-	values, err := Helpers.AddToTable(client, schema)
+	values, err := Helpers.AddToTable(client, schema, override)
 	if err != nil {
 		onShutdown(err)
 	}
@@ -144,8 +191,8 @@ func TestGET(t *testing.T) {
 				},
 				Body: Helpers.MarshalWrapper(wrong_vals),
 			},
-			expectedBody:  "",
-			expectedError: ErrRecordNotFound,
+			expectedBody:  "ERROR: record not found",
+			expectedError: nil,
 		},
 		{
 			// mock a request with a localhost SourceIP
@@ -160,8 +207,8 @@ func TestGET(t *testing.T) {
 					"wrong_key": "wrong!",
 				}),
 			},
-			expectedBody:  "",
-			expectedError: ErrKeyNotFound,
+			expectedBody:  "ERROR: key not found",
+			expectedError: nil,
 		},
 	}
 

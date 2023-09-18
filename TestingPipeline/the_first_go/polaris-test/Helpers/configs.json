@@ -1,8 +1,19 @@
 {
     "schema":{
-        "UserID": "S",
-        "id": "N",
-        "carry-on": "S"
+        "name": "S",
+        "host": "S",
+        "description": "S",
+        "dateTime": "S",
+        "location": "M",
+        "EventID": "S"
     },
-    "keys":["UserID", "id"]
+    "override":{
+        "location":{
+            "BuildingLong": 1,
+            "BuildingLat": 1.1
+        },
+        "EventID": "0",
+        "locationQueryID": "1 1.1"
+    },
+    "keys":["EventID"]
 }

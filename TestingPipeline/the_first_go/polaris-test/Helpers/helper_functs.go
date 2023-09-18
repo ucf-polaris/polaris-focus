@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"io/ioutil"
+	"log"
 	"math/rand"
 	"os"
 	"reflect"
@@ -20,7 +21,7 @@ import (
 )
 
 // Produce Random Data that links back to AddToTable
-func ProduceRandomData(schema map[string]string) (map[string]types.AttributeValue, map[string]interface{}, error) {
+func ProduceRandomData(schema map[string]string, override map[string]interface{}) (map[string]types.AttributeValue, map[string]interface{}, error) {
 	values := make(map[string]interface{})
 
 	rand.Seed(time.Now().UnixNano())
@@ -28,23 +29,47 @@ func ProduceRandomData(schema map[string]string) (map[string]types.AttributeValu
 	for k, v := range schema {
 		switch v {
 		case "N":
-			values[k] = rand.Intn(10000)
+			if val, ok := override[k].(float64); ok {
+				values[k] = val
+			} else if val, ok := override[k].(int); ok {
+				values[k] = val
+			} else {
+				values[k] = rand.Intn(10000)
+			}
 		case "BOOL":
-			values[k] = true
+			if val, ok := override[k].(bool); ok {
+				values[k] = val
+			} else {
+				values[k] = true
+			}
 		case "S":
-			values[k] = strconv.Itoa(rand.Int())
+			if val, ok := override[k].(string); ok {
+				values[k] = val
+			} else {
+				values[k] = strconv.Itoa(rand.Int())
+			}
 		case "L":
-			values[k] = []string{"this", "is", "a", "mighty", "test"}
+			if val, ok := override[k].([]interface{}); ok {
+				values[k] = val
+			} else {
+				values[k] = []string{"this", "is", "a", "mighty", "test"}
+			}
 		case "M":
-			values[k] = map[string]int{
-				"This":      1,
-				"That":      2,
-				"OverWhere": 3,
+			if val, ok := override[k]; ok {
+				values[k] = val
+			} else {
+				values[k] = map[string]int{
+					"This":      1,
+					"That":      2,
+					"OverWhere": 3,
+				}
 			}
 		default:
 			return nil, nil, errors.New("invalid datatype")
 		}
 	}
+
+	values = dumpOverride(values, override)
 
 	item, err := attributevalue.MarshalMap(values)
 	if err != nil {
@@ -82,6 +107,10 @@ func makeAttributeSchema(partition string, sort string, schema map[string]string
 		"N": types.ScalarAttributeTypeN,
 	}
 
+	if _, ok := schema[partition]; !ok {
+		panic(errors.New("missing partition in schema"))
+	}
+
 	defSchema := []types.AttributeDefinition{
 		{
 			AttributeName: aws.String(partition),
@@ -90,6 +119,9 @@ func makeAttributeSchema(partition string, sort string, schema map[string]string
 	}
 
 	if sort != "" {
+		if _, ok := schema[sort]; !ok {
+			panic(errors.New("missing sort in schema"))
+		}
 		defElement := types.AttributeDefinition{
 			AttributeName: aws.String(sort),
 			AttributeType: dataTypes[schema[sort]],
@@ -139,8 +171,8 @@ func GenerateTable(client *dynamodb.Client, partition string, sort string, schem
 }
 
 // Adds random data to table with partition and sort key defined
-func AddToTable(client *dynamodb.Client, schema map[string]string) (map[string]interface{}, error) {
-	data, output, err := ProduceRandomData(schema)
+func AddToTable(client *dynamodb.Client, schema map[string]string, override map[string]interface{}) (map[string]interface{}, error) {
+	data, output, err := ProduceRandomData(schema, override)
 
 	if err != nil {
 		return nil, err
@@ -186,6 +218,15 @@ func extractSchema(full map[string]interface{}) (map[string]string, error) {
 	return ret, nil
 }
 
+// Extracts override. Override sets values in request rather than makes them random, links back to ImportConfigs
+func extractOverride(full map[string]interface{}) (map[string]interface{}, error) {
+	over, ok := full["override"].(map[string]interface{})
+	if !ok {
+		return nil, errors.New("something went wrong when extracting override")
+	}
+	return over, nil
+}
+
 // Helper that creates the dynamoDB host
 func ConstructDynamoHost() *dynamodb.Client {
 	var err error
@@ -211,10 +252,10 @@ func ConstructDynamoHost() *dynamodb.Client {
 }
 
 // imports schema and keys from config file
-func ImportConfigs() (map[string]string, string, string, error) {
+func ImportConfigs() (map[string]string, map[string]interface{}, string, string, error) {
 	jsonFile, err := os.Open("Helpers/configs.json")
 	if err != nil {
-		return nil, "", "", err
+		return nil, nil, "", "", err
 	}
 
 	byteFile, _ := ioutil.ReadAll(jsonFile)
@@ -223,24 +264,29 @@ func ImportConfigs() (map[string]string, string, string, error) {
 	output := make(map[string]interface{})
 	err = json.Unmarshal(byteFile, &output)
 	if err != nil {
-		return nil, "", "", err
+		return nil, nil, "", "", err
 	}
 
 	//extract keys
 	partition, sort, err := extractKeys(output)
 	if err != nil {
-		return nil, "", "", err
+		return nil, nil, "", "", err
 	}
 
 	//extract schema
 	schema, err := extractSchema(output)
 	if err != nil {
-		return nil, "", "", err
+		return nil, nil, "", "", err
 	}
 
+	//extract override
+	override, err := extractOverride(output)
+	if err != nil {
+		return nil, nil, "", "", err
+	}
 	defer jsonFile.Close()
 
-	return schema, partition, sort, nil
+	return schema, override, partition, sort, nil
 }
 
 // helper function that marshals the keys for return
@@ -288,14 +334,33 @@ func ProduceIncorrectKeys(partition string, sort string, schema map[string]strin
 
 	MAX_COUNT := 10
 	count := 0
-	_, wrong_vals, _ := ProduceRandomData(tmp)
+	_, wrong_vals, _ := ProduceRandomData(tmp, make(map[string]interface{}))
 	//if (somehow) wrong_vals and correct are equal, roll again
 	for reflect.DeepEqual(wrong_vals, correct) && count != MAX_COUNT {
-		_, wrong_vals, _ = ProduceRandomData(tmp)
+		_, wrong_vals, _ = ProduceRandomData(tmp, make(map[string]interface{}))
 		count++
 	}
 
 	return wrong_vals
+}
+
+func ScanTable(client *dynamodb.Client, table string) {
+	output, err := client.Scan(context.TODO(), &dynamodb.ScanInput{
+		TableName: aws.String(table),
+	})
+	if err != nil {
+		panic(err)
+	}
+
+	log.Println("SCAN: ", output.Items)
+}
+
+func dumpOverride(values map[string]interface{}, override map[string]interface{}) map[string]interface{} {
+	for k, v := range override {
+		values[k] = v
+	}
+
+	return values
 }
 
 func IsInTable(client *dynamodb.Client, partition string, sort string, values map[string]interface{}) (bool, string, string) {
@@ -314,9 +379,36 @@ func IsInTable(client *dynamodb.Client, partition string, sort string, values ma
 	}
 
 	//get output
+	js = make(map[string]interface{})
 	attributevalue.UnmarshalMap(output.Item, &js)
 	gotten := MarshalWrapper(js)
 	expected := MarshalWrapper(values)
 
 	return gotten == expected, expected, gotten
+}
+
+func CopyMap(M map[string]interface{}) map[string]interface{} {
+	// copy a map
+	cop := make(map[string]interface{})
+
+	for k, v := range M {
+		cop[k] = v
+	}
+	return cop
+}
+
+func DeleteAField(M map[string]interface{}, partition string, sort string) {
+	for k, _ := range M {
+		if k != partition && k != sort {
+			delete(M, k)
+			return
+		}
+	}
+}
+
+func ResetTable(client *dynamodb.Client, partition string, sort string, schema map[string]string) {
+	_, _ = client.DeleteTable(context.TODO(), &dynamodb.DeleteTableInput{
+		TableName: aws.String("THENEWTABLE")})
+
+	GenerateTable(client, partition, sort, schema)
 }

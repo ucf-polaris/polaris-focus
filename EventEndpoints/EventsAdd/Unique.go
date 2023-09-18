@@ -1,10 +1,12 @@
 package main
 
 import (
+	"Helpers"
 	"strconv"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
+	"github.com/google/uuid"
 )
 
 // make a TTL
@@ -28,4 +30,12 @@ func makeTTL(item map[string]types.AttributeValue, search map[string]interface{}
 	item["timeTilExpire"] = &types.AttributeValueMemberN{Value: timeVal}
 
 	return nil
+}
+
+func produceUUID() string {
+	//allows unit testing to be consistent
+	if Helpers.IsLambdaLocal() {
+		return "0"
+	}
+	return uuid.Must(uuid.NewRandom()).String()
 }

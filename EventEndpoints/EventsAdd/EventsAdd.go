@@ -13,7 +13,6 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/google/uuid"
 )
 
 var table string
@@ -36,7 +35,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	//-----------------------------------------EXTRACT TOKEN FIELDS-----------------------------------------
 	token, rfsTkn, err := Helpers.GetTokens(request)
 	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 	//-----------------------------------------EXTRACT FIELDS-----------------------------------------
 	search := Helpers.UnpackRequest(request.Body)
@@ -48,21 +47,25 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		false)
 
 	if errs != nil {
-		return Helpers.ResponseGeneration(errs.Error(), http.StatusBadRequest)
+		return Helpers.ResponseGeneration(errs.Error(), http.StatusOK)
 	}
 
-	uuid_new := uuid.Must(uuid.NewRandom()).String()
+	uuid_new := produceUUID()
 	item["EventID"] = &types.AttributeValueMemberS{Value: uuid_new}
 	//-----------------------------------------GET QUERY LOCATION FIELD-----------------------------------------
 	if val, ok := search["location"].(map[string]interface{}); ok {
-		long := val["BuildingLong"].(float64)
-		lat := val["BuildingLat"].(float64)
+		long, ok2 := val["BuildingLong"].(float64)
+		lat, ok3 := val["BuildingLat"].(float64)
+
+		if !ok2 || !ok3 {
+			return Helpers.ResponseGeneration("location schema missing BuildingLong and/or BuildingLat", http.StatusOK)
+		}
 
 		slong := strconv.FormatFloat(long, 'f', -1, 64)
 		slat := strconv.FormatFloat(lat, 'f', -1, 64)
 		item["locationQueryID"] = &types.AttributeValueMemberS{Value: (slong + " " + slat)}
 	} else {
-		return Helpers.ResponseGeneration("location schema missing BuildingLong and/or BuildingLat", http.StatusBadRequest)
+		return Helpers.ResponseGeneration("location schema missing BuildingLong and/or BuildingLat", http.StatusOK)
 	}
 
 	//-----------------------------------------MAKE TTL VALUE-----------------------------------------
@@ -88,7 +91,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	})
 
 	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 	//-----------------------------------------PACK RETURN VALUES-----------------------------------------
 	ret := make(map[string]interface{})
@@ -103,7 +106,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	js, err := json.Marshal(ret)
 
 	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	return events.APIGatewayProxyResponse{StatusCode: http.StatusOK, Body: string(js), Headers: map[string]string{"content-type": "application/json"}}, nil

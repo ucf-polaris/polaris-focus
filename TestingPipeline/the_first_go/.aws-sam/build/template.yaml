@@ -22,18 +22,18 @@ Resources:
         CatchAll:
           Type: Api
           Properties:
-            Path: /testing
+            Path: /polaris-test
             Method: GET
       Environment:
         Variables:
-          PARAM1: VALUE
+          LOCAL: true
     Metadata:
       SamResourceId: HelloWorldFunction
 Outputs:
   PolarisTestingAPI:
     Description: API Gateway endpoint URL for Prod environment for First Function
     Value:
-      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/polaris-test/
   TestingAPIFunction:
     Description: First Lambda Function ARN
     Value:

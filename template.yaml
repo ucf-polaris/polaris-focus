@@ -1,0 +1,15 @@
+# Proof of concept for using a universal package for helpers without losing independent builds
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+# Test hello world lambda resource
+Resources:
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: HelloWorldLambda
+      Handler: Hello
+      Runtime: go1.x
+      CodeUri: HelloWorld/hello
+      MemorySize: 256
+      Timeout: 10

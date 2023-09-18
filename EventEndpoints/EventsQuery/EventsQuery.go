@@ -1,9 +1,9 @@
 package main
 
 import (
+	"Helpers"
 	"context"
 	"encoding/json"
-	"errors"
 	"log"
 	"net/http"
 	"os"
@@ -65,9 +65,9 @@ func produceQueryResult(page *dynamodb.QueryPaginator) ([]map[string]interface{}
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	//-----------------------------------------EXTRACT TOKEN FIELDS-----------------------------------------
-	token, rfsTkn, err := getTokens(request)
+	token, rfsTkn, err := Helpers.GetTokens(request)
 	if err != nil {
-		return responseGeneration(err, http.StatusOK)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	//-----------------------------------------EXTRACT FIELDS-----------------------------------------
@@ -76,7 +76,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	err = json.Unmarshal([]byte(request.Body), &search)
 
 	if err != nil {
-		return responseGeneration(errors.New("missing field"), http.StatusOK)
+		return Helpers.ResponseGeneration("missing field", http.StatusOK)
 	}
 
 	item := make(map[string]types.AttributeValue)
@@ -91,7 +91,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	paginator := dynamodb.NewQueryPaginator(client, queryInput)
 	if err != nil {
-		return responseGeneration(err, http.StatusOK)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	//-----------------------------------------PACK RETURN VALUES-----------------------------------------
@@ -106,12 +106,12 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	ret["results"], err = produceQueryResult(paginator)
 	if err != nil {
-		return responseGeneration(err, http.StatusOK)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	js, err := json.Marshal(ret)
 	if err != nil {
-		return responseGeneration(err, http.StatusOK)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	return events.APIGatewayProxyResponse{StatusCode: http.StatusOK, Body: string(js), Headers: map[string]string{"content-type": "application/json"}}, nil

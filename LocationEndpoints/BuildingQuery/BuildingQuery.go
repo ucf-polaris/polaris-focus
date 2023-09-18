@@ -1,11 +1,10 @@
 package main
 
 import (
+	"Helpers"
 	"context"
 	"encoding/json"
-	"errors"
 	"log"
-	"math"
 	"net/http"
 	"os"
 
@@ -41,50 +40,11 @@ func main() {
 	lambda.Start(handler)
 }
 
-func produceQueryResult(page *dynamodb.ScanPaginator) ([]map[string]interface{}, error) {
-	p := []map[string]interface{}{}
-
-	for page.HasMorePages() {
-		out, err := page.NextPage(context.TODO())
-		if err != nil {
-			return nil, err
-		}
-
-		temp := []map[string]interface{}{}
-		err = attributevalue.UnmarshalListOfMaps(out.Items, &temp)
-		if err != nil {
-			return nil, err
-		}
-
-		p = append(p, temp...)
-	}
-
-	return p, nil
-}
-
-func pointInRadius(radius float64, lat float64, long float64, myLat float64, myLong float64) bool {
-	return math.Sqrt(math.Pow(myLat-lat, 2)+math.Pow(myLong-long, 2)) <= radius
-}
-
-func filterByRadius(M []map[string]interface{}, radius float64, lat float64, long float64) []map[string]interface{} {
-	ret := []map[string]interface{}{}
-	for _, e := range M {
-		myLat, _ := e["BuildingLat"].(float64)
-		myLong, _ := e["BuildingLong"].(float64)
-
-		if pointInRadius(radius, lat, long, myLat, myLong) {
-			ret = append(ret, e)
-		}
-	}
-
-	return ret
-}
-
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	//-----------------------------------------EXTRACT TOKEN FIELDS-----------------------------------------
-	token, rfsTkn, err := getTokens(request)
+	token, rfsTkn, err := Helpers.GetTokens(request)
 	if err != nil {
-		return responseGeneration(err, http.StatusOK)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	//-----------------------------------------EXTRACT FIELDS-----------------------------------------
@@ -93,7 +53,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	err = json.Unmarshal([]byte(request.Body), &search)
 
 	if err != nil {
-		return responseGeneration(errors.New("missing field"), http.StatusOK)
+		return Helpers.ResponseGeneration("missing field", http.StatusOK)
 	}
 
 	//-----------------------------------------GET CALCULATIONS-----------------------------------------
@@ -106,7 +66,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	calc_attr, err := attributevalue.MarshalMap(calculations)
 	if err != nil {
-		return responseGeneration(err, http.StatusOK)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 	//-----------------------------------------BUILD QUERY-----------------------------------------
 	query := "BuildingLong BETWEEN :MinLong AND :MaxLong AND BuildingLat BETWEEN :MinLat AND :MaxLat"
@@ -121,7 +81,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	paginator := dynamodb.NewScanPaginator(client, scanInput)
 	if err != nil {
-		return responseGeneration(err, http.StatusOK)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	//-----------------------------------------PACK RETURN VALUES-----------------------------------------
@@ -136,7 +96,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	square_results, err := produceQueryResult(paginator)
 	if err != nil {
-		return responseGeneration(err, http.StatusOK)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	//-----------------------------------------FILTER BASED ON CIRCULAR RANGE-----------------------------------------
@@ -144,7 +104,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	js, err := json.Marshal(ret)
 	if err != nil {
-		return responseGeneration(err, http.StatusOK)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	return events.APIGatewayProxyResponse{StatusCode: http.StatusOK, Body: string(js), Headers: map[string]string{"content-type": "application/json"}}, nil

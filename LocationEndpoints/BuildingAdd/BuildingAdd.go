@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Helpers"
 	"context"
 	"encoding/json"
 	"log"
@@ -35,31 +36,31 @@ func main() {
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	//-----------------------------------------EXTRACT TOKEN FIELDS-----------------------------------------
-	token, rfsTkn, err := getTokens(request)
+	token, rfsTkn, err := Helpers.GetTokens(request)
 	if err != nil {
-		return responseGeneration(err, http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
 	}
 	//-----------------------------------------EXTRACT FIELDS-----------------------------------------
-	search := unpackRequest(request.Body)
+	search := Helpers.UnpackRequest(request.Body)
 
-	item, _, _, err := extractFields(
+	item, _, _, err := Helpers.ExtractFields(
 		[]string{"BuildingLong", "BuildingLat", "BuildingDesc", "BuildingEvents", "BuildingName"},
 		search,
 		false,
 		false)
 
 	if err != nil {
-		return responseGeneration(err, http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
 	}
 	//-----------------------------------------GET KEYS TO FILTER-----------------------------------------
-	keys, _, _, err := extractFields(
+	keys, _, _, err := Helpers.ExtractFields(
 		[]string{"BuildingLong", "BuildingLat"},
 		search,
 		true,
 		false)
 
 	if err != nil {
-		return responseGeneration(err, http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
 	}
 	//-----------------------------------------PUT INTO DATABASE-----------------------------------------
 
@@ -71,7 +72,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	})
 
 	if err != nil {
-		return responseGeneration(err, http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
 	}
 	//-----------------------------------------PACK RETURN VALUES-----------------------------------------
 	ret := make(map[string]interface{})
@@ -86,7 +87,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	js, err := json.Marshal(ret)
 
 	if err != nil {
-		return responseGeneration(err, http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
 	}
 
 	return events.APIGatewayProxyResponse{StatusCode: http.StatusOK, Body: string(js), Headers: map[string]string{"content-type": "application/json"}}, nil

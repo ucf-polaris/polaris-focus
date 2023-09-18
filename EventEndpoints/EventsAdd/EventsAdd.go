@@ -1,16 +1,15 @@
 package main
 
 import (
+	"Helpers"
 	"context"
 	"encoding/json"
 	"log"
 	"net/http"
-	"os"
 	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/aws/aws-sdk-go/aws"
@@ -21,15 +20,12 @@ var table string
 var client *dynamodb.Client
 
 func init() {
-	table = os.Getenv("TABLE_NAME")
+	//create session for dynamodb
+	client, table = Helpers.ConstructDynamoHost()
 
 	if table == "" {
 		log.Fatal("missing environment variable TABLE_NAME")
 	}
-
-	//create session for dynamodb
-	cfg, _ := config.LoadDefaultConfig(context.Background())
-	client = dynamodb.NewFromConfig(cfg)
 }
 
 func main() {
@@ -38,21 +34,21 @@ func main() {
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	//-----------------------------------------EXTRACT TOKEN FIELDS-----------------------------------------
-	token, rfsTkn, err := getTokens(request)
+	token, rfsTkn, err := Helpers.GetTokens(request)
 	if err != nil {
-		return responseGeneration(err.Error(), http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
 	}
 	//-----------------------------------------EXTRACT FIELDS-----------------------------------------
-	search := unpackRequest(request.Body)
+	search := Helpers.UnpackRequest(request.Body)
 
-	item, _, _, errs := extractFields(
+	item, _, _, errs := Helpers.ExtractFields(
 		[]string{"name", "host", "description", "dateTime", "location"},
 		search,
 		false,
 		false)
 
 	if errs != nil {
-		return responseGeneration(errs.Error(), http.StatusBadRequest)
+		return Helpers.ResponseGeneration(errs.Error(), http.StatusBadRequest)
 	}
 
 	uuid_new := uuid.Must(uuid.NewRandom()).String()
@@ -66,7 +62,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		slat := strconv.FormatFloat(lat, 'f', -1, 64)
 		item["locationQueryID"] = &types.AttributeValueMemberS{Value: (slong + " " + slat)}
 	} else {
-		return responseGeneration("location schema missing BuildingLong and/or BuildingLat", http.StatusBadRequest)
+		return Helpers.ResponseGeneration("location schema missing BuildingLong and/or BuildingLat", http.StatusBadRequest)
 	}
 
 	//-----------------------------------------MAKE TTL VALUE-----------------------------------------
@@ -80,7 +76,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	keys[":EventsID"] = &types.AttributeValueMemberS{Value: uuid_new}
 
 	if errs != nil {
-		return responseGeneration(errs.Error(), http.StatusBadRequest)
+		return Helpers.ResponseGeneration(errs.Error(), http.StatusBadRequest)
 	}
 	//-----------------------------------------PUT INTO DATABASE-----------------------------------------
 
@@ -92,7 +88,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	})
 
 	if err != nil {
-		return responseGeneration(err.Error(), http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
 	}
 	//-----------------------------------------PACK RETURN VALUES-----------------------------------------
 	ret := make(map[string]interface{})
@@ -107,7 +103,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	js, err := json.Marshal(ret)
 
 	if err != nil {
-		return responseGeneration(err.Error(), http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
 	}
 
 	return events.APIGatewayProxyResponse{StatusCode: http.StatusOK, Body: string(js), Headers: map[string]string{"content-type": "application/json"}}, nil

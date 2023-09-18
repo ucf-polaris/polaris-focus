@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Helpers"
 	"context"
 	"encoding/json"
 	"log"
@@ -37,31 +38,31 @@ func main() {
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	//-----------------------------------------EXTRACT TOKEN FIELDS-----------------------------------------
-	token, rfsTkn, err := getTokens(request)
+	token, rfsTkn, err := Helpers.GetTokens(request)
 	if err != nil {
-		return responseGeneration(err, http.StatusOK)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	//-----------------------------------------EXTRACT FIELDS-----------------------------------------
-	search := unpackRequest(request.Body)
+	search := Helpers.UnpackRequest(request.Body)
 
-	items, queryString, mapQuery, err := extractFields(
+	items, queryString, mapQuery, err := Helpers.ExtractFields(
 		[]string{"BuildingDesc", "BuildingEvents", "BuildingName"},
 		search,
 		true,
 		true)
 
 	if err != nil {
-		return responseGeneration(err, http.StatusOK)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 	//-----------------------------------------GET KEYS TO FILTER-----------------------------------------
-	key, _, _, err := extractFields(
+	key, _, _, err := Helpers.ExtractFields(
 		[]string{"BuildingLong", "BuildingLat"},
 		search,
 		false,
 		false)
 	if err != nil {
-		return responseGeneration(err, http.StatusOK)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	//put keys in ExpressionAttributeValues for ConditionExpression
@@ -84,7 +85,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	retValues, err := client.UpdateItem(context.Background(), updateInput)
 	if err != nil {
-		return responseGeneration(err, http.StatusOK)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	//-----------------------------------------PACK RETURN VALUES-----------------------------------------
@@ -100,7 +101,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	js, err := json.Marshal(ret)
 	if err != nil {
-		return responseGeneration(err, http.StatusOK)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	return events.APIGatewayProxyResponse{StatusCode: http.StatusOK, Body: string(js), Headers: map[string]string{"content-type": "application/json"}}, nil

@@ -2,7 +2,7 @@ DATABASE ADD
 * Try to put incorrect schema
 	* for basic types
 	* For map and list
-* It exists in DynamoDB
+* It exists in DynamoDB ------
 * Overrides existing things
 * Missing fields
 * More fields???

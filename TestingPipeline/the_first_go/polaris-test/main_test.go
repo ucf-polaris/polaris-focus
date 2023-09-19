@@ -34,6 +34,10 @@ func TestADD(t *testing.T) {
 
 	//get data
 	_, values, _ := Helpers.ProduceRandomData(schema, override)
+
+	//add new record we don't want to override
+	existing_values, _ := Helpers.AddToTable(client, schema, override)
+
 	//setup json requests for test cases
 	_, tokens := Helpers.ProduceToken(make(map[string]interface{}))
 	tkn_str := Helpers.MarshalWrapper(tokens)
@@ -46,12 +50,29 @@ func TestADD(t *testing.T) {
 	missing_values := Helpers.CopyMap(values)
 	Helpers.DeleteAField(missing_values, partition, sort)
 
+	//setup incorrect values
+	incorrect_schema_values := Helpers.CopyMap(values)
+	Helpers.ProduceIncorrectKeySchema(partition, schema, incorrect_schema_values)
+
 	testCases := []struct {
 		name          string
 		request       events.APIGatewayProxyRequest
 		expectedBody  string
 		expectedError error
 	}{
+		{
+			name: "Test Override",
+			request: events.APIGatewayProxyRequest{
+				RequestContext: events.APIGatewayProxyRequestContext{
+					Authorizer: map[string]interface{}{
+						"stringKey": tkn_str,
+					},
+				},
+				Body: Helpers.MarshalWrapper(existing_values),
+			},
+			expectedBody:  "ERROR",
+			expectedError: nil,
+		},
 		{
 			name: "Regular ADD Request with partition (and sort) key(s)",
 			request: events.APIGatewayProxyRequest{
@@ -93,11 +114,6 @@ func TestADD(t *testing.T) {
 		},
 	}
 
-	//OTHER TEST CASES
-	/*
-		- incorrect key type (string instead of number, etc.)
-		- override existing
-	*/
 	for _, testCase := range testCases {
 		t.Run(testCase.name, func(t *testing.T) {
 			response, err := handler(testCase.request)

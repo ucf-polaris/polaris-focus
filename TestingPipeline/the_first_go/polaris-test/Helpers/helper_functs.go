@@ -344,6 +344,14 @@ func ProduceIncorrectKeys(partition string, sort string, schema map[string]strin
 	return wrong_vals
 }
 
+func ProduceIncorrectKeySchema(partition string, schema map[string]string, values map[string]interface{}) {
+	if schema[partition] == "S" {
+		values[partition] = 1
+	} else {
+		values[partition] = "1"
+	}
+}
+
 func ScanTable(client *dynamodb.Client, table string) {
 	output, err := client.Scan(context.TODO(), &dynamodb.ScanInput{
 		TableName: aws.String(table),

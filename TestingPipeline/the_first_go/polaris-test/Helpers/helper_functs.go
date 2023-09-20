@@ -286,13 +286,13 @@ func AppendToken(M map[string]interface{}) map[string]interface{} {
 	return tokens
 }
 
-func CompareTable(client *dynamodb.Client, table string, expected []map[string]interface{}) (bool, error) {
+func CompareTable(client *dynamodb.Client, table string, expected []map[string]interface{}) error {
 	output, err := client.Scan(context.TODO(), &dynamodb.ScanInput{
 		TableName: aws.String(table),
 	})
 
 	if err != nil {
-		return false, err
+		return err
 	}
 
 	count := 0
@@ -315,14 +315,14 @@ func CompareTable(client *dynamodb.Client, table string, expected []map[string]i
 			}
 		}
 		if flag {
-			return false, errors.New("element " + MarshalWrapper(ee) + " missing")
+			return errors.New("element " + MarshalWrapper(ee) + " missing")
 		}
 	}
 
 	if count == len(expected) {
-		return true, nil
+		return nil
 	}
-	return false, nil
+	return errors.New("element missing")
 }
 
 func ResetTable(client *dynamodb.Client, schema Schem) {

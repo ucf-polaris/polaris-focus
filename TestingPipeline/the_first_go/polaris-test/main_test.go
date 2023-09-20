@@ -52,12 +52,21 @@ func TestHandler(t *testing.T) {
 				t.Errorf("Expected error %v, but got %v", testCase.ExpectedError, err)
 			}
 
+			if err != testCase.ExpectedError {
+				t.Errorf("Expected error %v, but got %v", testCase.ExpectedError, err)
+			}
+
 			if response.Body != testCase.ExpectedBody {
 				t.Errorf("Expected response %v, but got %v", testCase.ExpectedBody, response.Body)
 			}
 
 			if response.StatusCode != 200 {
 				t.Errorf("Expected status code 200, but got %v", response.StatusCode)
+			}
+
+			errs := helpers.CompareTable(client, "THENEWTABLE", testCase.ExpectedInDatabase)
+			if errs != nil {
+				t.Errorf(errs.Error())
 			}
 		})
 

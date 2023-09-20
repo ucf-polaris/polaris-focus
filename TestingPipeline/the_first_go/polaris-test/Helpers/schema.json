@@ -1,0 +1,31 @@
+{
+    "schema":{
+        "keys":[],
+        "attributes":{
+
+        }   
+    },
+    "test_cases": [
+        {
+            "name": "sample",
+            "request":{
+                "sampleRecord": "This field should be the body passed in before execution"
+            },
+            "expected_response":"",
+            "expected_response_body":{
+
+            },
+            "ADD":[
+                {
+                    "sampleRecord": "This field should be the records expected to ADD to database before execution"
+                }
+            ],
+            "GET":[
+                {
+                    "sampleRecord": "This field should be the records expected to GET in database"
+                }
+            ],
+            "handle_token": true
+        }
+    ]
+}

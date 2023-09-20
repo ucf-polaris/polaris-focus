@@ -175,7 +175,7 @@ func ConstructDynamoHost() (*dynamodb.Client, string) {
 	var cfg aws.Config
 	var table_func string
 
-	if isLambdaLocal() {
+	if IsLambdaLocal() {
 		cfg, err = config.LoadDefaultConfig(context.TODO(),
 			config.WithRegion("localhost"),
 			config.WithEndpointResolverWithOptions(aws.EndpointResolverWithOptionsFunc(
@@ -205,7 +205,7 @@ func ConstructDynamoHost() (*dynamodb.Client, string) {
 }
 
 // determines if in local environment based on existance of named testing file
-func isLambdaLocal() bool {
+func IsLambdaLocal() bool {
 	test := os.Getenv("LAMBDA_TASK_ROOT")
 	return test == ""
 }

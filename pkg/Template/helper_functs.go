@@ -1,4 +1,4 @@
-package Helpers
+package Template
 
 import (
 	"context"
@@ -227,27 +227,6 @@ func ConstructDynamoHost() *dynamodb.Client {
 	}
 
 	return dynamodb.NewFromConfig(cfg)
-}
-
-// imports filename to run
-func ImportConfigs() (Configs, error) {
-	jsonFile, err := os.Open("Helpers/configs.json")
-	if err != nil {
-		return Configs{}, err
-	}
-
-	byteFile, _ := ioutil.ReadAll(jsonFile)
-
-	//get json file output
-	output := Configs{}
-
-	err = json.Unmarshal(byteFile, &output)
-	if err != nil {
-		return Configs{}, err
-	}
-
-	defer jsonFile.Close()
-	return output, nil
 }
 
 // imports schema and keys from test file

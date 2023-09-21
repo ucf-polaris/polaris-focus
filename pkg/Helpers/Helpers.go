@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
 	"os"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -131,7 +130,7 @@ func UnpackRequest(body string) map[string]interface{} {
 		return nil
 	}
 
-	log.Println("body: ", body)
+	//log.Println("body: ", body)
 
 	search := map[string]any{}
 	err := json.Unmarshal([]byte(body), &search)

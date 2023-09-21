@@ -1,11 +1,11 @@
 package main
 
 import (
-	"Helpers"
 	"context"
 	"encoding/json"
 	"log"
 	"net/http"
+	"polaris-api/pkg/Helpers"
 	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"

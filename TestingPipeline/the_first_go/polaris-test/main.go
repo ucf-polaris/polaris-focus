@@ -13,7 +13,6 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/google/uuid"
 )
 
 var table string
@@ -51,11 +50,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		return Helpers.ResponseGeneration(errs.Error(), http.StatusOK)
 	}
 
-	uuid_new := uuid.Must(uuid.NewRandom()).String()
-	//allows unit testing to be consistent
-	if Helpers.IsLambdaLocal() {
-		uuid_new = "0"
-	}
+	uuid_new := produceUUID()
 	item["EventID"] = &types.AttributeValueMemberS{Value: uuid_new}
 	//-----------------------------------------GET QUERY LOCATION FIELD-----------------------------------------
 	if val, ok := search["location"].(map[string]interface{}); ok {
@@ -70,7 +65,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		slat := strconv.FormatFloat(lat, 'f', -1, 64)
 		item["locationQueryID"] = &types.AttributeValueMemberS{Value: (slong + " " + slat)}
 	} else {
-		return Helpers.ResponseGeneration("missing location", http.StatusOK)
+		return Helpers.ResponseGeneration("location schema missing BuildingLong and/or BuildingLat", http.StatusOK)
 	}
 
 	//-----------------------------------------MAKE TTL VALUE-----------------------------------------
@@ -86,8 +81,8 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	if errs != nil {
 		return Helpers.ResponseGeneration(errs.Error(), http.StatusBadRequest)
 	}
-
 	//-----------------------------------------PUT INTO DATABASE-----------------------------------------
+
 	_, err = client.PutItem(context.Background(), &dynamodb.PutItemInput{
 		ExpressionAttributeValues: keys,
 		TableName:                 aws.String(table),

@@ -107,7 +107,8 @@ def main():
 
     #reset GOOS back so executable can be compiled correctly
     if(platform.system() == "Windows"): subprocess.run(["go", "env", "-w", "GOOS=linux"])
-    
+
+    input("press any key to close...")
     
 if __name__=='__main__':
     main()

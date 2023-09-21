@@ -1,0 +1,157 @@
+{
+    "schema":{
+        "keys":["BuildingLong",  "BuildingLat"],
+        "attributes":{
+            "BuildingLong": "N",
+            "BuildingLat": "N"
+        }   
+    },
+    "test_cases": [
+        {
+            "name": "Successful Add",
+            "request":{
+                "BuildingLong": 1,
+                "BuildingLat": 1,
+                "BuildingDesc": "An old historical building",
+                "BuildingEvents":[
+                    "a_cool_event_id"
+                ],
+                "BuildingName": "MSB"
+            },
+            "expected_response":"",
+            "expected_response_body":{
+
+            },
+            "ADD":[
+            ],
+            "GET":[
+                {
+                    "BuildingLong": 1,
+                    "BuildingLat": 1,
+                    "BuildingDesc": "An old historical building",
+                    "BuildingEvents":[
+                        "a_cool_event_id"
+                    ],
+                    "BuildingName": "MSB"
+                }
+            ],
+            "ignore_in_get":[],
+            "handle_token": true
+        },
+        {
+            "name": "Override Prevention",
+            "request":{
+                "BuildingLong": 1,
+                "BuildingLat": 1,
+                "BuildingDesc": "An old historical building",
+                "BuildingEvents":[
+                    "a_cool_event_id"
+                ],
+                "BuildingName": "MSB"
+            },
+            "expected_response":"ERROR",
+            "expected_response_body":{
+
+            },
+            "ADD":[
+                {
+                    "BuildingLong": 1,
+                    "BuildingLat": 1,
+                    "BuildingDesc": "An old historical building",
+                    "BuildingEvents":[
+                        "a_cool_event_id"
+                    ],
+                    "BuildingName": "MSB"
+                }
+            ],
+            "GET":[
+            ],
+            "ignore_in_get":[],
+            "handle_token": true
+        },
+        {
+            "name": "Missing Schema",
+            "request":{
+                "BuildingLong": 1,
+                "BuildingLat": 1,
+                "BuildingEvents":[
+                    "a_cool_event_id"
+                ],
+                "BuildingName": "MSB"
+            },
+            "expected_response":"ERROR",
+            "expected_response_body":{
+
+            },
+            "ADD":[
+            ],
+            "GET":[
+            ],
+            "ignore_in_get":[],
+            "handle_token": true
+        },
+        {
+            "name": "Incorrect Key Schema",
+            "request":{
+                "BuildingLong": "1",
+                "BuildingLat": 1,
+                "BuildingDesc": "An old historical building",
+                "BuildingEvents":[
+                    "a_cool_event_id"
+                ],
+                "BuildingName": "MSB"
+            },
+            "expected_response":"ERROR",
+            "expected_response_body":{
+
+            },
+            "ADD":[
+                {
+                    "BuildingLong": 1,
+                    "BuildingLat": 1,
+                    "BuildingDesc": "An old historical building",
+                    "BuildingEvents":[
+                        "a_cool_event_id"
+                    ],
+                    "BuildingName": "MSB"
+                }
+            ],
+            "GET":[
+            ],
+            "ignore_in_get":[],
+            "handle_token": true
+        },
+        {
+            "name": "Additional Field",
+            "request":{
+                "BuildingLong": 1,
+                "BuildingLat": 1,
+                "BuildingDesc": "An old historical building",
+                "BuildingEvents":[
+                    "a_cool_event_id"
+                ],
+                "BuildingName": "MSB",
+                "NewField": "hi"
+            },
+            "expected_response":"",
+            "expected_response_body":{
+
+            },
+            "ADD":[
+            ],
+            "GET":[
+                {
+                    "BuildingLong": 1,
+                    "BuildingLat": 1,
+                    "BuildingDesc": "An old historical building",
+                    "BuildingEvents":[
+                        "a_cool_event_id"
+                    ],
+                    "BuildingName": "MSB"
+                }
+            ],
+            "ignore_in_get":[],
+            "handle_token": true
+        }
+    ]
+}

@@ -153,8 +153,10 @@ func makeAttributeSchema(partition string, sort string, attributes map[string]st
 
 func HelperGenerateTable(client *dynamodb.Client, schema Schem) error {
 	a := &dynamodb.ListTablesInput{}
-	result, _ := client.ListTables(context.TODO(), a)
-	var err error
+	result, err := client.ListTables(context.TODO(), a)
+	if err != nil {
+		return err
+	}
 
 	//if table doesn't exist, create one
 	if len(result.TableNames) == 0 {

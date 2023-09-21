@@ -19,12 +19,12 @@ func onShutdown(err error) {
 }
 
 func TestHandler(t *testing.T) {
-	//get configs
-	configs, err := helpers.GetFile()
+	cfgs, err := helpers.ImportConfigs()
 	if err != nil {
 		onShutdown(err)
 	}
-	test_case, err := helpers.ImportCases(configs)
+
+	test_case, err := helpers.ImportCases("Helpers/" + cfgs.FileName)
 	if err != nil {
 		onShutdown(err)
 	}

@@ -33,7 +33,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	//-----------------------------------------EXTRACT TOKEN FIELDS-----------------------------------------
 	token, rfsTkn, err := Helpers.GetTokens(request)
 	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 	//-----------------------------------------EXTRACT FIELDS-----------------------------------------
 	search := Helpers.UnpackRequest(request.Body)
@@ -45,7 +45,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		false)
 
 	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 	//-----------------------------------------GET KEYS TO FILTER-----------------------------------------
 	keys, _, _, err := Helpers.ExtractFields(
@@ -55,7 +55,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		false)
 
 	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 	//-----------------------------------------PUT INTO DATABASE-----------------------------------------
 
@@ -67,7 +67,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	})
 
 	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 	//-----------------------------------------PACK RETURN VALUES-----------------------------------------
 	ret := make(map[string]interface{})
@@ -82,7 +82,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	js, err := json.Marshal(ret)
 
 	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	return events.APIGatewayProxyResponse{StatusCode: http.StatusOK, Body: string(js), Headers: map[string]string{"content-type": "application/json"}}, nil

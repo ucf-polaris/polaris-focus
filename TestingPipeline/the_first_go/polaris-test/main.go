@@ -6,12 +6,10 @@ import (
 	"log"
 	"net/http"
 	"polaris-api/pkg/Helpers"
-	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
-	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/aws/aws-sdk-go/aws"
 )
 
@@ -40,46 +38,24 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	//-----------------------------------------EXTRACT FIELDS-----------------------------------------
 	search := Helpers.UnpackRequest(request.Body)
 
-	item, _, _, errs := Helpers.ExtractFields(
-		[]string{"name", "host", "description", "dateTime", "location"},
+	item, _, _, err := Helpers.ExtractFields(
+		[]string{"BuildingLong", "BuildingLat", "BuildingDesc", "BuildingEvents", "BuildingName"},
 		search,
 		false,
 		false)
 
-	if errs != nil {
-		return Helpers.ResponseGeneration(errs.Error(), http.StatusOK)
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
-
-	uuid_new := produceUUID()
-	item["EventID"] = &types.AttributeValueMemberS{Value: uuid_new}
-	//-----------------------------------------GET QUERY LOCATION FIELD-----------------------------------------
-	if val, ok := search["location"].(map[string]interface{}); ok {
-		long, ok2 := val["BuildingLong"].(float64)
-		lat, ok3 := val["BuildingLat"].(float64)
-
-		if !ok2 || !ok3 {
-			return Helpers.ResponseGeneration("location schema missing BuildingLong and/or BuildingLat", http.StatusOK)
-		}
-
-		slong := strconv.FormatFloat(long, 'f', -1, 64)
-		slat := strconv.FormatFloat(lat, 'f', -1, 64)
-		item["locationQueryID"] = &types.AttributeValueMemberS{Value: (slong + " " + slat)}
-	} else {
-		return Helpers.ResponseGeneration("location schema missing BuildingLong and/or BuildingLat", http.StatusOK)
-	}
-
-	//-----------------------------------------MAKE TTL VALUE-----------------------------------------
-	expire := -2
-	if val, ok := search["expires"].(float64); ok {
-		expire = int(val)
-	}
-	makeTTL(item, search, expire)
 	//-----------------------------------------GET KEYS TO FILTER-----------------------------------------
-	keys := make(map[string]types.AttributeValue)
-	keys[":EventsID"] = &types.AttributeValueMemberS{Value: uuid_new}
+	keys, _, _, err := Helpers.ExtractFields(
+		[]string{"BuildingLong", "BuildingLat"},
+		search,
+		true,
+		false)
 
-	if errs != nil {
-		return Helpers.ResponseGeneration(errs.Error(), http.StatusBadRequest)
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 	//-----------------------------------------PUT INTO DATABASE-----------------------------------------
 
@@ -87,7 +63,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		ExpressionAttributeValues: keys,
 		TableName:                 aws.String(table),
 		Item:                      item,
-		ConditionExpression:       aws.String("EventsID <> :EventsID"),
+		ConditionExpression:       aws.String("BuildingLong <> :BuildingLong AND BuildingLat <>  :BuildingLat"),
 	})
 
 	if err != nil {

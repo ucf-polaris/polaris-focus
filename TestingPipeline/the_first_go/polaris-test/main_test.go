@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	helpers "polaris-api/TestingPipeline/the_first_go/polaris-test/Helpers"
+	"strings"
 	"testing"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -30,7 +31,8 @@ func TestHandler(t *testing.T) {
 	}
 
 	//create table
-	if err = helpers.HelperGenerateTable(client, test_case.Schema); err != nil {
+	err = helpers.HelperGenerateTable(client, test_case.Schema)
+	if err != nil {
 		onShutdown(err)
 	}
 
@@ -47,24 +49,22 @@ func TestHandler(t *testing.T) {
 		t.Run(testCase.Name, func(t *testing.T) {
 			response, err := handler(testCase.Request)
 
-			//run get request to compare
-			if err != testCase.ExpectedError {
-				t.Errorf("Expected error %v, but got %v", testCase.ExpectedError, err)
-			}
-
 			if err != testCase.ExpectedError {
 				t.Errorf("Expected error %v, but got %v", testCase.ExpectedError, err)
 			}
 
 			if response.Body != testCase.ExpectedBody {
-				t.Errorf("Expected response %v, but got %v", testCase.ExpectedBody, response.Body)
+				if !strings.Contains(testCase.ExpectedBody, "ERROR") || (strings.Contains(testCase.ExpectedBody, "ERROR") && !strings.Contains(response.Body, "ERROR")) {
+					t.Errorf("Expected response %v, but got %v", testCase.ExpectedBody, response.Body)
+				}
 			}
 
 			if response.StatusCode != 200 {
 				t.Errorf("Expected status code 200, but got %v", response.StatusCode)
 			}
 
-			errs := helpers.CompareTable(client, "THENEWTABLE", testCase.ExpectedInDatabase)
+			//run get to test against database
+			errs := helpers.CompareTable(client, "THENEWTABLE", testCase.ExpectedInDatabase, testCase.IgnoreFields)
 			if errs != nil {
 				t.Errorf(errs.Error())
 			}

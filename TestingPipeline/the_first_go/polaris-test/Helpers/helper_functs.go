@@ -28,6 +28,7 @@ type JsonCases struct {
 	ExpectedResponseBody map[string]interface{}   `json:"expected_response_body"`
 	Add                  []map[string]interface{} `json:"ADD"`
 	Get                  []map[string]interface{} `json:"GET"`
+	IgnoreInGet          []string                 `json:"ignore_in_get"`
 	HandleToken          bool                     `json:"handle_token"`
 }
 
@@ -47,6 +48,7 @@ type TestCases struct {
 	ExpectedError      error
 	AddToDatabase      []map[string]interface{}
 	ExpectedInDatabase []map[string]interface{}
+	IgnoreFields       []string
 }
 
 func CreateTestCases(t []JsonCases) []TestCases {
@@ -80,6 +82,7 @@ func CreateTestCases(t []JsonCases) []TestCases {
 			ExpectedError:      nil,
 			AddToDatabase:      element.Add,
 			ExpectedInDatabase: element.Get,
+			IgnoreFields:       element.IgnoreInGet,
 		}
 
 		ret = append(ret, temp)
@@ -151,11 +154,12 @@ func makeAttributeSchema(partition string, sort string, attributes map[string]st
 func HelperGenerateTable(client *dynamodb.Client, schema Schem) error {
 	a := &dynamodb.ListTablesInput{}
 	result, _ := client.ListTables(context.TODO(), a)
+	var err error
 
 	//if table doesn't exist, create one
 	if len(result.TableNames) == 0 {
 
-		err := GenerateTable(client, schema)
+		err = GenerateTable(client, schema)
 		if err != nil {
 			return err
 		}
@@ -290,7 +294,13 @@ func AppendToken(M map[string]interface{}) map[string]interface{} {
 	return tokens
 }
 
-func CompareTable(client *dynamodb.Client, table string, expected []map[string]interface{}) error {
+func ignoreSchem(vals map[string]interface{}, ignore []string) {
+	for _, e := range ignore {
+		delete(vals, e)
+	}
+}
+
+func CompareTable(client *dynamodb.Client, table string, expected []map[string]interface{}, ignore []string) error {
 	output, err := client.Scan(context.TODO(), &dynamodb.ScanInput{
 		TableName: aws.String(table),
 	})
@@ -311,6 +321,9 @@ func CompareTable(client *dynamodb.Client, table string, expected []map[string]i
 			new_map := make(map[string]interface{})
 			attributevalue.UnmarshalMap(eo, &new_map)
 
+			ignoreSchem(new_map, ignore)
+			//log.Println(strconv.Itoa(io+1) + ": " + MarshalWrapper(new_map))
+
 			if MarshalWrapper(new_map) == MarshalWrapper(ee) {
 				flag = true
 				output.Items = append(output.Items[:io], output.Items[io+1:]...)
@@ -318,8 +331,8 @@ func CompareTable(client *dynamodb.Client, table string, expected []map[string]i
 				break
 			}
 		}
-		if flag {
-			return errors.New("element " + MarshalWrapper(ee) + " missing")
+		if !flag {
+			return errors.New("element missing: " + MarshalWrapper(ee))
 		}
 	}
 

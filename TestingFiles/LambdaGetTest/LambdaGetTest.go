@@ -68,6 +68,13 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	search := UserSearch{}
 	log.Println(request.Body)
 
+	test := os.Getenv("LAMBDA_TASK_ROOT")
+	if test != "" {
+		log.Println("LAMBDA: yes")
+	} else {
+		log.Println("LAMBDA: no")
+	}
+
 	var s string
 	if request.RequestContext.Authorizer != nil {
 		s = request.RequestContext.Authorizer["stringKey"].(string)

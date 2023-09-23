@@ -25,6 +25,7 @@
                     "sampleRecord": "This field should be the records expected to GET in database"
                 }
             ],
+            "ignore_in_get":[],
             "handle_token": true
         }
     ]

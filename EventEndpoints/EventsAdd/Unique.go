@@ -1,7 +1,7 @@
 package main
 
 import (
-	"Helpers"
+	"polaris-api/pkg/Helpers"
 	"strconv"
 	"time"
 

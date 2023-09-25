@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"polaris-api/TestingPipeline/the_first_go/polaris-test/Helpers"
 	helpers "polaris-api/TestingPipeline/the_first_go/polaris-test/Helpers"
 	"strings"
@@ -97,10 +98,11 @@ func TestHandler(t *testing.T) {
 			}
 
 			//run get to test against database
-			errs := helpers.CompareTable(client, "THENEWTABLE", testCase.ExpectedInDatabase, testCase.IgnoreFields)
+			errs := helpers.CompareTable(client, "THENEWTABLE", testCase.ExpectedInDatabase, testCase.IgnoreFields, t)
 			if errs != nil {
 				t.Errorf("Get Test failed expected in database" + errs.Error())
 			}
+			fmt.Println()
 		})
 
 		//reset to empty table

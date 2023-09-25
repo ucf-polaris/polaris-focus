@@ -101,7 +101,6 @@
             "ADD":[
                 {
                     "UserID": "0",
-                    "mode": 0,
                     "schedule": ["COP845"]
                 }
             ],
@@ -165,6 +164,48 @@
                 {
                     "UserID": "0",
                     "schedule": ["COP456"]
+                }
+            ],
+            "ignore_in_get":[],
+            "convert_to_set":["schedule"],
+            "handle_token": true
+        },
+        {
+            "name": "Add Multiple",
+            "request":{
+                "UserID":"0",
+                "classes": ["COP456", "COP835", "COP845"]
+            },
+            "expected_response":"",
+            "expected_response_body":{
+                "schedule": ["COP456","COP835", "COP845"]
+            },
+            "ignore_in_body":[],
+            "ADD":[
+                {
+                    "UserID": "0",
+                    "schedule": ["COP845"]
+                }
+            ],
+            "ignore_in_get":[],
+            "convert_to_set":["schedule"],
+            "handle_token": true
+        },
+        {
+            "name": "Delete Multiple",
+            "request":{
+                "UserID":"0",
+                "mode": 1,
+                "classes": ["COP456", "COP835", "COP845"]
+            },
+            "expected_response":"",
+            "expected_response_body":{
+            },
+            "ignore_in_body":[],
+            "ADD":[
+                {
+                    "UserID": "0",
+                    "schedule": ["COP456","COP835", "COP845"]
                 }
             ],
             "ignore_in_get":[],

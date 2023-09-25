@@ -4,25 +4,19 @@ import (
 	"context"
 	"encoding/json"
 	"log"
-	"math/rand"
 	"net/http"
 	"polaris-api/pkg/Helpers"
-	"strconv"
-	"time"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/session"
-	lambdaCall "github.com/aws/aws-sdk-go/service/lambda"
-	"github.com/google/uuid"
 )
 
 var table string
 var client *dynamodb.Client
-var lambdaClient *lambdaCall.Lambda
 
 func init() {
 	client, table = Helpers.ConstructDynamoHost()
@@ -30,138 +24,100 @@ func init() {
 	if table == "" {
 		log.Fatal("missing environment variable TABLE_NAME")
 	}
-
-	//create session for lambda
-	sess := session.Must(session.NewSessionWithOptions(session.Options{
-		SharedConfigState: session.SharedConfigEnable,
-	}))
-	lambdaClient = lambdaCall.New(sess, &aws.Config{Region: aws.String("us-east-2")})
 }
 
 func main() {
 	lambda.Start(handler)
 }
 
-func produceRandomNDigits(N int) string {
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	var number string
-
-	for i := 0; i < N; i++ {
-		digit := r.Intn(10)
-		number += strconv.Itoa(digit)
+func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	//-----------------------------------------EXTRACT TOKEN FIELDS-----------------------------------------
+	token, rfsTkn, err := Helpers.GetTokens(request)
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
-	return number
-}
-
-func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	//-----------------------------------------EXTRACT FIELDS-----------------------------------------
 	search := Helpers.UnpackRequest(request.Body)
 
-	item, _, _, err := Helpers.ExtractFields(
-		[]string{"email", "username", "password", "name", "schedule", "favorite", "visited"},
-		search,
-		false,
-		false,
-	)
-	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
-	}
-
-	//-----------------------------------------FORMAT SCHEDULE-----------------------------------------
-	Helpers.ListToStringSet(
-		[]string{"schedule", "favorite", "visited"},
-		item,
-		false,
-	)
-	//-----------------------------------------EXTRACT FORMATTED EMAIL-----------------------------------------
-	item_email, _, _, err := Helpers.ExtractFields(
-		[]string{"email"},
+	items, _, _, err := Helpers.ExtractFields(
+		[]string{"locations"},
 		search,
 		true,
-		false,
-	)
+		false)
 
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
-
-	//-----------------------------------------CHECK QUERY TO PREVENT DUPLICATE EMAILS-----------------------------------------
-	TheInput, err := client.Query(context.Background(), &dynamodb.QueryInput{
-		TableName:                 aws.String(table),
-		IndexName:                 aws.String("email-index"),
-		KeyConditionExpression:    aws.String("email = :email"),
-		ExpressionAttributeValues: item_email,
-	})
-
-	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
-	}
-
-	if TheInput.Count != 0 {
-		return Helpers.ResponseGeneration("email already in use", http.StatusOK)
-	}
-
-	//-----------------------------------------NEW USER CONSTRUCTION-----------------------------------------
-	uuid_new := uuid.Must(uuid.NewRandom()).String()
-	code := produceRandomNDigits(5)
-
-	item["UserID"] = &types.AttributeValueMemberS{Value: uuid_new}
-	item["timeTilExpire"] = &types.AttributeValueMemberN{Value: strconv.FormatInt(time.Now().UTC().Add(time.Minute*15).Unix(), 10)}
-	item["verificationCode"] = &types.AttributeValueMemberN{Value: code}
-
-	//-----------------------------------------PUT UNVERIFIED USER INTO DATABASE-----------------------------------------
-	_, err = client.PutItem(context.Background(), &dynamodb.PutItemInput{
-		TableName: aws.String(table),
-		Item:      item,
-	})
-	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
-	}
-
-	//-----------------------------------------SEND EMAIL CODE-----------------------------------------
-	body := make(map[string]interface{})
-	body["email"] = search["email"].(string)
-	body["code"], err = strconv.ParseFloat(code, 64)
-
-	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
-	}
-
-	payload, err := json.Marshal(body)
-	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
-	}
-
-	if !Helpers.IsLambdaLocal() {
-		_, err = lambdaClient.Invoke(&lambdaCall.InvokeInput{FunctionName: aws.String("email_code"), Payload: payload})
-		if err != nil {
-			return Helpers.ResponseGeneration("email error: "+err.Error(), http.StatusOK)
+	//-----------------------------------------SET THE MODE-----------------------------------------
+	query := "ADD visited :locations"
+	if val, ok := search["mode"].(float64); ok {
+		//if even, add
+		if int(val)%2 == 1 {
+			query = "DELETE visited :locations"
 		}
 	}
+	//-----------------------------------------GET KEYS TO FILTER-----------------------------------------
+	key, _, _, err := Helpers.ExtractFields(
+		[]string{"UserID"},
+		search,
+		false,
+		false)
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
+	}
 
-	//log.Println(result.Payload)
+	//put key in ExpressionAttributeValues for ConditionExpression
+	items[":UserID"] = key["UserID"]
+	//-----------------------------------------CONVERT INTO STRING SET-----------------------------------------
+	err = Helpers.ListToStringSet(
+		[]string{":locations"},
+		items,
+		true,
+	)
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
+	}
+	//-----------------------------------------CONVERT INTO STRING SET-----------------------------------------
+	err = Helpers.ListToStringSet(
+		[]string{":locations"},
+		items,
+		true,
+	)
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
+	}
+	//-----------------------------------------PUT INTO DATABASE-----------------------------------------
+	updateInput := &dynamodb.UpdateItemInput{
+		// table name is a global variable
+		TableName: &table,
+		// Partitiion key for user table is EventID
+		Key: key,
+		// "SET" update expression to update the item in the table.
+		UpdateExpression:          aws.String(query),
+		ExpressionAttributeValues: items,
+		ReturnValues:              types.ReturnValueUpdatedNew,
+		//don't make new record if key doesn't exist
+		ConditionExpression: aws.String("UserID = :UserID"),
+	}
 
-	//-----------------------------------------CREATE TOKEN-----------------------------------------
-	tokenRet, err := Helpers.CreateToken(lambdaClient, 15, uuid_new, 2)
+	retValues, err := client.UpdateItem(context.Background(), updateInput)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	//-----------------------------------------PACK RETURN VALUES-----------------------------------------
 	ret := make(map[string]interface{})
+	attributevalue.UnmarshalMap(retValues.Attributes, &ret)
+	if token != "" {
+		ret["token"] = token
+	}
 
-	/*if Helpers.IsLambdaLocal() {
-		tokenRet = "token"
-		uuid_new = "0"
-	}*/
-
-	ret["token"] = tokenRet
-	ret["UserID"] = uuid_new
-	ret["email"] = search["email"].(string)
+	if rfsTkn != "" {
+		ret["refreshToken"] = rfsTkn
+	}
 
 	js, err := json.Marshal(ret)
-
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}

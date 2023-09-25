@@ -4,8 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"os"
+	"testing"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -379,7 +381,7 @@ func ignoreSchem(vals map[string]interface{}, ignore []string) {
 	}
 }
 
-func CompareTable(client *dynamodb.Client, table string, expected []map[string]interface{}, ignore []string) error {
+func CompareTable(client *dynamodb.Client, table string, expected []map[string]interface{}, ignore []string, t *testing.T) error {
 	output, err := client.Scan(context.TODO(), &dynamodb.ScanInput{
 		TableName: aws.String(table),
 	})
@@ -389,6 +391,14 @@ func CompareTable(client *dynamodb.Client, table string, expected []map[string]i
 	}
 
 	count := 0
+
+	//if there's nothing just return
+	if len(expected) == 0 {
+		return nil
+	}
+	fmt.Println()
+
+	t.Log("___GET COMPARE STARTED___")
 
 	//double for loop comparing contents of two lists
 	for _, ee := range expected {
@@ -406,11 +416,13 @@ func CompareTable(client *dynamodb.Client, table string, expected []map[string]i
 			if MarshalWrapper(new_map) == MarshalWrapper(ee) {
 				flag = true
 				output.Items = append(output.Items[:io], output.Items[io+1:]...)
+				t.Log(MarshalWrapper(new_map) + " found")
 				count++
 				break
 			}
 		}
 		if !flag {
+			t.Log(MarshalWrapper(ee) + " not found")
 			return errors.New(MarshalWrapper(ee))
 		}
 	}

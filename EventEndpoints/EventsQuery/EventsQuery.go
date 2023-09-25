@@ -5,13 +5,11 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"os"
 	"polaris-api/pkg/Helpers"
 	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
@@ -27,15 +25,11 @@ var table string
 var client *dynamodb.Client
 
 func init() {
-	table = os.Getenv("TABLE_NAME")
+	client, table = Helpers.ConstructDynamoHost()
 
 	if table == "" {
 		log.Fatal("missing environment variable TABLE_NAME")
 	}
-
-	//create session for dynamodb
-	cfg, _ := config.LoadDefaultConfig(context.Background())
-	client = dynamodb.NewFromConfig(cfg)
 }
 
 func main() {

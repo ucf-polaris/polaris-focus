@@ -1,0 +1,60 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  TheBestApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: GetUserInfo
+      StageName: Testing
+
+  BuildingDeleteFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: BuildingDeleteLambda
+      Handler: BuildingDelete
+      Runtime: go1.x
+      CodeUri: LocationEndpoints/BuildingDelete
+      MemorySize: 256
+      Timeout: 10
+      Events:
+        DeleteEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TheBestApi
+            Path: /building/delete
+            Method: DELETE
+
+  EventDeleteFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: EventDeleteLambda
+      Handler: EventDelete
+      Runtime: go1.x
+      CodeUri: EventEndpoints/EventsDelete
+      MemorySize: 256
+      Timeout: 10
+      Events:
+        DeleteEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TheBestApi
+            Path: /event/delete
+            Method: DELETE
+
+  UserDeleteFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: UserDeleteLambda
+      Handler: UserDelete
+      Runtime: go1.x
+      CodeUri: UserEndpoints/UserDelete
+      MemorySize: 256
+      Timeout: 10
+      Events:
+        DeleteEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TheBestApi
+            Path: /user/delete
+            Method: DELETE

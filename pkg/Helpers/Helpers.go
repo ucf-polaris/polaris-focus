@@ -210,6 +210,25 @@ func IsLambdaLocal() bool {
 	return test == ""
 }
 
+// transforms all fields provided into string set from lists
+func ListToStringSet(fields []string, M map[string]types.AttributeValue) {
+	//go through fields
+	for _, element := range fields {
+		//if of type AV list
+		if val, ok := M[element].(*types.AttributeValueMemberL); ok {
+
+			temp := []string{}
+			err := attributevalue.Unmarshal(val, &temp)
+
+			if err != nil {
+				panic(err)
+			}
+
+			M[element] = &types.AttributeValueMemberSS{Value: temp}
+		}
+	}
+}
+
 func CreateToken(lambdaClient *lambdaCall.Lambda, timeTil int, userID string, mode float64) (string, error) {
 	//-----------------------------------------GET VARIABLES-----------------------------------------
 	JWTFields := make(map[string]interface{})

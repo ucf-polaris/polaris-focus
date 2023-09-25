@@ -22,6 +22,7 @@
             "expected_response_body":{
 
             },
+            "ignore_in_body":[],
             "ADD":[
             ],
             "GET":[

@@ -42,7 +42,7 @@ func TestHandler(t *testing.T) {
 
 	for _, testCase := range testCases {
 		//add pieces to empty database before hand
-		err := helpers.BatchAddToTable(client, testCase.AddToDatabase)
+		err := helpers.BatchAddToTable(client, testCase.AddToDatabase, testCase.ConvertToSet)
 		if err != nil {
 			panic(err)
 		}

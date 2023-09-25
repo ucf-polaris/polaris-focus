@@ -77,7 +77,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		// Partitiion key for user table is EventID
 		Key: key,
 		// "SET" update expression to update the item in the table.
-		UpdateExpression:          aws.String("SET schedule = list_append(if_not_exists(schedule, :empty_list), :classes)"),
+		UpdateExpression:          aws.String("ADD schedule :classes"),
 		ExpressionAttributeValues: items,
 		ReturnValues:              types.ReturnValueUpdatedNew,
 		//don't make new record if key doesn't exist

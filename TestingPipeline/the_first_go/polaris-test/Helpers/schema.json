@@ -17,6 +17,7 @@
             "expected_response_body":{
 
             },
+            "ignore_in_body":[],
             "ADD":[
                 {
                     "sampleRecord": "This field should be the records expected to ADD to database before execution"
@@ -28,6 +29,7 @@
                 }
             ],
             "ignore_in_get":[],
+            "convert_to_set":[],
             "handle_token": true
         }
     ]

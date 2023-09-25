@@ -33,6 +33,7 @@ type JsonCases struct {
 	Get                  []map[string]interface{} `json:"GET"`
 	IgnoreInGet          []string                 `json:"ignore_in_get"`
 	HandleToken          bool                     `json:"handle_token"`
+	ConvertSet           []string                 `json:"convert_to_set"`
 }
 
 type FileCases struct {
@@ -54,6 +55,7 @@ type TestCases struct {
 	ExpectedInDatabase []map[string]interface{}
 	IgnoreFields       []string
 	IgnoreJsonFields   []string
+	ConvertToSet       []string
 }
 
 func CreateTestCases(t []JsonCases) []TestCases {
@@ -92,6 +94,7 @@ func CreateTestCases(t []JsonCases) []TestCases {
 			ExpectedInDatabase: element.Get,
 			IgnoreFields:       element.IgnoreInGet,
 			IgnoreJsonFields:   element.IgnoreInBody,
+			ConvertToSet:       element.ConvertSet,
 		}
 
 		ret = append(ret, temp)
@@ -191,12 +194,8 @@ func HelperGenerateTable(client *dynamodb.Client, schema Schem) error {
 func GenerateTable(client *dynamodb.Client, schema Schem) error {
 	keySchema := makeKeySchema(schema.Keys)
 	attributeSchema := makeAttributeSchema(schema.Attributes)
-	GSI := []types.GlobalSecondaryIndex{}
-	if schema.GSI != nil {
-		GSI = makeGSI(schema.GSI, schema.GSIName)
-	}
 
-	_, err := client.CreateTable(context.Background(), &dynamodb.CreateTableInput{
+	input := &dynamodb.CreateTableInput{
 		AttributeDefinitions: attributeSchema,
 		KeySchema:            keySchema,
 		TableName:            aws.String("THENEWTABLE"),
@@ -204,8 +203,14 @@ func GenerateTable(client *dynamodb.Client, schema Schem) error {
 			ReadCapacityUnits:  aws.Int64(10),
 			WriteCapacityUnits: aws.Int64(10),
 		},
-		GlobalSecondaryIndexes: GSI,
-	})
+	}
+
+	if len(schema.GSI) != 0 {
+		GSI := makeGSI(schema.GSI, schema.GSIName)
+		input.GlobalSecondaryIndexes = GSI
+	}
+
+	_, err := client.CreateTable(context.Background(), input)
 
 	if err != nil {
 		return err
@@ -216,9 +221,12 @@ func GenerateTable(client *dynamodb.Client, schema Schem) error {
 }
 
 // Adds random data to table with partition and sort key defined
-func BatchAddToTable(client *dynamodb.Client, values []map[string]interface{}) error {
+func BatchAddToTable(client *dynamodb.Client, values []map[string]interface{}, convert []string) error {
 	for _, element := range values {
 		data, _ := attributevalue.MarshalMap(element)
+
+		//convert to string set
+		ListToStringSet(convert, data)
 
 		_, err := client.PutItem(context.TODO(), &dynamodb.PutItemInput{
 			TableName: aws.String("THENEWTABLE"),
@@ -299,6 +307,28 @@ func deepCopyMap(M map[string]interface{}) map[string]interface{} {
 	}
 
 	return ret
+}
+
+// transforms all fields provided into string set from lists
+func ListToStringSet(fields []string, M map[string]types.AttributeValue) {
+	//go through fields
+	for _, element := range fields {
+		//if of type AV list
+		if val, ok := M[element].(*types.AttributeValueMemberL); ok {
+
+			temp := []string{}
+			err := attributevalue.Unmarshal(val, &temp)
+
+			if len(temp) == 0 {
+				continue
+			}
+			if err != nil {
+				panic(err)
+			}
+
+			M[element] = &types.AttributeValueMemberSS{Value: temp}
+		}
+	}
 }
 
 // imports schema and keys from test file

@@ -2,5 +2,5 @@
 *.zip
 
 #ignore these testing files
-TestingPipeline/the_first_go/main.go
-TestingPipeline/the_first_go/Unique.go
+TestingPipeline/the_first_go/polaris-test/main.go
+TestingPipeline/the_first_go/polaris-test/Unique.go

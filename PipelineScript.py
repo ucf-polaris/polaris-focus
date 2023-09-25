@@ -59,16 +59,17 @@ def get_choice(max_items):
 
 def copy_all_go_files(directory, main):
     dirname = os.path.dirname(__file__)
-    main_file = dirname + '/TestingPipeline/the_first_go/polaris-test/'
+    main_file = os.path.join(dirname, 'TestingPipeline', 'the_first_go', 'polaris-test') + '/'
+    sep = "\\" if platform.system() == "Windows" else "/"
     
     #get all go files within directories below this one
     for root, dirs, files in os.walk(directory):
         for file in files:
             if file.endswith(".go"):
                 if(main == file):
-                    shutil.copyfile(root + "\\" + file, main_file + "main.go")
+                    shutil.copyfile(root + sep + file, main_file + "main.go")
                 else:
-                    shutil.copyfile(root + "\\" + file, main_file + file)
+                    shutil.copyfile(root + sep + file, main_file + file)
                     
 def write_to_configs(file):
     dictionary = {"filename": file}

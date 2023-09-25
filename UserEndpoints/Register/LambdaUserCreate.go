@@ -68,6 +68,11 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
+	//-----------------------------------------FORMAT SCHEDULE-----------------------------------------
+	Helpers.ListToStringSet(
+		[]string{"schedule"},
+		item,
+	)
 	//-----------------------------------------EXTRACT FORMATTED EMAIL-----------------------------------------
 	item_email, _, _, err := Helpers.ExtractFields(
 		[]string{"email"},

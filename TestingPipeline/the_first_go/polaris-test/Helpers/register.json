@@ -37,6 +37,34 @@
             "ignore_in_body":["token", "UserID"],
             "convert_to_set":[],
             "handle_token": false
+        },
+        {
+            "name": "Schedule Empty",
+            "request":{
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "password": "password",
+                "schedule":[],
+                "name": "kaeden le"
+            },
+            "expected_response":"",
+            "expected_response_body":{
+                "email": "kaedenle@gmail.com"
+            },
+            "ADD":[
+            ],
+            "GET":[
+                {
+                    "email": "kaedenle@gmail.com",
+                    "username": "kaedenle",
+                    "password": "password",
+                    "name": "kaeden le"
+                }
+            ],
+            "ignore_in_get":["UserID", "timeTilExpire", "verificationCode"],
+            "ignore_in_body":["token", "UserID"],
+            "convert_to_set":[],
+            "handle_token": false
         }
     ]
 }

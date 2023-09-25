@@ -211,7 +211,7 @@ func IsLambdaLocal() bool {
 }
 
 // transforms all fields provided into string set from lists
-func ListToStringSet(fields []string, M map[string]types.AttributeValue) {
+func ListToStringSet(fields []string, M map[string]types.AttributeValue) error {
 	//go through fields
 	for _, element := range fields {
 		//if of type AV list
@@ -224,9 +224,16 @@ func ListToStringSet(fields []string, M map[string]types.AttributeValue) {
 				panic(err)
 			}
 
-			M[element] = &types.AttributeValueMemberSS{Value: temp}
+			//delete key if empty (ADD will reappend)
+			if len(temp) != 0 {
+				M[element] = &types.AttributeValueMemberSS{Value: temp}
+			} else {
+				delete(M, element)
+				return errors.New("empty list passed in, set cannot be empty")
+			}
 		}
 	}
+	return nil
 }
 
 func CreateToken(lambdaClient *lambdaCall.Lambda, timeTil int, userID string, mode float64) (string, error) {

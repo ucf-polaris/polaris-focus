@@ -319,14 +319,16 @@ func ListToStringSet(fields []string, M map[string]types.AttributeValue) {
 			temp := []string{}
 			err := attributevalue.Unmarshal(val, &temp)
 
-			if len(temp) == 0 {
-				continue
-			}
 			if err != nil {
 				panic(err)
 			}
 
-			M[element] = &types.AttributeValueMemberSS{Value: temp}
+			//delete key if empty (ADD will reappend)
+			if len(temp) != 0 {
+				M[element] = &types.AttributeValueMemberSS{Value: temp}
+			} else {
+				delete(M, element)
+			}
 		}
 	}
 }

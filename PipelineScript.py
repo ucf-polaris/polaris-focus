@@ -35,12 +35,12 @@ def prepare_delete():
         if ".go" in file and file != "main_test.go":
             os.remove(direc + "/" + file)
 
-def output_file_menu(output, dic):
-    print(output)
+def output_file_menu(output, dic, GUI=True):
+    if(GUI): print(output)
     key_index = {}
     
     for index, element in enumerate(dic.keys()):
-        print(str(index+1) + ". " + element)
+        if(GUI): print(str(index+1) + ". " + element)
         key_index[str(index+1)] = element
 
     return key_index
@@ -81,23 +81,43 @@ def write_to_configs(file):
         outfile.write(json_object)
         
 def main():
-    #prepare the input
-    prepare_delete()
-    dic = scan_directory(".go")
+    first_run = True
+    choice, json_choice = 0, 0
+    while(True):
+        current = os.path.dirname(__file__)
+        print(current)
+        
+        #prepare the input
+        prepare_delete()
+        dic = scan_directory(".go")
 
-    #get user input
-    key_index = output_file_menu("Which file to test?", dic)
-    choice = get_choice(len(dic))
-    copy_all_go_files(dic[key_index[choice]], key_index[choice])
+        #get user input
+        key_index = output_file_menu("Which file to test?", dic, first_run)
+        if(first_run == True):
+            choice = get_choice(len(dic))
+        copy_all_go_files(dic[key_index[choice]], key_index[choice])
 
-    json_dict = scan_directory(".json", os.path.dirname(__file__) + "/TestingPipeline/the_first_go/polaris-test/Helpers")
-    json_key_index = output_file_menu("Test against what test case?", json_dict)
-    json_choice = get_choice(len(json_dict))
+        json_dict = scan_directory(".json", os.path.dirname(__file__) + "/TestingPipeline/the_first_go/polaris-test/Helpers")
+        json_key_index = output_file_menu("Test against what test case?", json_dict, first_run)
+        if(first_run == True):
+            json_choice = get_choice(len(json_dict))
 
-    write_to_configs(json_key_index[json_choice])
+        write_to_configs(json_key_index[json_choice])
 
+        os.chdir("TestingPipeline/the_first_go/polaris-test")
+        
+        run_test()
+        first_run = False
+
+        os.chdir(current)
+        
+        try_again = input("type 'a' to test again OR press key to close...")
+        if(try_again != "a"):
+            break
+
+def run_test():
     #change directories and begin the testing process
-    os.chdir("TestingPipeline/the_first_go/polaris-test")
+    
 
     #reset GOOS so proper testing can occur on windows
     if(platform.system() == "Windows"): subprocess.run(["go", "env", "-w", "GOOS=windows"])
@@ -108,8 +128,6 @@ def main():
 
     #reset GOOS back so executable can be compiled correctly
     if(platform.system() == "Windows"): subprocess.run(["go", "env", "-w", "GOOS=linux"])
-
-    input("press any key to close...")
     
 if __name__=='__main__':
     main()

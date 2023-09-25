@@ -30,6 +30,26 @@
             "handle_token": true
         },
         {
+            "name": "Schedule doesn't exist",
+            "request":{
+                "UserID":"0",
+                "classes": ["COP845"]
+            },
+            "expected_response":"",
+            "expected_response_body":{
+                "schedule": ["COP845"]
+            },
+            "ignore_in_body":[],
+            "ADD":[
+                {
+                    "UserID": "0"
+                }
+            ],
+            "ignore_in_get":[],
+            "convert_to_set":["schedule"],
+            "handle_token": true
+        },
+        {
             "name": "UserID doesn't exist",
             "request":{
                 "UserID":"0",
@@ -56,19 +76,15 @@
                 "UserID":"0",
                 "classes": []
             },
-            "expected_response":"",
+            "expected_response":"ERROR",
             "expected_response_body":{
                 "schedule": []
             },
             "ignore_in_body":[],
             "ADD":[
-                {
-                    "UserID": "0",
-                    "schedule": []
-                }
             ],
             "ignore_in_get":[],
-            "convert_to_set":["schedule"],
+            "convert_to_set":[],
             "handle_token": true
         },
         {
@@ -79,7 +95,7 @@
             },
             "expected_response":"",
             "expected_response_body":{
-                "schedule": ["COP845", "COP456"]
+                "schedule": ["COP456","COP845"]
             },
             "ignore_in_body":[],
             "ADD":[

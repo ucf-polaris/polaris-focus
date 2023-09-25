@@ -95,7 +95,8 @@
                 "location": {
                     "BuildingLong": 1,
                     "BuildingLat": 1
-                }
+                },
+                "description": "yes"
             },
             "expected_response":"ERROR",
             "expected_response_body":{

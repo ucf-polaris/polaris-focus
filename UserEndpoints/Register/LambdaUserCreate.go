@@ -59,7 +59,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	search := Helpers.UnpackRequest(request.Body)
 
 	item, _, _, err := Helpers.ExtractFields(
-		[]string{"email", "username", "password", "name", "schedule"},
+		[]string{"email", "username", "password", "name", "schedule", "favorite", "visited"},
 		search,
 		false,
 		false,
@@ -70,8 +70,9 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	//-----------------------------------------FORMAT SCHEDULE-----------------------------------------
 	Helpers.ListToStringSet(
-		[]string{"schedule"},
+		[]string{"schedule", "favorite", "visited"},
 		item,
+		false,
 	)
 	//-----------------------------------------EXTRACT FORMATTED EMAIL-----------------------------------------
 	item_email, _, _, err := Helpers.ExtractFields(

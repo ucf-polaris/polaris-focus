@@ -101,6 +101,7 @@
             "ADD":[
                 {
                     "UserID": "0",
+                    "mode": 0,
                     "schedule": ["COP845"]
                 }
             ],
@@ -121,6 +122,49 @@
                 {
                     "UserID": "0",
                     "schedule": ["COP845"]
+                }
+            ],
+            "ignore_in_get":[],
+            "convert_to_set":["schedule"],
+            "handle_token": true
+        },
+        {
+            "name": "Delete from schedule",
+            "request":{
+                "UserID":"0",
+                "mode": 1,
+                "classes": ["COP456"]
+            },
+            "expected_response":"",
+            "expected_response_body":{
+                "schedule": ["COP845"]
+            },
+            "ignore_in_body":[],
+            "ADD":[
+                {
+                    "UserID": "0",
+                    "schedule": ["COP456","COP845"]
+                }
+            ],
+            "ignore_in_get":[],
+            "convert_to_set":["schedule"],
+            "handle_token": true
+        },
+        {
+            "name": "Delete to empty schedule",
+            "request":{
+                "UserID":"0",
+                "mode": 1,
+                "classes": ["COP456"]
+            },
+            "expected_response":"",
+            "expected_response_body":{
+            },
+            "ignore_in_body":[],
+            "ADD":[
+                {
+                    "UserID": "0",
+                    "schedule": ["COP456"]
                 }
             ],
             "ignore_in_get":[],

@@ -49,7 +49,14 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
-
+	//-----------------------------------------SET THE MODE-----------------------------------------
+	query := "ADD schedule :classes"
+	if val, ok := search["mode"].(float64); ok {
+		//if even, add
+		if int(val)%2 == 1 {
+			query = "DELETE schedule :classes"
+		}
+	}
 	//-----------------------------------------GET KEYS TO FILTER-----------------------------------------
 	key, _, _, err := Helpers.ExtractFields(
 		[]string{"UserID"},
@@ -66,6 +73,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	err = Helpers.ListToStringSet(
 		[]string{":classes"},
 		items,
+		true,
 	)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
@@ -77,7 +85,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		// Partitiion key for user table is EventID
 		Key: key,
 		// "SET" update expression to update the item in the table.
-		UpdateExpression:          aws.String("ADD schedule :classes"),
+		UpdateExpression:          aws.String(query),
 		ExpressionAttributeValues: items,
 		ReturnValues:              types.ReturnValueUpdatedNew,
 		//don't make new record if key doesn't exist

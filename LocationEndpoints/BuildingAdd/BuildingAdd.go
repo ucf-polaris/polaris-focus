@@ -52,6 +52,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	Helpers.ListToStringSet(
 		[]string{"BuildingEvents"},
 		item,
+		false,
 	)
 	//-----------------------------------------GET KEYS TO FILTER-----------------------------------------
 	keys, _, _, err := Helpers.ExtractFields(

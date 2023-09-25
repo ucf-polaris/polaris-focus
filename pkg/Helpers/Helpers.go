@@ -211,7 +211,7 @@ func IsLambdaLocal() bool {
 }
 
 // transforms all fields provided into string set from lists
-func ListToStringSet(fields []string, M map[string]types.AttributeValue) error {
+func ListToStringSet(fields []string, M map[string]types.AttributeValue, returnError bool) error {
 	//go through fields
 	for _, element := range fields {
 		//if of type AV list
@@ -229,7 +229,9 @@ func ListToStringSet(fields []string, M map[string]types.AttributeValue) error {
 				M[element] = &types.AttributeValueMemberSS{Value: temp}
 			} else {
 				delete(M, element)
-				return errors.New("empty list passed in, set cannot be empty")
+				if returnError {
+					return errors.New("empty list passed in, set cannot be empty")
+				}
 			}
 		}
 	}

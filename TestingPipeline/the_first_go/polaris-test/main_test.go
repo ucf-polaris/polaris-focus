@@ -62,6 +62,8 @@ func TestHandler(t *testing.T) {
 				if strings.Contains(testCase.ExpectedBody, "ERROR") {
 					if !strings.Contains(response.Body, "ERROR") {
 						t.Errorf("Expected response %v, but got %v", testCase.ExpectedBody, response.Body)
+					} else {
+						t.Log("Error Message: " + response.Body)
 					}
 					//if 'ERROR' not in expected, compare directly
 				} else {

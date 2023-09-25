@@ -62,14 +62,14 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	//put key in ExpressionAttributeValues for ConditionExpression
 	items[":UserID"] = key["UserID"]
-
-	//prepare query further
-	items[":empty_list"] = &types.AttributeValueMemberL{Value: []types.AttributeValue{}}
 	//-----------------------------------------CONVERT INTO STRING SET-----------------------------------------
-	Helpers.ListToStringSet(
+	err = Helpers.ListToStringSet(
 		[]string{":classes"},
 		items,
 	)
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
+	}
 	//-----------------------------------------PUT INTO DATABASE-----------------------------------------
 	updateInput := &dynamodb.UpdateItemInput{
 		// table name is a global variable

@@ -1,9 +1,11 @@
 {
     "schema":{
         "keys":[],
+        "global_secondary_index":[],
+        "global_secondary_index_name": "",
         "attributes":{
 
-        }   
+        }
     },
     "test_cases": [
         {

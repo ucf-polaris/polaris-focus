@@ -14,6 +14,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
+	lambdaCall "github.com/aws/aws-sdk-go/service/lambda"
 )
 
 var (
@@ -207,4 +208,32 @@ func ConstructDynamoHost() (*dynamodb.Client, string) {
 func IsLambdaLocal() bool {
 	test := os.Getenv("LAMBDA_TASK_ROOT")
 	return test == ""
+}
+
+func CreateToken(lambdaClient *lambdaCall.Lambda, timeTil int, userID string, mode float64) (string, error) {
+	//-----------------------------------------GET VARIABLES-----------------------------------------
+	JWTFields := make(map[string]interface{})
+
+	JWTFields["timeTil"] = timeTil
+	JWTFields["mode"] = mode
+
+	if userID != "" {
+		JWTFields["UserID"] = userID
+	}
+	//-----------------------------------------PACKAGE RESPONSE-----------------------------------------
+	payload, err := json.Marshal(JWTFields)
+	if err != nil {
+		return "", err
+	}
+
+	resultToken, err := lambdaClient.Invoke(&lambdaCall.InvokeInput{FunctionName: aws.String("token_create"), Payload: payload})
+	if err != nil {
+		return "", err
+	}
+
+	result_json := UnpackRequest(string(resultToken.Payload))
+
+	token := result_json["token"].(string)
+
+	return token, nil
 }

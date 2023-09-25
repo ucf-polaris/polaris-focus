@@ -18,6 +18,8 @@ import (
 
 type Schem struct {
 	Keys       []string          `json:"keys"`
+	GSI        []string          `json:"global_secondary_index,omitempty"`
+	GSIName    string            `json:"global_secondary_index_name,omitempty"`
 	Attributes map[string]string `json:"attributes"`
 }
 
@@ -26,6 +28,7 @@ type JsonCases struct {
 	Request              map[string]interface{}   `json:"request"`
 	ExpectedResponse     string                   `json:"expected_response"`
 	ExpectedResponseBody map[string]interface{}   `json:"expected_response_body"`
+	IgnoreInBody         []string                 `json:"ignore_in_body"`
 	Add                  []map[string]interface{} `json:"ADD"`
 	Get                  []map[string]interface{} `json:"GET"`
 	IgnoreInGet          []string                 `json:"ignore_in_get"`
@@ -45,10 +48,12 @@ type TestCases struct {
 	Name               string
 	Request            events.APIGatewayProxyRequest
 	ExpectedBody       string
+	BodyIsJson         bool
 	ExpectedError      error
 	AddToDatabase      []map[string]interface{}
 	ExpectedInDatabase []map[string]interface{}
 	IgnoreFields       []string
+	IgnoreJsonFields   []string
 }
 
 func CreateTestCases(t []JsonCases) []TestCases {
@@ -64,8 +69,10 @@ func CreateTestCases(t []JsonCases) []TestCases {
 
 		//determine value of ExpectedResponse
 		response := element.ExpectedResponse
+		body_flag := false
 		if element.ExpectedResponse == "" {
 			response = MarshalWrapper(element.ExpectedResponseBody)
+			body_flag = true
 		}
 
 		temp := TestCases{
@@ -79,10 +86,12 @@ func CreateTestCases(t []JsonCases) []TestCases {
 				Body: MarshalWrapper(element.Request),
 			},
 			ExpectedBody:       response,
+			BodyIsJson:         body_flag,
 			ExpectedError:      nil,
 			AddToDatabase:      element.Add,
 			ExpectedInDatabase: element.Get,
 			IgnoreFields:       element.IgnoreInGet,
+			IgnoreJsonFields:   element.IgnoreInBody,
 		}
 
 		ret = append(ret, temp)
@@ -91,7 +100,7 @@ func CreateTestCases(t []JsonCases) []TestCases {
 }
 
 // create KeySchema that links to GenerateTable's KeySchema
-func makeKeySchema(keys []string) ([]types.KeySchemaElement, string, string) {
+func makeKeySchema(keys []string) []types.KeySchemaElement {
 	//error checking for empty list
 	if len(keys) == 0 {
 		panic(errors.New("empty keys array"))
@@ -115,37 +124,45 @@ func makeKeySchema(keys []string) ([]types.KeySchemaElement, string, string) {
 		keySchema = append(keySchema, sortKey)
 	}
 
-	return keySchema, partition, sort
+	return keySchema
+}
+
+// create Global Secondary Index that links to GenerateTables Global Secondary Index
+func makeGSI(GSI []string, name string) []types.GlobalSecondaryIndex {
+	//make key schema for GSI
+	keys := makeKeySchema(GSI)
+
+	ret := []types.GlobalSecondaryIndex{
+		{
+			IndexName: aws.String(name),
+			KeySchema: keys,
+			ProvisionedThroughput: &types.ProvisionedThroughput{
+				ReadCapacityUnits:  aws.Int64(10),
+				WriteCapacityUnits: aws.Int64(10),
+			},
+			Projection: &types.Projection{ProjectionType: types.ProjectionTypeAll},
+		},
+	}
+
+	return ret
 }
 
 // create AttributeDefinition that links to GenerateTable's AtributeDefinitions
-func makeAttributeSchema(partition string, sort string, attributes map[string]string) []types.AttributeDefinition {
+func makeAttributeSchema(attributes map[string]string) []types.AttributeDefinition {
 	dataTypes := map[string]types.ScalarAttributeType{
 		"S": types.ScalarAttributeTypeS,
 		"B": types.ScalarAttributeTypeB,
 		"N": types.ScalarAttributeTypeN,
 	}
 
-	if _, ok := attributes[partition]; !ok {
-		panic(errors.New("missing partition in schema"))
-	}
+	defSchema := []types.AttributeDefinition{}
 
-	defSchema := []types.AttributeDefinition{
-		{
-			AttributeName: aws.String(partition),
-			AttributeType: dataTypes[attributes[partition]],
-		},
-	}
-
-	if sort != "" {
-		if _, ok := attributes[sort]; !ok {
-			panic(errors.New("missing sort in schema"))
+	for key, val := range attributes {
+		record := types.AttributeDefinition{
+			AttributeName: aws.String(key),
+			AttributeType: dataTypes[val],
 		}
-		defElement := types.AttributeDefinition{
-			AttributeName: aws.String(sort),
-			AttributeType: dataTypes[attributes[sort]],
-		}
-		defSchema = append(defSchema, defElement)
+		defSchema = append(defSchema, record)
 	}
 
 	return defSchema
@@ -172,8 +189,12 @@ func HelperGenerateTable(client *dynamodb.Client, schema Schem) error {
 
 // Creates table
 func GenerateTable(client *dynamodb.Client, schema Schem) error {
-	keySchema, partition, sort := makeKeySchema(schema.Keys)
-	attributeSchema := makeAttributeSchema(partition, sort, schema.Attributes)
+	keySchema := makeKeySchema(schema.Keys)
+	attributeSchema := makeAttributeSchema(schema.Attributes)
+	GSI := []types.GlobalSecondaryIndex{}
+	if schema.GSI != nil {
+		GSI = makeGSI(schema.GSI, schema.GSIName)
+	}
 
 	_, err := client.CreateTable(context.Background(), &dynamodb.CreateTableInput{
 		AttributeDefinitions: attributeSchema,
@@ -183,6 +204,7 @@ func GenerateTable(client *dynamodb.Client, schema Schem) error {
 			ReadCapacityUnits:  aws.Int64(10),
 			WriteCapacityUnits: aws.Int64(10),
 		},
+		GlobalSecondaryIndexes: GSI,
 	})
 
 	if err != nil {
@@ -254,6 +276,29 @@ func ImportConfigs() (Configs, error) {
 
 	defer jsonFile.Close()
 	return output, nil
+}
+
+// compare expected body with obtained body, but account "ignore in"
+func CompareBodies(expected map[string]interface{}, obtained map[string]interface{}, ignore []string) bool {
+	expected_copy := deepCopyMap(expected)
+	obtained_copy := deepCopyMap(obtained)
+
+	for _, e := range ignore {
+		delete(expected_copy, e)
+		delete(obtained_copy, e)
+	}
+
+	return MarshalWrapper(expected_copy) == MarshalWrapper(obtained_copy)
+}
+
+// helper to deep copy a map
+func deepCopyMap(M map[string]interface{}) map[string]interface{} {
+	ret := make(map[string]interface{})
+	for k, v := range M {
+		ret[k] = v
+	}
+
+	return ret
 }
 
 // imports schema and keys from test file
@@ -334,14 +379,14 @@ func CompareTable(client *dynamodb.Client, table string, expected []map[string]i
 			}
 		}
 		if !flag {
-			return errors.New("element missing: " + MarshalWrapper(ee))
+			return errors.New(MarshalWrapper(ee))
 		}
 	}
 
 	if count == len(expected) {
 		return nil
 	}
-	return errors.New("element missing")
+	return errors.New("element")
 }
 
 func ResetTable(client *dynamodb.Client, schema Schem) {

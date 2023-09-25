@@ -47,6 +47,12 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
+
+	//format building events (if empty erase, else convert to string set)
+	Helpers.ListToStringSet(
+		[]string{"BuildingEvents"},
+		item,
+	)
 	//-----------------------------------------GET KEYS TO FILTER-----------------------------------------
 	keys, _, _, err := Helpers.ExtractFields(
 		[]string{"BuildingLong", "BuildingLat"},

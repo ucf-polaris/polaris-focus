@@ -1,0 +1,43 @@
+{
+    "schema":{
+        "keys":["UserID"],
+        "global_secondary_index":["email"],
+        "global_secondary_index_name": "email-index",
+        "attributes":{
+            "UserID": "S",
+            "email": "S"
+        }   
+    },
+    "test_cases": [
+        {
+            "name": "Successful Add",
+            "request":{
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "password": "password",
+                "schedule":["jofdopafdsiojaf"],
+                "name": "kaeden le"
+            },
+            "expected_response":"",
+            "expected_response_body":{
+                "token": "token",
+                "UserID": "0",
+                "email": "kaedenle@gmail.com"
+            },
+            "ignore_in_body":[],
+            "ADD":[
+            ],
+            "GET":[
+                {
+                    "email": "kaedenle@gmail.com",
+                    "username": "kaedenle",
+                    "password": "password",
+                    "schedule":["jofdopafdsiojaf"],
+                    "name": "kaeden le"
+                }
+            ],
+            "ignore_in_get":["UserID", "timeTilExpire", "verificationCode"],
+            "handle_token": false
+        }
+    ]
+}

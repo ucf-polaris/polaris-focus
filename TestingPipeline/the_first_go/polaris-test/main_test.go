@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"encoding/json"
+	"polaris-api/TestingPipeline/the_first_go/polaris-test/Helpers"
 	helpers "polaris-api/TestingPipeline/the_first_go/polaris-test/Helpers"
 	"strings"
 	"testing"
@@ -49,13 +51,42 @@ func TestHandler(t *testing.T) {
 		t.Run(testCase.Name, func(t *testing.T) {
 			response, err := handler(testCase.Request)
 
+			// Unintentional error output
 			if err != testCase.ExpectedError {
 				t.Errorf("Expected error %v, but got %v", testCase.ExpectedError, err)
 			}
 
-			if response.Body != testCase.ExpectedBody {
-				if !strings.Contains(testCase.ExpectedBody, "ERROR") || (strings.Contains(testCase.ExpectedBody, "ERROR") && !strings.Contains(response.Body, "ERROR")) {
-					t.Errorf("Expected response %v, but got %v", testCase.ExpectedBody, response.Body)
+			// Handle ExpectedBody (non-json)
+			if !testCase.BodyIsJson {
+				//if 'ERROR' in obtained body and 'ERROR' in expected, pass
+				if strings.Contains(testCase.ExpectedBody, "ERROR") {
+					if !strings.Contains(response.Body, "ERROR") {
+						t.Errorf("Expected response %v, but got %v", testCase.ExpectedBody, response.Body)
+					}
+					//if 'ERROR' not in expected, compare directly
+				} else {
+					if testCase.ExpectedBody != response.Body {
+						t.Errorf("Expected response %v, but got %v", testCase.ExpectedBody, response.Body)
+					}
+				}
+			}
+
+			// Handle ExpectedBody(json)
+			if testCase.BodyIsJson {
+				expected := make(map[string]interface{})
+				obtained := make(map[string]interface{})
+				json.Unmarshal([]byte(testCase.ExpectedBody), &expected)
+				err = json.Unmarshal([]byte(response.Body), &obtained)
+
+				//response body isn't in json format
+				if err != nil {
+					t.Errorf("Expected json response but got %v", response.Body)
+				}
+
+				if !Helpers.CompareBodies(expected, obtained, testCase.IgnoreJsonFields) {
+					t.Errorf("Expected json response %v, but got %v", testCase.ExpectedBody, response.Body)
+				} else {
+					t.Logf("Body returned " + response.Body)
 				}
 			}
 
@@ -66,7 +97,7 @@ func TestHandler(t *testing.T) {
 			//run get to test against database
 			errs := helpers.CompareTable(client, "THENEWTABLE", testCase.ExpectedInDatabase, testCase.IgnoreFields)
 			if errs != nil {
-				t.Errorf(errs.Error())
+				t.Errorf("Get Test failed expected in database" + errs.Error())
 			}
 		})
 

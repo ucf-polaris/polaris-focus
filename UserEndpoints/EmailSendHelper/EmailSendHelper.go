@@ -111,6 +111,7 @@ func queryWithEmail(email string) (map[string]interface{}, error) {
 
 	return results, nil
 }
+
 func getWithUserID(UserID string) (map[string]interface{}, error) {
 	item := make(map[string]types.AttributeValue)
 

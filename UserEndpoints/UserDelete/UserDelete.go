@@ -16,7 +16,7 @@ import (
 )
 
 type Payload struct {
-	UserID		string		`json:UserID`
+	UserID		string		`json:"UserID"`
 }
 
 var table string
@@ -65,6 +65,7 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	// Try to delete the user from the table and catch errors
 	_, err = client.DeleteItem(ctx, input)
 	if err != nil {
+		log.Printf("%+v", err)
 		return events.APIGatewayProxyResponse{
 			StatusCode: http.StatusInternalServerError,
 			Body:		fmt.Sprintf("Error when deleting user from table, user may not exist"),

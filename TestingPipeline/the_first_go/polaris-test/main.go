@@ -1,112 +1,97 @@
+// How to call the token create function from another function
 package main
 
 import (
-	"context"
 	"encoding/json"
 	"log"
 	"net/http"
 	"polaris-api/pkg/Helpers"
-	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
-	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	lambdaCall "github.com/aws/aws-sdk-go/service/lambda"
 )
 
-type LocationQuery struct {
-	Long float64 `json:"long"`
-	Lat  float64 `json:"lat"`
-}
-
+var lambdaClient *lambdaCall.Lambda
 var table string
 var client *dynamodb.Client
 
+type EmailQuery struct {
+	Email  string `json:"email"`
+	UserID string `json:"UserID"`
+	Type   int    `json:"type"`
+}
+
 func init() {
+	//dynamo db
 	client, table = Helpers.ConstructDynamoHost()
 
-	if table == "" {
-		log.Fatal("missing environment variable TABLE_NAME")
-	}
+	//lambda stuff
+	sess := session.Must(session.NewSessionWithOptions(session.Options{
+		SharedConfigState: session.SharedConfigEnable,
+	}))
+
+	lambdaClient = lambdaCall.New(sess, &aws.Config{Region: aws.String("us-east-2")})
 }
 
 func main() {
 	lambda.Start(handler)
 }
 
-func produceQueryResult(page *dynamodb.QueryPaginator) ([]map[string]interface{}, error) {
-	p := []map[string]interface{}{}
-
-	for page.HasMorePages() {
-		out, err := page.NextPage(context.TODO())
-		if err != nil {
-			return nil, err
-		}
-
-		temp := []map[string]interface{}{}
-		err = attributevalue.UnmarshalListOfMaps(out.Items, &temp)
-		if err != nil {
-			return nil, err
-		}
-
-		p = append(p, temp...)
-	}
-
-	return p, nil
+func responseGeneration(msg string, status int) (events.APIGatewayProxyResponse, error) {
+	return events.APIGatewayProxyResponse{StatusCode: status, Body: "Error: " + msg}, nil
 }
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	//-----------------------------------------EXTRACT TOKEN FIELDS-----------------------------------------
-	token, rfsTkn, err := Helpers.GetTokens(request)
+	token, refreshToken, err := Helpers.GetTokens(request)
 	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
+		return responseGeneration(err.Error(), http.StatusOK)
 	}
 
-	//-----------------------------------------EXTRACT FIELDS-----------------------------------------
-	search := LocationQuery{}
-
-	err = json.Unmarshal([]byte(request.Body), &search)
-
+	search := EmailQuery{}
+	log.Println(request.Body)
+	json.Unmarshal([]byte(request.Body), &search)
+	//-----------------------------------------EMAIL OR USERID-----------------------------------------
+	//get email if it doesn't exist
+	if search.UserID != "" && search.Email == "" {
+		search.Email, err = GetEmailWithUserID(search.UserID)
+		if err != nil {
+			return responseGeneration(err.Error(), http.StatusOK)
+		}
+	} else if search.UserID == "" && search.Email == "" {
+		return responseGeneration("Email and UserID doesn't exist", http.StatusOK)
+	}
+	//-----------------------------------------GET CODE WITH EMAIL-----------------------------------------
+	code, err := QueryCodes(search.Email, search.Type)
 	if err != nil {
-		return Helpers.ResponseGeneration("missing field", http.StatusOK)
+		return responseGeneration(err.Error(), http.StatusOK)
 	}
+	//-----------------------------------------PACKING RESULTS-----------------------------------------
+	pre_js := make(map[string]interface{})
+	pre_js["code"] = code
+	pre_js["email"] = search.Email
+	pre_js["type"] = search.Type
 
-	item := make(map[string]types.AttributeValue)
-	item[":locationQueryID"] = &types.AttributeValueMemberS{Value: (strconv.FormatFloat(search.Long, 'f', -1, 64) + " " + strconv.FormatFloat(search.Lat, 'f', -1, 64))}
-	//-----------------------------------------PUT INTO DATABASE-----------------------------------------
-	queryInput := &dynamodb.QueryInput{
-		TableName:                 aws.String(table),
-		IndexName:                 aws.String("locationQueryID-index"),
-		KeyConditionExpression:    aws.String("locationQueryID = :locationQueryID"),
-		ExpressionAttributeValues: item,
-	}
-
-	paginator := dynamodb.NewQueryPaginator(client, queryInput)
+	js, err := json.Marshal(pre_js)
 	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
+		return responseGeneration(err.Error(), http.StatusOK)
 	}
 
-	//-----------------------------------------PACK RETURN VALUES-----------------------------------------
+	result, err := lambdaClient.Invoke(&lambdaCall.InvokeInput{FunctionName: aws.String("email_code"), Payload: js})
+	if err != nil {
+		return responseGeneration(err.Error(), http.StatusOK)
+	}
+
+	log.Println(result)
+
 	ret := make(map[string]interface{})
-	if token != "" {
-		ret["token"] = token
-	}
-
-	if rfsTkn != "" {
-		ret["refreshToken"] = rfsTkn
-	}
-
-	ret["results"], err = produceQueryResult(paginator)
-	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
-	}
-
-	js, err := json.Marshal(ret)
-	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
-	}
+	ret["token"] = token
+	ret["refreshToken"] = refreshToken
+	js, _ = json.Marshal(ret)
 
 	return events.APIGatewayProxyResponse{StatusCode: http.StatusOK, Body: string(js), Headers: map[string]string{"content-type": "application/json"}}, nil
+
 }

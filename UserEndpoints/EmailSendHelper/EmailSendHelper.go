@@ -41,14 +41,10 @@ func main() {
 	lambda.Start(handler)
 }
 
-func responseGeneration(msg string, status int) (events.APIGatewayProxyResponse, error) {
-	return events.APIGatewayProxyResponse{StatusCode: status, Body: "Error: " + msg}, nil
-}
-
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	token, refreshToken, err := Helpers.GetTokens(request)
 	if err != nil {
-		return responseGeneration(err.Error(), http.StatusOK)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	search := EmailQuery{}
@@ -59,15 +55,15 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	if search.UserID != "" && search.Email == "" {
 		search.Email, err = GetEmailWithUserID(search.UserID)
 		if err != nil {
-			return responseGeneration(err.Error(), http.StatusOK)
+			return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 		}
 	} else if search.UserID == "" && search.Email == "" {
-		return responseGeneration("Email and UserID doesn't exist", http.StatusOK)
+		return Helpers.ResponseGeneration("Email and UserID doesn't exist", http.StatusOK)
 	}
 	//-----------------------------------------GET CODE WITH EMAIL-----------------------------------------
 	code, err := QueryCodes(search.Email, search.Type)
 	if err != nil {
-		return responseGeneration(err.Error(), http.StatusOK)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 	//-----------------------------------------PACKING RESULTS-----------------------------------------
 	pre_js := make(map[string]interface{})
@@ -77,12 +73,12 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	js, err := json.Marshal(pre_js)
 	if err != nil {
-		return responseGeneration(err.Error(), http.StatusOK)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	result, err := lambdaClient.Invoke(&lambdaCall.InvokeInput{FunctionName: aws.String("email_code"), Payload: js})
 	if err != nil {
-		return responseGeneration(err.Error(), http.StatusOK)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	log.Println(result)

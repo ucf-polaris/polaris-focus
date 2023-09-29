@@ -54,12 +54,19 @@ func produceRandomNDigits(N int) string {
 	return number
 }
 
+func mergeMaps(M1 map[string]types.AttributeValue, M2 map[string]types.AttributeValue) map[string]types.AttributeValue {
+	for k, v := range M2 {
+		M1[k] = v
+	}
+	return M1
+}
+
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	//-----------------------------------------EXTRACT FIELDS-----------------------------------------
 	search := Helpers.UnpackRequest(request.Body)
 
 	item, _, _, err := Helpers.ExtractFields(
-		[]string{"email", "username", "password", "name", "schedule", "favorite", "visited"},
+		[]string{"email", "username", "password", "name"},
 		search,
 		false,
 		false,
@@ -68,6 +75,18 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
+	//-----------------------------------------EXTRACT OPTIONAL FIELDS-----------------------------------------
+	optional_items, _, _, err := Helpers.ExtractFields(
+		[]string{"schedule", "favorite", "visited"},
+		search,
+		false,
+		true,
+	)
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
+	}
+
+	item = mergeMaps(item, optional_items)
 	//-----------------------------------------FORMAT SCHEDULE-----------------------------------------
 	Helpers.ListToStringSet(
 		[]string{"schedule", "favorite", "visited"},

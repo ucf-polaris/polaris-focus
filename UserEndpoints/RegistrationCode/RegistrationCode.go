@@ -106,28 +106,32 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}
 
 	//-----------------------------------------RESULTS PROCESSING-----------------------------------------
-	map_output := map[string]any{}
+	map_output := make(map[string]interface{})
+	ret := make(map[string]interface{})
+	tokens := make(map[string]interface{})
+
 	attributevalue.UnmarshalMap(output.Attributes, &map_output)
 	delete(map_output, "password")
-
-	log.Println(map_output)
 
 	if len(map_output) == 0 {
 		return Helpers.ResponseGeneration("code incorrect", http.StatusOK)
 	}
 
 	//-----------------------------------------CREATE TOKENS-----------------------------------------
-	map_output["token"], err = Helpers.CreateToken(lambdaClient, 15, "", 0)
+	tokens["token"], err = Helpers.CreateToken(lambdaClient, 15, "", 0)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
-	map_output["refreshToken"], err = Helpers.CreateToken(lambdaClient, 15, "", 1)
+	tokens["refreshToken"], err = Helpers.CreateToken(lambdaClient, 15, "", 1)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
-	js, err := json.Marshal(map_output)
+	ret["tokens"] = tokens
+	ret["User"] = map_output
+
+	js, err := json.Marshal(ret)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}

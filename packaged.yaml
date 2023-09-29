@@ -1,0 +1,426 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  TheBestApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: PolarisAPI
+      StageName: Testing
+    Metadata:
+      SamResourceId: TheBestApi
+  BuildingAddFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: location_add_sam
+      Handler: BuildingAdd
+      Runtime: go1.x
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/d5055e5bf13af2408aa09525746decf3
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: Buildings
+      Events:
+        BuildingAddEvent:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: TheBestApi
+            Path: /building/add
+            Method: POST
+    Metadata:
+      SamResourceId: BuildingAddFunction
+  BuildingGetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: building_get_sam
+      Handler: BuildingGet
+      Runtime: go1.x
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/20feb41d097bb78afa501741c376a995
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: Buildings
+      Events:
+        BuildingAddEvent:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: TheBestApi
+            Path: /building/get
+            Method: POST
+    Metadata:
+      SamResourceId: BuildingGetFunction
+  BuildingUpdateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: building_update_sam
+      Handler: BuildingUpdate
+      Runtime: go1.x
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/3ba7ef0a57f248cf2b77184f6813dfd4
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: Buildings
+      Events:
+        BuildingUpdateEvent:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: TheBestApi
+            Path: /building/update
+            Method: POST
+    Metadata:
+      SamResourceId: BuildingUpdateFunction
+  BuildingDeleteFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: building_delete_sam
+      Handler: BuildingDelete
+      Runtime: go1.x
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/898514fbab87aef8292d4a5d84f115ca
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: Buildings
+      Events:
+        BuildingDeleteEvent:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: TheBestApi
+            Path: /building/delete
+            Method: DELETE
+    Metadata:
+      SamResourceId: BuildingDeleteFunction
+  BuildingQueryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: location_query_sam
+      Handler: BuildingQuery
+      Runtime: go1.x
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/4fd968603363f54374af35a03ddb1d34
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: Buildings
+      Events:
+        BuildingQueryEvent:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: TheBestApi
+            Path: /building/query
+            Method: POST
+    Metadata:
+      SamResourceId: BuildingQueryFunction
+  EventGetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: event_get_sam
+      Handler: EventGet
+      Runtime: go1.x
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/942afdc923bc45237af2510795600a7a
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: Events
+      Events:
+        GetEventEvent:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: TheBestApi
+            Path: /event/get
+            Method: POST
+    Metadata:
+      SamResourceId: EventGetFunction
+  EventAddFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: event_add_sam
+      Handler: EventsAdd
+      Runtime: go1.x
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/57f872bd5eba45543eda71899cc78485
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: Events
+      Events:
+        AddEventEvent:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: TheBestApi
+            Path: /event/add
+            Method: POST
+    Metadata:
+      SamResourceId: EventAddFunction
+  EventUpdateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: event_update_sam
+      Handler: EventsUpdate
+      Runtime: go1.x
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/df7ef317df002f59d1387693c1539ec7
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: Events
+      Events:
+        UpdateEventEvent:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: TheBestApi
+            Path: /event/update
+            Method: POST
+    Metadata:
+      SamResourceId: EventUpdateFunction
+  EventQueryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: event_query_sam
+      Handler: EventsQuery
+      Runtime: go1.x
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/b49ab94e39b6f6ebf725e17e48f3cdf3
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: Events
+      Events:
+        QueryEventEvent:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: TheBestApi
+            Path: /event/query
+            Method: POST
+    Metadata:
+      SamResourceId: EventQueryFunction
+  EventDeleteFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: event_delete_sam
+      Handler: EventDelete
+      Runtime: go1.x
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/ef74cd6ead84193dfee33945dc9e11ae
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: Events
+      Events:
+        DeleteEventEvent:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: TheBestApi
+            Path: /event/delete
+            Method: DELETE
+    Metadata:
+      SamResourceId: EventDeleteFunction
+  UserRegistrationCodeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: user_registration_code_sam
+      Handler: RegistrationCode
+      Runtime: go1.x
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/8a98141babf82a374dae91a0a8522874
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: Users
+      Events:
+        UserRegistrationCodeEvent:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: TheBestApi
+            Path: /user/registrationcode
+            Method: POST
+    Metadata:
+      SamResourceId: UserRegistrationCodeFunction
+  UserRegisterFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: user_register_sam
+      Handler: LambdaUserCreate
+      Runtime: go1.x
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/5ad5d068a060a177f0c9077846bdd3e3
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: Users
+      Events:
+        UserRegisterEvent:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: TheBestApi
+            Path: /user/register
+            Method: POST
+    Metadata:
+      SamResourceId: UserRegisterFunction
+  UserLoginFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: user_verify_sam
+      Handler: LambdaVerify
+      Runtime: go1.x
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/3a50fd1e1a3a2daa3f2ca0a414ea0917
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: Users
+      Events:
+        UserLoginEvent:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: TheBestApi
+            Path: /user/login
+            Method: POST
+    Metadata:
+      SamResourceId: UserLoginFunction
+  UserGetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: user_get_sam
+      Handler: UserGet
+      Runtime: go1.x
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/5499b277a3be680c91c47306298c0505
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: Users
+      Events:
+        UserGetEvent:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: TheBestApi
+            Path: /user/get
+            Method: POST
+    Metadata:
+      SamResourceId: UserGetFunction
+  UserUpdateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: user_update_sam
+      Handler: UserUpdate
+      Runtime: go1.x
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/7a9e69a7768d4310dcf8eb027e2539f3
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: Users
+      Events:
+        UserUpdateEvent:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: TheBestApi
+            Path: /user/update
+            Method: PUT
+    Metadata:
+      SamResourceId: UserUpdateFunction
+  UserDeleteFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: user_delete_sam
+      Handler: UserDelete
+      Runtime: go1.x
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/8f619098a2687523e11a7e1f1573101e
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: Users
+      Events:
+        UserDeleteEvent:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: TheBestApi
+            Path: /user/delete
+            Method: DELETE
+    Metadata:
+      SamResourceId: UserDeleteFunction

@@ -2,57 +2,385 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
 Resources:
+# --- DEFINE API RESOURCE ---
   TheBestApi:
     Type: AWS::Serverless::Api
     Properties:
-      Name: GetUserInfo
+      Name: PolarisAPI
       StageName: Testing
 
+# --- BUILDING FUNCTIONS ---
+  BuildingAddFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: location_add_sam
+      Handler: BuildingAdd
+      Runtime: go1.x
+      CodeUri: LocationEndpoints/BuildingAdd
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Buildings"
+      Events:
+        BuildingAddEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TheBestApi
+            Path: /building/add
+            Method: POST
+  BuildingGetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: building_get_sam
+      Handler: BuildingGet
+      Runtime: go1.x
+      CodeUri: LocationEndpoints/BuildingGet
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Buildings"
+      Events:
+        BuildingAddEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TheBestApi
+            Path: /building/get
+            Method: POST
+  BuildingUpdateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: building_update_sam
+      Handler: BuildingUpdate
+      Runtime: go1.x
+      CodeUri: LocationEndpoints/BuildingUpdate
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Buildings"
+      Events:
+        BuildingUpdateEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TheBestApi
+            Path: /building/update
+            Method: POST
   BuildingDeleteFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: BuildingDeleteLambda
+      FunctionName: building_delete_sam
       Handler: BuildingDelete
       Runtime: go1.x
       CodeUri: LocationEndpoints/BuildingDelete
       MemorySize: 256
       Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Buildings"
       Events:
-        DeleteEvent:
+        BuildingDeleteEvent:
           Type: Api
           Properties:
             RestApiId: !Ref TheBestApi
             Path: /building/delete
             Method: DELETE
+  BuildingQueryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: location_query_sam
+      Handler: BuildingQuery
+      Runtime: go1.x
+      CodeUri: LocationEndpoints/BuildingQuery
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Buildings"
+      Events:
+        BuildingQueryEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TheBestApi
+            Path: /building/query
+            Method: POST
 
+# --- EVENT FUNCTIONS ---
+  EventGetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: event_get_sam
+      Handler: EventGet
+      Runtime: go1.x
+      CodeUri: EventEndpoints/EventGet
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Events"
+      Events:
+        GetEventEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TheBestApi
+            Path: /event/get
+            Method: POST
+  EventAddFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: event_add_sam
+      Handler: EventsAdd
+      Runtime: go1.x
+      CodeUri: EventEndpoints/EventsAdd
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Events"
+      Events:
+        AddEventEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TheBestApi
+            Path: /event/add
+            Method: POST
+  EventUpdateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: event_update_sam
+      Handler: EventsUpdate
+      Runtime: go1.x
+      CodeUri: EventEndpoints/EventsUpdate
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Events"
+      Events:
+        UpdateEventEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TheBestApi
+            Path: /event/update
+            Method: POST
+  EventQueryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: event_query_sam
+      Handler: EventsQuery
+      Runtime: go1.x
+      CodeUri: EventEndpoints/EventsQuery
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Events"
+      Events:
+        QueryEventEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TheBestApi
+            Path: /event/query
+            Method: POST
   EventDeleteFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: EventDeleteLambda
+      FunctionName: event_delete_sam
       Handler: EventDelete
       Runtime: go1.x
       CodeUri: EventEndpoints/EventsDelete
       MemorySize: 256
       Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Events"
       Events:
-        DeleteEvent:
+        DeleteEventEvent:
           Type: Api
           Properties:
             RestApiId: !Ref TheBestApi
             Path: /event/delete
             Method: DELETE
 
+# --- USER FUNCTIONS ---
+  # Registration Code
+  UserRegistrationCodeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: user_registration_code_sam
+      Handler: RegistrationCode
+      Runtime: go1.x
+      CodeUri: UserEndpoints/RegistrationCode
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Users"
+      Events:
+        UserRegistrationCodeEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TheBestApi
+            Path: /user/registrationcode
+            Method: POST
+  # Register
+  UserRegisterFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: user_register_sam
+      Handler: LambdaUserCreate
+      Runtime: go1.x
+      CodeUri: UserEndpoints/Register
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Users"
+      Events:
+        UserRegisterEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TheBestApi
+            Path: /user/register
+            Method: POST
+  UserLoginFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: user_verify_sam
+      Handler: LambdaVerify
+      Runtime: go1.x
+      CodeUri: UserEndpoints/Login
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Users"
+      Events:
+        UserLoginEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TheBestApi
+            Path: /user/login
+            Method: POST
+  # User Get
+  UserGetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: user_get_sam
+      Handler: UserGet
+      Runtime: go1.x
+      CodeUri: UserEndpoints/UserGet
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Users"
+      Events:
+        UserGetEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TheBestApi
+            Path: /user/get
+            Method: POST
+  # User Update
+  UserUpdateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: user_update_sam
+      Handler: UserUpdate
+      Runtime: go1.x
+      CodeUri: UserEndpoints/UserUpdate
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Users"
+      Events:
+        UserUpdateEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TheBestApi
+            Path: /user/update
+            Method: PUT
   UserDeleteFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: UserDeleteLambda
+      FunctionName: user_delete_sam
       Handler: UserDelete
       Runtime: go1.x
       CodeUri: UserEndpoints/UserDelete
       MemorySize: 256
       Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Users"
       Events:
-        DeleteEvent:
+        UserDeleteEvent:
           Type: Api
           Properties:
             RestApiId: !Ref TheBestApi

@@ -289,7 +289,7 @@ func ImportConfigs() (Configs, error) {
 }
 
 // compare expected body with obtained body, but account "ignore in"
-func CompareBodies(expected map[string]interface{}, obtained map[string]interface{}, ignore []string) bool {
+func CompareBodies(expected map[string]interface{}, obtained map[string]interface{}, ignore []string) (bool, string, string) {
 	expected_copy := deepCopyMap(expected)
 	obtained_copy := deepCopyMap(obtained)
 
@@ -298,7 +298,7 @@ func CompareBodies(expected map[string]interface{}, obtained map[string]interfac
 		delete(obtained_copy, e)
 	}
 
-	return MarshalWrapper(expected_copy) == MarshalWrapper(obtained_copy)
+	return MarshalWrapper(expected_copy) == MarshalWrapper(obtained_copy), MarshalWrapper(expected_copy), MarshalWrapper(obtained_copy)
 }
 
 // helper to deep copy a map

@@ -1,0 +1,148 @@
+{
+    "schema":{
+        "keys":["UserID"],
+        "global_secondary_index":["email"],
+        "global_secondary_index_name": "email-index",
+        "attributes":{
+            "UserID": "S",
+            "email": "S"
+        }   
+    },
+    "test_cases": [
+        {
+            "name": "Successful Login",
+            "request":{
+                "email": "kaedenle@gmail.com",
+                "password": "password"
+            },
+            "expected_response":"",
+            "expected_response_body":{
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "password": "",
+                "schedule":["jofdopafdsiojaf"],
+                "visited":["MSB"],
+                "favorite":["SU"],
+                "name": "kaeden le",
+                "UserID": "0"
+            },
+            "ADD":[
+                {
+                "UserID": "0",
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "password": "password",
+                "schedule":["jofdopafdsiojaf"],
+                "visited":["MSB"],
+                "favorite":["SU"],
+                "name": "kaeden le"
+            }
+            ],
+            "GET":[
+            ],
+            "ignore_in_get":["tokens"],
+            "ignore_in_body":["tokens"],
+            "convert_to_set":["visited", "favorite", "schedule"],
+            "handle_token": false
+        },
+        {
+            "name": "Login Unregistered",
+            "request":{
+                "email": "kaedenle@gmail.com",
+                "password": "password"
+            },
+            "expected_response":"",
+            "expected_response_body":{
+                "email": "kaedenle@gmail.com",
+                "UserID": "0"
+            },
+            "ADD":[
+                {
+                "UserID": "0",
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "password": "password",
+                "schedule":["jofdopafdsiojaf"],
+                "visited":["MSB"],
+                "favorite":["SU"],
+                "name": "kaeden le",
+                "timeTilExpire": 4534343,
+                "verificationCode": 1
+            }
+            ],
+            "GET":[
+            ],
+            "ignore_in_get":["tokens"],
+            "ignore_in_body":["tokens"],
+            "convert_to_set":["visited", "favorite", "schedule"],
+            "handle_token": false
+        },
+        {
+            "name": "Login Missing Fields",
+            "request":{
+                "email": "kaedenle@gmail.com"
+            },
+            "expected_response":"ERROR",
+            "expected_response_body":{
+                "email": "kaedenle@gmail.com",
+                "UserID": "0"
+            },
+            "ADD":[
+                {
+                "UserID": "0",
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "password": "password",
+                "schedule":["jofdopafdsiojaf"],
+                "visited":["MSB"],
+                "favorite":["SU"],
+                "name": "kaeden le",
+                "timeTilExpire": 4534343,
+                "verificationCode": 1
+            }
+            ],
+            "GET":[
+            ],
+            "ignore_in_get":["tokens"],
+            "ignore_in_body":["tokens"],
+            "convert_to_set":["visited", "favorite", "schedule"],
+            "handle_token": false
+        },
+        {
+            "name": "Mismatch Password",
+            "request":{
+                "email": "kaedenle@gmail.com",
+                "password": "passwordf"
+            },
+            "expected_response":"ERROR",
+            "expected_response_body":{
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "password": "",
+                "schedule":["jofdopafdsiojaf"],
+                "visited":["MSB"],
+                "favorite":["SU"],
+                "name": "kaeden le",
+                "UserID": "0"
+            },
+            "ADD":[
+                {
+                "UserID": "0",
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "password": "password",
+                "schedule":["jofdopafdsiojaf"],
+                "visited":["MSB"],
+                "favorite":["SU"],
+                "name": "kaeden le"
+            }
+            ],
+            "GET":[
+            ],
+            "ignore_in_get":["tokens"],
+            "ignore_in_body":["tokens"],
+            "convert_to_set":["visited", "favorite", "schedule"],
+            "handle_token": false
+        }
+    ]
+}

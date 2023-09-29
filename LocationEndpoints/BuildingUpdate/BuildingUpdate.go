@@ -92,8 +92,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	//-----------------------------------------PACK RETURN VALUES-----------------------------------------
 	ret := make(map[string]interface{})
 	tokens := make(map[string]interface{})
-	updated := make(map[string]interface{})
-	attributevalue.UnmarshalMap(retValues.Attributes, &updated)
+	attributevalue.UnmarshalMap(retValues.Attributes, &ret)
 	if token != "" {
 		tokens["token"] = token
 	}
@@ -103,7 +102,6 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}
 
 	ret["tokens"] = tokens
-	ret["location"] = updated
 
 	js, err := json.Marshal(ret)
 	if err != nil {

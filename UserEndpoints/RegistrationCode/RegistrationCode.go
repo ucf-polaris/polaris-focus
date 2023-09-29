@@ -107,7 +107,6 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	//-----------------------------------------RESULTS PROCESSING-----------------------------------------
 	map_output := make(map[string]interface{})
-	ret := make(map[string]interface{})
 	tokens := make(map[string]interface{})
 
 	attributevalue.UnmarshalMap(output.Attributes, &map_output)
@@ -128,10 +127,9 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
-	ret["tokens"] = tokens
-	ret["User"] = map_output
+	map_output["tokens"] = tokens
 
-	js, err := json.Marshal(ret)
+	js, err := json.Marshal(map_output)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}

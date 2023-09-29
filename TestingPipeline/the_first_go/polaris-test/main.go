@@ -10,6 +10,7 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/aws/aws-sdk-go/aws"
@@ -35,6 +36,10 @@ var lambdaClient *lambdaCall.Lambda
 func init() {
 	//dynamo stuff
 	client, table = Helpers.ConstructDynamoHost()
+
+	if table == "" {
+		log.Fatal("missing environment variable TABLE_NAME")
+	}
 
 	//set up lambda client
 	//create session for lambda
@@ -77,10 +82,6 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}
 
 	codeStr := strconv.Itoa(query.Code)
-	//-----------------------------------------VAIDATE USER-----------------------------------------
-	if err := CheckIfValid(query.UserID); err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
-	}
 	//-----------------------------------------THE UPDATE CALL-----------------------------------------
 	//pass changes into update
 	item := make(map[string]types.AttributeValue)
@@ -94,28 +95,39 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		ExpressionAttributeValues: item,
 		TableName:                 aws.String(table),
 		Key:                       key,
-		UpdateExpression:          aws.String("remove resetCode, resetRequestExpireTime"),
-		ConditionExpression:       aws.String("resetCode = :code"),
+		ReturnValues:              types.ReturnValueAllNew,
+		UpdateExpression:          aws.String("remove timeTilExpire, verificationCode"),
+		ConditionExpression:       aws.String("verificationCode = :code"),
 	}
 
-	_, err = client.UpdateItem(context.Background(), input)
+	output, err := client.UpdateItem(context.Background(), input)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	//-----------------------------------------RESULTS PROCESSING-----------------------------------------
 	map_output := make(map[string]interface{})
-	map_output["success"] = true
+	tokens := make(map[string]interface{})
+
+	attributevalue.UnmarshalMap(output.Attributes, &map_output)
+	delete(map_output, "password")
+
+	if len(map_output) == 0 {
+		return Helpers.ResponseGeneration("code incorrect", http.StatusOK)
+	}
+
 	//-----------------------------------------CREATE TOKENS-----------------------------------------
-	map_output["token"], err = Helpers.CreateToken(lambdaClient, 15, "", 0)
+	tokens["token"], err = Helpers.CreateToken(lambdaClient, 15, "", 0)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
-	map_output["refreshToken"], err = Helpers.CreateToken(lambdaClient, 1440, "", 1)
+	tokens["refreshToken"], err = Helpers.CreateToken(lambdaClient, 15, "", 1)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
+
+	map_output["tokens"] = tokens
 
 	js, err := json.Marshal(map_output)
 	if err != nil {

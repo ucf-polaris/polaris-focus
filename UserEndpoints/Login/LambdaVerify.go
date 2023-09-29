@@ -64,12 +64,12 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	search := UserQuery{}
 	err := json.Unmarshal([]byte(request.Body), &search)
 	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	//error check username and pass
 	if search.Email == "" || search.Password == "" {
-		return Helpers.ResponseGeneration("field not set", http.StatusBadRequest)
+		return Helpers.ResponseGeneration("field not set", http.StatusOK)
 	}
 	//-----------------------------------------THE QUERY-----------------------------------------
 	//pass parameters into query
@@ -116,7 +116,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	} else {
 		ret, err = ConstructVerified(newUser, search.Password)
 		if err != nil {
-			return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
+			return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 		}
 	}
 

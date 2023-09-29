@@ -66,7 +66,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	search := Helpers.UnpackRequest(request.Body)
 
 	item, _, _, err := Helpers.ExtractFields(
-		[]string{"email", "username", "password", "name"},
+		[]string{"email", "password"},
 		search,
 		false,
 		false,
@@ -77,7 +77,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	//-----------------------------------------EXTRACT OPTIONAL FIELDS-----------------------------------------
 	optional_items, _, _, err := Helpers.ExtractFields(
-		[]string{"schedule", "favorite", "visited"},
+		[]string{"schedule", "favorite", "visited", "name", "username"},
 		search,
 		false,
 		true,
@@ -169,14 +169,12 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	//-----------------------------------------PACK RETURN VALUES-----------------------------------------
 	ret := make(map[string]interface{})
-	user := make(map[string]interface{})
 
-	user["UserID"] = uuid_new
-	user["email"] = search["email"].(string)
+	ret["UserID"] = uuid_new
+	ret["email"] = search["email"].(string)
 
 	ret["token"] = tokenRet
 	//put user fields in its own field (easier documentation)
-	ret["User"] = user
 
 	js, err := json.Marshal(ret)
 

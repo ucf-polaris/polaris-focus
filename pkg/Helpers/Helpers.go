@@ -112,7 +112,7 @@ func ExtractFields(fields []string, mapping map[string]interface{}, addColon boo
 	//3. successful
 	if failRet != "" {
 		return nil, "", nil, errors.New("items not in request: " + failRet)
-	} else if len(item) == 0 {
+	} else if len(item) == 0 && !allOptional {
 		return nil, "", nil, errors.New("no items found")
 	} else {
 		return item, query, mapQuery, nil

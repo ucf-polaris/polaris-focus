@@ -86,8 +86,8 @@ func TestHandler(t *testing.T) {
 					t.Errorf("Expected json response but got %v", response.Body)
 				}
 
-				if !Helpers.CompareBodies(expected, obtained, testCase.IgnoreJsonFields) {
-					t.Errorf("Expected json response %v, but got %v", testCase.ExpectedBody, response.Body)
+				if ok, exp, obt := Helpers.CompareBodies(expected, obtained, testCase.IgnoreJsonFields); !ok {
+					t.Errorf("Expected json response %v, but got %v", exp, obt)
 				} else {
 					t.Logf("Body returned " + response.Body)
 				}

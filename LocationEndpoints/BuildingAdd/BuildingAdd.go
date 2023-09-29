@@ -78,13 +78,16 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}
 	//-----------------------------------------PACK RETURN VALUES-----------------------------------------
 	ret := make(map[string]interface{})
+	tokens := make(map[string]interface{})
 	if token != "" {
-		ret["token"] = token
+		tokens["token"] = token
 	}
 
 	if rfsTkn != "" {
-		ret["refreshToken"] = rfsTkn
+		tokens["refreshToken"] = rfsTkn
 	}
+
+	ret["tokens"] = tokens
 
 	js, err := json.Marshal(ret)
 

@@ -5,12 +5,10 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"os"
 	"polaris-api/pkg/Helpers"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
@@ -21,15 +19,11 @@ var table string
 var client *dynamodb.Client
 
 func init() {
-	table = os.Getenv("TABLE_NAME")
+	client, table = Helpers.ConstructDynamoHost()
 
 	if table == "" {
 		log.Fatal("missing environment variable TABLE_NAME")
 	}
-
-	//create session for dynamodb
-	cfg, _ := config.LoadDefaultConfig(context.Background())
-	client = dynamodb.NewFromConfig(cfg)
 }
 
 func main() {
@@ -97,14 +91,19 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	//-----------------------------------------PACK RETURN VALUES-----------------------------------------
 	ret := make(map[string]interface{})
-	attributevalue.UnmarshalMap(retValues.Attributes, &ret)
+	tokens := make(map[string]interface{})
+	updated := make(map[string]interface{})
+	attributevalue.UnmarshalMap(retValues.Attributes, &updated)
 	if token != "" {
-		ret["token"] = token
+		tokens["token"] = token
 	}
 
 	if rfsTkn != "" {
-		ret["refreshToken"] = rfsTkn
+		tokens["refreshToken"] = rfsTkn
 	}
+
+	ret["tokens"] = tokens
+	ret["location"] = updated
 
 	js, err := json.Marshal(ret)
 	if err != nil {

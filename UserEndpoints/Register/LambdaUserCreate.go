@@ -150,15 +150,14 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	//-----------------------------------------PACK RETURN VALUES-----------------------------------------
 	ret := make(map[string]interface{})
+	user := make(map[string]interface{})
 
-	/*if Helpers.IsLambdaLocal() {
-		tokenRet = "token"
-		uuid_new = "0"
-	}*/
+	user["UserID"] = uuid_new
+	user["email"] = search["email"].(string)
 
 	ret["token"] = tokenRet
-	ret["UserID"] = uuid_new
-	ret["email"] = search["email"].(string)
+	//put user fields in its own field (easier documentation)
+	ret["User"] = user
 
 	js, err := json.Marshal(ret)
 

@@ -79,7 +79,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	keys[":EventsID"] = &types.AttributeValueMemberS{Value: uuid_new}
 
 	if errs != nil {
-		return Helpers.ResponseGeneration(errs.Error(), http.StatusBadRequest)
+		return Helpers.ResponseGeneration(errs.Error(), http.StatusOK)
 	}
 	//-----------------------------------------PUT INTO DATABASE-----------------------------------------
 
@@ -95,13 +95,17 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}
 	//-----------------------------------------PACK RETURN VALUES-----------------------------------------
 	ret := make(map[string]interface{})
+	tokens := make(map[string]interface{})
 	if token != "" {
-		ret["token"] = token
+		tokens["token"] = token
 	}
 
 	if rfsTkn != "" {
-		ret["refreshToken"] = rfsTkn
+		tokens["refreshToken"] = rfsTkn
 	}
+
+	ret["tokens"] = tokens
+	ret["EventID"] = uuid_new
 
 	js, err := json.Marshal(ret)
 

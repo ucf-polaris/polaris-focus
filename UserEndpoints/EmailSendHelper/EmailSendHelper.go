@@ -84,8 +84,16 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	log.Println(result)
 
 	ret := make(map[string]interface{})
-	ret["token"] = token
-	ret["refreshToken"] = refreshToken
+	tokens := make(map[string]interface{})
+	if token != "" {
+		tokens["token"] = token
+	}
+	if refreshToken != "" {
+		tokens["refreshToken"] = refreshToken
+	}
+
+	ret["tokens"] = tokens
+
 	js, _ = json.Marshal(ret)
 
 	return events.APIGatewayProxyResponse{StatusCode: http.StatusOK, Body: string(js), Headers: map[string]string{"content-type": "application/json"}}, nil

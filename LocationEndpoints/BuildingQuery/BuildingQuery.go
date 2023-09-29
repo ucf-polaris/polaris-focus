@@ -1,16 +1,13 @@
 package main
 
 import (
-	"context"
 	"encoding/json"
 	"log"
 	"net/http"
-	"os"
 	"polaris-api/pkg/Helpers"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 )
@@ -25,15 +22,11 @@ var table string
 var client *dynamodb.Client
 
 func init() {
-	table = os.Getenv("TABLE_NAME")
+	client, table = Helpers.ConstructDynamoHost()
 
 	if table == "" {
 		log.Fatal("missing environment variable TABLE_NAME")
 	}
-
-	//create session for dynamodb
-	cfg, _ := config.LoadDefaultConfig(context.Background())
-	client = dynamodb.NewFromConfig(cfg)
 }
 
 func main() {
@@ -86,13 +79,16 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	//-----------------------------------------PACK RETURN VALUES-----------------------------------------
 	ret := make(map[string]interface{})
+	tokens := make(map[string]interface{})
 	if token != "" {
-		ret["token"] = token
+		tokens["token"] = token
 	}
 
 	if rfsTkn != "" {
-		ret["refreshToken"] = rfsTkn
+		tokens["refreshToken"] = rfsTkn
 	}
+
+	ret["tokens"] = tokens
 
 	square_results, err := produceQueryResult(paginator)
 	if err != nil {
@@ -100,7 +96,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}
 
 	//-----------------------------------------FILTER BASED ON CIRCULAR RANGE-----------------------------------------
-	ret["results"] = filterByRadius(square_results, search.Radius, search.Lat, search.Long)
+	ret["locations"] = filterByRadius(square_results, search.Radius, search.Lat, search.Long)
 
 	js, err := json.Marshal(ret)
 	if err != nil {

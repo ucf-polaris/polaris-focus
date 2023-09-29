@@ -105,7 +105,8 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	//-----------------------------------------RESULTS PROCESSING-----------------------------------------
 	map_output := make(map[string]interface{})
-	map_output["success"] = true
+	ret := make(map[string]interface{})
+	ret["success"] = true
 	//-----------------------------------------CREATE TOKENS-----------------------------------------
 	map_output["token"], err = Helpers.CreateToken(lambdaClient, 15, "", 0)
 	if err != nil {
@@ -117,7 +118,9 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
-	js, err := json.Marshal(map_output)
+	ret["tokens"] = map_output
+
+	js, err := json.Marshal(ret)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}

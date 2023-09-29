@@ -108,7 +108,9 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	//-----------------------------------------PACK RESPONSE-----------------------------------------
 	ret := make(map[string]interface{})
 	attributevalue.UnmarshalMap(output.Attributes, &ret)
-	ret["token"] = tokenRet
+	ret["tokens"] = map[string]string{
+		"token": tokenRet,
+	}
 	ret["UserID"] = UserID
 
 	js, err = json.Marshal(ret)

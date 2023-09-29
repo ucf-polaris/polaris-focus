@@ -369,8 +369,7 @@ func AppendToken(M map[string]interface{}) map[string]interface{} {
 		"refreshToken": "rfsTkn",
 	}
 
-	M["token"] = "tkn"
-	M["refreshToken"] = "rfsTkn"
+	M["tokens"] = tokens
 
 	return tokens
 }

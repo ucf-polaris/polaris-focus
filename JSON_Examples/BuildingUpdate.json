@@ -1,0 +1,14 @@
+[
+    {
+        "BuildingLong": 54.34242424,
+        "BuildingLat": 34.5620942,
+        "BuildingDesc": "A building description",
+        "BuildingEvents": [],
+        "BuildingName": "A building name"
+    },
+    {
+        "BuildingDesc": "A building description",
+        "BuildingEvents": [],
+        "BuildingName": "A building name"
+    }
+]

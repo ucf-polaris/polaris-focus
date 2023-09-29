@@ -5,12 +5,11 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"os"
+	"polaris-api/pkg/Helpers"
 	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
@@ -25,20 +24,22 @@ type Claims struct {
 	jwt.RegisteredClaims
 }
 
+type CodeQuery struct {
+	UserID string `json:"UserID"`
+	Code   int    `json:"code,omitempty"`
+}
+
 var table string
 var client *dynamodb.Client
 var lambdaClient *lambdaCall.Lambda
 
 func init() {
 	//dynamo stuff
-	table = os.Getenv("TABLE_NAME")
+	client, table = Helpers.ConstructDynamoHost()
 
 	if table == "" {
 		log.Fatal("missing environment variable TABLE_NAME")
 	}
-
-	cfg, _ := config.LoadDefaultConfig(context.Background())
-	client = dynamodb.NewFromConfig(cfg)
 
 	//set up lambda client
 	//create session for lambda
@@ -49,89 +50,38 @@ func init() {
 
 }
 
-func createToken(timeTil int, userID string, mode float64) (string, error) {
-	//-----------------------------------------GET VARIABLES-----------------------------------------
-	JWTFields := make(map[string]interface{})
-
-	JWTFields["timeTil"] = timeTil
-	JWTFields["mode"] = mode
-
-	if userID != "" {
-		JWTFields["UserID"] = userID
-	}
-	//-----------------------------------------PACKAGE RESPONSE-----------------------------------------
-	payload, err := json.Marshal(JWTFields)
-	if err != nil {
-		return "", err
-	}
-
-	resultToken, err := lambdaClient.Invoke(&lambdaCall.InvokeInput{FunctionName: aws.String("token_create"), Payload: payload})
-	if err != nil {
-		return "", err
-	}
-
-	result_json := unpackRequest(string(resultToken.Payload))
-
-	token := result_json["token"].(string)
-
-	return token, nil
-}
-
-func unpackRequest(body string) map[string]interface{} {
-	if body == "" {
-		return nil
-	}
-
-	log.Println("body: ", body)
-
-	search := map[string]any{}
-	err := json.Unmarshal([]byte(body), &search)
-
-	if err != nil {
-		panic(err)
-	}
-
-	return search
-}
-
-func responseGeneration(msg string, status int) (events.APIGatewayProxyResponse, error) {
-	return events.APIGatewayProxyResponse{StatusCode: status, Body: "Error: " + msg}, nil
-}
-
 func main() {
 	lambda.Start(handler)
 }
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	//-----------------------------------------EXTRACT FIELDS-----------------------------------------
-	body := unpackRequest(request.Body)
-	log.Println(request.Body)
-	var code float64
-	var ok bool
 	var contextString string
-	var userID string
+	query := CodeQuery{}
+	ctxt := make(map[string]interface{})
+
+	err := json.Unmarshal([]byte(request.Body), &query)
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
+	}
 
 	if request.RequestContext.Authorizer != nil {
 		contextString = request.RequestContext.Authorizer["stringKey"].(string)
 		log.Println(contextString)
 	}
 
-	ctxt := map[string]any{}
 	json.Unmarshal([]byte(contextString), &ctxt)
 
 	//look for email from JWT first, if not there look in passed in body
-	if userID, ok = ctxt["UserID"].(string); !ok {
-		if userID, ok = body["UserID"].(string); !ok {
-			return responseGeneration("UserID field not set", http.StatusBadRequest)
-		}
+	if val, ok := ctxt["UserID"].(string); ok && query.UserID == "" {
+		query.UserID = val
 	}
 
-	if code, ok = body["code"].(float64); !ok {
-		return responseGeneration("code field not set", http.StatusBadRequest)
+	if query.Code == 0 {
+		return Helpers.ResponseGeneration("code field not set", http.StatusOK)
 	}
 
-	codeStr := strconv.Itoa(int(code))
-
+	codeStr := strconv.Itoa(query.Code)
 	//-----------------------------------------THE UPDATE CALL-----------------------------------------
 	//pass changes into update
 	item := make(map[string]types.AttributeValue)
@@ -139,7 +89,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	//who we're trying to find
 	key := make(map[string]types.AttributeValue)
-	key["UserID"] = &types.AttributeValueMemberS{Value: userID}
+	key["UserID"] = &types.AttributeValueMemberS{Value: query.UserID}
 
 	input := &dynamodb.UpdateItemInput{
 		ExpressionAttributeValues: item,
@@ -152,7 +102,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	output, err := client.UpdateItem(context.Background(), input)
 	if err != nil {
-		return responseGeneration(err.Error(), http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	//-----------------------------------------RESULTS PROCESSING-----------------------------------------
@@ -163,23 +113,23 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	log.Println(map_output)
 
 	if len(map_output) == 0 {
-		return responseGeneration("code incorrect", http.StatusBadRequest)
+		return Helpers.ResponseGeneration("code incorrect", http.StatusOK)
 	}
 
 	//-----------------------------------------CREATE TOKENS-----------------------------------------
-	map_output["token"], err = createToken(15, "", 0)
+	map_output["token"], err = Helpers.CreateToken(lambdaClient, 15, "", 0)
 	if err != nil {
-		return responseGeneration(err.Error(), http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
-	map_output["refreshToken"], err = createToken(1440, "", 1)
+	map_output["refreshToken"], err = Helpers.CreateToken(lambdaClient, 15, "", 1)
 	if err != nil {
-		return responseGeneration(err.Error(), http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	js, err := json.Marshal(map_output)
 	if err != nil {
-		return responseGeneration(err.Error(), http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	return events.APIGatewayProxyResponse{StatusCode: http.StatusOK, Body: string(js), Headers: map[string]string{"content-type": "application/json"}}, nil

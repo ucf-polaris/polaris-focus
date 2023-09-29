@@ -2,21 +2,21 @@ package main
 
 import (
 	"context"
-	"log"
-	"net/http"
 	"encoding/json"
 	"fmt"
+	"log"
+	"net/http"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
-	"github.com/aws/aws-sdk-go-v2/aws"
 )
 
 type Payload struct {
-	UserID		string		`json:UserID`
+	UserID string `json:"UserID"`
 }
 
 var table string
@@ -35,13 +35,13 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	// iniitalize the  payload structure
 	var payload Payload
 	// unmarshal the input and error check if something went wrong
-    err := json.Unmarshal([]byte(request.Body), &payload)
-    if err != nil {
-        return events.APIGatewayProxyResponse{
-            StatusCode: http.StatusBadRequest,
-            Body:       "Invalid input format",
-        }, nil
-    }
+	err := json.Unmarshal([]byte(request.Body), &payload)
+	if err != nil {
+		return events.APIGatewayProxyResponse{
+			StatusCode: http.StatusBadRequest,
+			Body:       "Invalid input format",
+		}, nil
+	}
 
 	// extract the user id from the payload
 	id := payload.UserID
@@ -49,7 +49,7 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	if id == "" {
 		return events.APIGatewayProxyResponse{
 			StatusCode: http.StatusBadRequest,
-			Body: "User ID is missing",
+			Body:       "User ID is missing",
 		}, nil
 	}
 
@@ -67,14 +67,14 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	if err != nil {
 		return events.APIGatewayProxyResponse{
 			StatusCode: http.StatusInternalServerError,
-			Body:		fmt.Sprintf("Error when deleting user from table, user may not exist"),
+			Body:       fmt.Sprintf("Error when deleting user from table, user may not exist"),
 		}, nil
 	}
 
 	// yay!
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusOK,
-		Body:		"User deleted successfully",
+		Body:       "User deleted successfully",
 	}, nil
 }
 

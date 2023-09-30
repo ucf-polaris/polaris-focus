@@ -1,0 +1,36 @@
+{
+    "schema":{
+        "keys":[],
+        "global_secondary_index":[],
+        "global_secondary_index_name": "",
+        "attributes":{
+
+        }
+    },
+    "test_cases": [
+        {
+            "name": "sample",
+            "request":{
+                "sampleRecord": "This field should be the body passed in before execution"
+            },
+            "expected_response":"",
+            "expected_response_body":{
+
+            },
+            "ignore_in_body":[],
+            "ADD":[
+                {
+                    "sampleRecord": "This field should be the records expected to ADD to database before execution"
+                }
+            ],
+            "GET":[
+                {
+                    "sampleRecord": "This field should be the records expected to GET in database"
+                }
+            ],
+            "ignore_in_get":[],
+            "convert_to_set":[],
+            "handle_token": true
+        }
+    ]
+}

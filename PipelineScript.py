@@ -30,7 +30,7 @@ def scan_directory(extension, current_location=""):
     return paths
 
 def prepare_delete():
-    direc = "TestingPipeline/the_first_go/polaris-test"
+    direc = "polaris-test/"
     for file in os.listdir(direc):
         if ".go" in file and file != "main_test.go":
             os.remove(direc + "/" + file)
@@ -59,7 +59,7 @@ def get_choice(max_items):
 
 def copy_all_go_files(directory, main):
     dirname = os.path.dirname(__file__)
-    main_file = os.path.join(dirname, 'TestingPipeline', 'the_first_go', 'polaris-test') + '/'
+    main_file = os.path.join(dirname, 'polaris-test') + '/'
     sep = "\\" if platform.system() == "Windows" else "/"
     
     #get all go files within directories below this one
@@ -77,7 +77,7 @@ def write_to_configs(file):
     json_object = json.dumps(dictionary, indent=4)
      
     # Writing to sample.json
-    with open("TestingPipeline/the_first_go/polaris-test/Helpers/configs.json", "w") as outfile:
+    with open("polaris-test/test-cases/configs.json", "w") as outfile:
         outfile.write(json_object)
         
 def main():
@@ -97,14 +97,14 @@ def main():
             choice = get_choice(len(dic))
         copy_all_go_files(dic[key_index[choice]], key_index[choice])
 
-        json_dict = scan_directory(".json", os.path.dirname(__file__) + "/TestingPipeline/the_first_go/polaris-test/Helpers")
+        json_dict = scan_directory(".json", os.path.dirname(__file__) + "/polaris-test/test-cases")
         json_key_index = output_file_menu("Test against what test case?", json_dict, first_run)
         if(first_run == True):
             json_choice = get_choice(len(json_dict))
 
         write_to_configs(json_key_index[json_choice])
 
-        os.chdir("TestingPipeline/the_first_go/polaris-test")
+        os.chdir("polaris-test")
         
         run_test()
         first_run = False

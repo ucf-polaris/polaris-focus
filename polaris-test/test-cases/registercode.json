@@ -1,0 +1,210 @@
+{
+    "schema":{
+        "keys":["UserID"],
+        "global_secondary_index":["email"],
+        "global_secondary_index_name": "email-index",
+        "attributes":{
+            "UserID": "S",
+            "email": "S"
+        }   
+    },
+    "test_cases": [
+        {
+            "name": "Successful Code",
+            "request":{
+                "UserID": "0",
+                "code": 50
+            },
+            "expected_response":"",
+            "expected_response_body":{
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "schedule":["jofdopafdsiojaf"],
+                "visited":["MSB"],
+                "favorite":["SU"],
+                "name": "kaeden le",
+                "UserID": "0"
+            },
+            "ADD":[
+                {
+                "UserID": "0",
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "password": "password",
+                "schedule":["jofdopafdsiojaf"],
+                "visited":["MSB"],
+                "favorite":["SU"],
+                "name": "kaeden le",
+                "timeTilExpire": 4534224,
+                "verificationCode": 50
+            }
+            ],
+            "GET":[
+                {
+                    "UserID": "0",
+                    "email": "kaedenle@gmail.com",
+                    "username": "kaedenle",
+                    "password": "password",
+                    "schedule":["jofdopafdsiojaf"],
+                    "visited":["MSB"],
+                    "favorite":["SU"],
+                    "name": "kaeden le"
+                }
+            ],
+            "ignore_in_get":["tokens"],
+            "ignore_in_body":["tokens"],
+            "convert_to_set":["visited", "favorite", "schedule"],
+            "handle_token": false
+        },
+        {
+            "name": "Wrong Code",
+            "request":{
+                "UserID": "0",
+                "code": 5
+            },
+            "expected_response":"ERROR",
+            "expected_response_body":{
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "password": "",
+                "schedule":["jofdopafdsiojaf"],
+                "visited":["MSB"],
+                "favorite":["SU"],
+                "name": "kaeden le",
+                "UserID": "0"
+            },
+            "ADD":[
+                {
+                "UserID": "0",
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "password": "password",
+                "schedule":["jofdopafdsiojaf"],
+                "visited":["MSB"],
+                "favorite":["SU"],
+                "name": "kaeden le",
+                "timeTilExpire": 4534224,
+                "verificationCode": 50
+            }
+            ],
+            "GET":[
+            ],
+            "ignore_in_get":["tokens"],
+            "ignore_in_body":["tokens"],
+            "convert_to_set":["visited", "favorite", "schedule"],
+            "handle_token": false
+        },
+        {
+            "name": "No User ID",
+            "request":{
+                "code": 5
+            },
+            "expected_response":"ERROR",
+            "expected_response_body":{
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "password": "",
+                "schedule":["jofdopafdsiojaf"],
+                "visited":["MSB"],
+                "favorite":["SU"],
+                "name": "kaeden le",
+                "UserID": "0"
+            },
+            "ADD":[
+                {
+                "UserID": "0",
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "password": "password",
+                "schedule":["jofdopafdsiojaf"],
+                "visited":["MSB"],
+                "favorite":["SU"],
+                "name": "kaeden le",
+                "timeTilExpire": 4534224,
+                "verificationCode": 50
+            }
+            ],
+            "GET":[
+            ],
+            "ignore_in_get":["tokens"],
+            "ignore_in_body":["tokens"],
+            "convert_to_set":["visited", "favorite", "schedule"],
+            "handle_token": false
+        },
+        {
+            "name": "No Code",
+            "request":{
+                "UserID": "0"
+            },
+            "expected_response":"ERROR",
+            "expected_response_body":{
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "password": "",
+                "schedule":["jofdopafdsiojaf"],
+                "visited":["MSB"],
+                "favorite":["SU"],
+                "name": "kaeden le",
+                "UserID": "0"
+            },
+            "ADD":[
+                {
+                "UserID": "0",
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "password": "password",
+                "schedule":["jofdopafdsiojaf"],
+                "visited":["MSB"],
+                "favorite":["SU"],
+                "name": "kaeden le",
+                "timeTilExpire": 4534224,
+                "verificationCode": 50
+            }
+            ],
+            "GET":[
+            ],
+            "ignore_in_get":["tokens"],
+            "ignore_in_body":["tokens"],
+            "convert_to_set":["visited", "favorite", "schedule"],
+            "handle_token": false
+        },
+        {
+            "name": "No matching user",
+            "request":{
+                "UserID": "1",
+                "code": 52
+            },
+            "expected_response":"ERROR",
+            "expected_response_body":{
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "password": "",
+                "schedule":["jofdopafdsiojaf"],
+                "visited":["MSB"],
+                "favorite":["SU"],
+                "name": "kaeden le",
+                "UserID": "0"
+            },
+            "ADD":[
+                {
+                "UserID": "0",
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "password": "password",
+                "schedule":["jofdopafdsiojaf"],
+                "visited":["MSB"],
+                "favorite":["SU"],
+                "name": "kaeden le",
+                "timeTilExpire": 4534224,
+                "verificationCode": 50
+            }
+            ],
+            "GET":[
+            ],
+            "ignore_in_get":["tokens"],
+            "ignore_in_body":["tokens"],
+            "convert_to_set":["visited", "favorite", "schedule"],
+            "handle_token": false
+        }
+    ]
+}

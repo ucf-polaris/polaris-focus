@@ -1,0 +1,55 @@
+{
+    "schema":{
+        "keys":["UserID"],
+        "global_secondary_index":[],
+        "global_secondary_index_name": "",
+        "attributes":{
+            "UserID": "S"
+        }
+    },
+    "test_cases": [
+        {
+            "name": "Add Multiple",
+            "request":{
+                "UserID":"0",
+                "locations": ["MSB", "SU", "BUSINESS"]
+            },
+            "expected_response":"",
+            "expected_response_body":{
+                "favorite": ["BUSINESS", "MSB", "SU"]
+            },
+            "ignore_in_body":[],
+            "ADD":[
+                {
+                    "UserID": "0",
+                    "favorite": []
+                }
+            ],
+            "ignore_in_get":[],
+            "convert_to_set":["favorite"],
+            "handle_token": true
+        },
+        {
+            "name": "Delete Multiple",
+            "request":{
+                "UserID":"0",
+                "mode": 1,
+                "locations": ["MSB", "SU"]
+            },
+            "expected_response":"",
+            "expected_response_body":{
+                "favorite": ["BUSINESS"]
+            },
+            "ignore_in_body":[],
+            "ADD":[
+                {
+                    "UserID": "0",
+                    "favorite": ["MSB", "SU", "BUSINESS"]
+                }
+            ],
+            "ignore_in_get":[],
+            "convert_to_set":["favorite"],
+            "handle_token": true
+        }
+    ]
+}

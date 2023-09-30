@@ -1,0 +1,116 @@
+{
+    "schema":{
+        "keys":["EventID"],
+        "global_secondary_index":["locationQueryID"],
+        "global_secondary_index_name": "locationQueryID-index",
+        "attributes":{
+            "EventID":"S",
+            "locationQueryID":"S"
+        }
+    },
+    "test_cases": [
+        {
+            "name": "Simple Query",
+            "request":{
+                "long": 1,
+                "lat": 1
+            },
+            "expected_response":"",
+            "expected_response_body":{
+                
+            },
+            "ignore_in_body":[],
+            "ADD":[
+                {
+                    "EventID":"0",
+                    "locationQueryID": "1 1",
+                    "name": "Party"
+                },
+                {
+                    "EventID":"6",
+                    "locationQueryID": "2 1",
+                    "name": "Fiesta"
+                },
+                {
+                    "EventID":"5",
+                    "locationQueryID": "1 1",
+                    "name": "Fortnite"
+                },{
+                    "EventID":"4",
+                    "locationQueryID": "2 1",
+                    "name": "Mario Odd"
+                }
+                ,{
+                    "EventID":"3",
+                    "locationQueryID": "1 1",
+                    "name": "Thousand Year Door"
+                }
+                ,{
+                    "EventID":"2",
+                    "locationQueryID": "1 1",
+                    "name": "Pokemon Diamond"
+                }
+                ,{
+                    "EventID":"1",
+                    "locationQueryID": "1 2",
+                    "name": "Joker"
+                }
+            ],
+            "GET":[
+            ],
+            "ignore_in_get":[],
+            "convert_to_set":[],
+            "handle_token": true
+        },
+        {
+            "name": "Large Query",
+            "request":{
+                "long": 1,
+                "lat": 1
+            },
+            "expected_response":"",
+            "expected_response_body":{
+                "results":[
+                    {
+                        "EventID":"1",
+                        "locationQueryID": "1 1",
+                        "name": "OooOoOOoooOoOoOoooOoooooOooOoOOOooOOOooOOoOOOoOOOOOOOOOooooOoooooOoooOOoOOooOoooOoOOoOOooOOOooOoOOOOoOOOoOooOOOoooOOOoOOOoOOOOOOoOoOOoooOooOOOoOOoOoOOOoooOOooOOOoOoooooOoooOoOOOOooOOOoOOoOoooOoOOOOoOoOOOooOOoOoOOoooOoOooOooooOoooOOOOOOoOOOOooOoOoOoooOOoooooOoOooOOoOoOoooOoooOOOooOOoOOOOOOOOOooOoOOOoooOoooOoOOOoOOoOoOooOOoOOOOOOOOOOOooOoooOOooOoOooooOoooOOoOoOooOoOoOOOoOooOOOooOOOOoooooOoOoOOOooOoOoOOOoooOOOOoOOoooOoOoooOOoooOOoOOOOoOOoooOooOooOOoOoOOoooOooooOooooOOooOOoOOOOOoOOOooOOoOOoOoooooOOoooOoOoooOoooooooOoOOOOOoOOoOooOOOoOooOOOOOoooooooOoooooOOOooOOOooOOOOoOOOooOoOoOoOOOoOoooOooOoOOoOoOOoOoOoOoooOoooOOooOOOoOooOOoooOooooOoOooooOooooooOoOOOoOOoooOooOOOOoOoOooOoOoooOOoOOoOOOoOoOoooooOOOoooooOooOoOOOoOooooOOooOOoooOOoOOoOOoOOOOOoOOOOoOOoOoooOoOOOoOOoOooOOOooOOOoOoOOOOOOooooooOoOooooooOooOOOoOOOOoOOoOOoooooooOoOooOooOooooOoooooOoOoooOOoOoooOooOOooOoOooooOOOOOOOOoOoOoooOOooOOOooOoOOooOOoOOoooOoooOooooOOooooOOoOOoooOoOoooOoOooOOOOoooOooOOooOoOOoOOOoOoOooooOoooOooOOOOoOoooOOooOoOooooooOOoOOoOOOooooOOoOoOoOooO"
+                    },
+                    {
+                        "EventID":"0",
+                        "locationQueryID": "1 1",
+                        "name": "OooOoOOoooOoOoOoooOoooooOooOoOOOooOOOooOOoOOOoOOOOOOOOOooooOoooooOoooOOoOOooOoooOoOOoOOooOOOooOoOOOOoOOOoOooOOOoooOOOoOOOoOOOOOOoOoOOoooOooOOOoOOoOoOOOoooOOooOOOoOoooooOoooOoOOOOooOOOoOOoOoooOoOOOOoOoOOOooOOoOoOOoooOoOooOooooOoooOOOOOOoOOOOooOoOoOoooOOoooooOoOooOOoOoOoooOoooOOOooOOoOOOOOOOOOooOoOOOoooOoooOoOOOoOOoOoOooOOoOOOOOOOOOOOooOoooOOooOoOooooOoooOOoOoOooOoOoOOOoOooOOOooOOOOoooooOoOoOOOooOoOoOOOoooOOOOoOOoooOoOoooOOoooOOoOOOOoOOoooOooOooOOoOoOOoooOooooOooooOOooOOoOOOOOoOOOooOOoOOoOoooooOOoooOoOoooOoooooooOoOOOOOoOOoOooOOOoOooOOOOOoooooooOoooooOOOooOOOooOOOOoOOOooOoOoOoOOOoOoooOooOoOOoOoOOoOoOoOoooOoooOOooOOOoOooOOoooOooooOoOooooOooooooOoOOOoOOoooOooOOOOoOoOooOoOoooOOoOOoOOOoOoOoooooOOOoooooOooOoOOOoOooooOOooOOoooOOoOOoOOoOOOOOoOOOOoOOoOoooOoOOOoOOoOooOOOooOOOoOoOOOOOOooooooOoOooooooOooOOOoOOOOoOOoOOoooooooOoOooOooOooooOoooooOoOoooOOoOoooOooOOooOoOooooOOOOOOOOoOoOoooOOooOOOooOoOOooOOoOOoooOoooOooooOOooooOOoOOoooOoOoooOoOooOOOOoooOooOOooOoOOoOOOoOoOooooOoooOooOOOOoOoooOOooOoOooooooOOoOOoOOOooooOOoOoOoOooO"
+                    },
+                    {
+                        "EventID":"2",
+                        "locationQueryID": "1 1",
+                        "name": "OooOoOOoooOoOoOoooOoooooOooOoOOOooOOOooOOoOOOoOOOOOOOOOooooOoooooOoooOOoOOooOoooOoOOoOOooOOOooOoOOOOoOOOoOooOOOoooOOOoOOOoOOOOOOoOoOOoooOooOOOoOOoOoOOOoooOOooOOOoOoooooOoooOoOOOOooOOOoOOoOoooOoOOOOoOoOOOooOOoOoOOoooOoOooOooooOoooOOOOOOoOOOOooOoOoOoooOOoooooOoOooOOoOoOoooOoooOOOooOOoOOOOOOOOOooOoOOOoooOoooOoOOOoOOoOoOooOOoOOOOOOOOOOOooOoooOOooOoOooooOoooOOoOoOooOoOoOOOoOooOOOooOOOOoooooOoOoOOOooOoOoOOOoooOOOOoOOoooOoOoooOOoooOOoOOOOoOOoooOooOooOOoOoOOoooOooooOooooOOooOOoOOOOOoOOOooOOoOOoOoooooOOoooOoOoooOoooooooOoOOOOOoOOoOooOOOoOooOOOOOoooooooOoooooOOOooOOOooOOOOoOOOooOoOoOoOOOoOoooOooOoOOoOoOOoOoOoOoooOoooOOooOOOoOooOOoooOooooOoOooooOooooooOoOOOoOOoooOooOOOOoOoOooOoOoooOOoOOoOOOoOoOoooooOOOoooooOooOoOOOoOooooOOooOOoooOOoOOoOOoOOOOOoOOOOoOOoOoooOoOOOoOOoOooOOOooOOOoOoOOOOOOooooooOoOooooooOooOOOoOOOOoOOoOOoooooooOoOooOooOooooOoooooOoOoooOOoOoooOooOOooOoOooooOOOOOOOOoOoOoooOOooOOOooOoOOooOOoOOoooOoooOooooOOooooOOoOOoooOoOoooOoOooOOOOoooOooOOooOoOOoOOOoOoOooooOoooOooOOOOoOoooOOooOoOooooooOOoOOoOOOooooOOoOoOoOooO"
+                    }
+                ]
+            },
+            "ignore_in_body":[],
+            "ADD":[
+                {
+                    "EventID":"0",
+                    "locationQueryID": "1 1",
+                    "name": "OooOoOOoooOoOoOoooOoooooOooOoOOOooOOOooOOoOOOoOOOOOOOOOooooOoooooOoooOOoOOooOoooOoOOoOOooOOOooOoOOOOoOOOoOooOOOoooOOOoOOOoOOOOOOoOoOOoooOooOOOoOOoOoOOOoooOOooOOOoOoooooOoooOoOOOOooOOOoOOoOoooOoOOOOoOoOOOooOOoOoOOoooOoOooOooooOoooOOOOOOoOOOOooOoOoOoooOOoooooOoOooOOoOoOoooOoooOOOooOOoOOOOOOOOOooOoOOOoooOoooOoOOOoOOoOoOooOOoOOOOOOOOOOOooOoooOOooOoOooooOoooOOoOoOooOoOoOOOoOooOOOooOOOOoooooOoOoOOOooOoOoOOOoooOOOOoOOoooOoOoooOOoooOOoOOOOoOOoooOooOooOOoOoOOoooOooooOooooOOooOOoOOOOOoOOOooOOoOOoOoooooOOoooOoOoooOoooooooOoOOOOOoOOoOooOOOoOooOOOOOoooooooOoooooOOOooOOOooOOOOoOOOooOoOoOoOOOoOoooOooOoOOoOoOOoOoOoOoooOoooOOooOOOoOooOOoooOooooOoOooooOooooooOoOOOoOOoooOooOOOOoOoOooOoOoooOOoOOoOOOoOoOoooooOOOoooooOooOoOOOoOooooOOooOOoooOOoOOoOOoOOOOOoOOOOoOOoOoooOoOOOoOOoOooOOOooOOOoOoOOOOOOooooooOoOooooooOooOOOoOOOOoOOoOOoooooooOoOooOooOooooOoooooOoOoooOOoOoooOooOOooOoOooooOOOOOOOOoOoOoooOOooOOOooOoOOooOOoOOoooOoooOooooOOooooOOoOOoooOoOoooOoOooOOOOoooOooOOooOoOOoOOOoOoOooooOoooOooOOOOoOoooOOooOoOooooooOOoOOoOOOooooOOoOoOoOooO"
+                },
+                {
+                    "EventID":"1",
+                    "locationQueryID": "1 1",
+                    "name": "OooOoOOoooOoOoOoooOoooooOooOoOOOooOOOooOOoOOOoOOOOOOOOOooooOoooooOoooOOoOOooOoooOoOOoOOooOOOooOoOOOOoOOOoOooOOOoooOOOoOOOoOOOOOOoOoOOoooOooOOOoOOoOoOOOoooOOooOOOoOoooooOoooOoOOOOooOOOoOOoOoooOoOOOOoOoOOOooOOoOoOOoooOoOooOooooOoooOOOOOOoOOOOooOoOoOoooOOoooooOoOooOOoOoOoooOoooOOOooOOoOOOOOOOOOooOoOOOoooOoooOoOOOoOOoOoOooOOoOOOOOOOOOOOooOoooOOooOoOooooOoooOOoOoOooOoOoOOOoOooOOOooOOOOoooooOoOoOOOooOoOoOOOoooOOOOoOOoooOoOoooOOoooOOoOOOOoOOoooOooOooOOoOoOOoooOooooOooooOOooOOoOOOOOoOOOooOOoOOoOoooooOOoooOoOoooOoooooooOoOOOOOoOOoOooOOOoOooOOOOOoooooooOoooooOOOooOOOooOOOOoOOOooOoOoOoOOOoOoooOooOoOOoOoOOoOoOoOoooOoooOOooOOOoOooOOoooOooooOoOooooOooooooOoOOOoOOoooOooOOOOoOoOooOoOoooOOoOOoOOOoOoOoooooOOOoooooOooOoOOOoOooooOOooOOoooOOoOOoOOoOOOOOoOOOOoOOoOoooOoOOOoOOoOooOOOooOOOoOoOOOOOOooooooOoOooooooOooOOOoOOOOoOOoOOoooooooOoOooOooOooooOoooooOoOoooOOoOoooOooOOooOoOooooOOOOOOOOoOoOoooOOooOOOooOoOOooOOoOOoooOoooOooooOOooooOOoOOoooOoOoooOoOooOOOOoooOooOOooOoOOoOOOoOoOooooOoooOooOOOOoOoooOOooOoOooooooOOoOOoOOOooooOOoOoOoOooO"
+                },
+                {
+                    "EventID":"2",
+                    "locationQueryID": "1 1",
+                    "name": "OooOoOOoooOoOoOoooOoooooOooOoOOOooOOOooOOoOOOoOOOOOOOOOooooOoooooOoooOOoOOooOoooOoOOoOOooOOOooOoOOOOoOOOoOooOOOoooOOOoOOOoOOOOOOoOoOOoooOooOOOoOOoOoOOOoooOOooOOOoOoooooOoooOoOOOOooOOOoOOoOoooOoOOOOoOoOOOooOOoOoOOoooOoOooOooooOoooOOOOOOoOOOOooOoOoOoooOOoooooOoOooOOoOoOoooOoooOOOooOOoOOOOOOOOOooOoOOOoooOoooOoOOOoOOoOoOooOOoOOOOOOOOOOOooOoooOOooOoOooooOoooOOoOoOooOoOoOOOoOooOOOooOOOOoooooOoOoOOOooOoOoOOOoooOOOOoOOoooOoOoooOOoooOOoOOOOoOOoooOooOooOOoOoOOoooOooooOooooOOooOOoOOOOOoOOOooOOoOOoOoooooOOoooOoOoooOoooooooOoOOOOOoOOoOooOOOoOooOOOOOoooooooOoooooOOOooOOOooOOOOoOOOooOoOoOoOOOoOoooOooOoOOoOoOOoOoOoOoooOoooOOooOOOoOooOOoooOooooOoOooooOooooooOoOOOoOOoooOooOOOOoOoOooOoOoooOOoOOoOOOoOoOoooooOOOoooooOooOoOOOoOooooOOooOOoooOOoOOoOOoOOOOOoOOOOoOOoOoooOoOOOoOOoOooOOOooOOOoOoOOOOOOooooooOoOooooooOooOOOoOOOOoOOoOOoooooooOoOooOooOooooOoooooOoOoooOOoOoooOooOOooOoOooooOOOOOOOOoOoOoooOOooOOOooOoOOooOOoOOoooOoooOooooOOooooOOoOOoooOoOoooOoOooOOOOoooOooOOooOoOOoOOOoOoOooooOoooOooOOOOoOoooOOooOoOooooooOOoOOoOOOooooOOoOoOoOooO"
+                }
+            ],
+            "GET":[
+            ],
+            "ignore_in_get":[],
+            "convert_to_set":[],
+            "handle_token": true
+        }
+    ]
+}

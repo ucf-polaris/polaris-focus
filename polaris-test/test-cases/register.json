@@ -1,0 +1,151 @@
+{
+    "schema":{
+        "keys":["UserID"],
+        "global_secondary_index":["email"],
+        "global_secondary_index_name": "email-index",
+        "attributes":{
+            "UserID": "S",
+            "email": "S"
+        }   
+    },
+    "test_cases": [
+        {
+            "name": "Successful Add",
+            "request":{
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "password": "password",
+                "schedule":["jofdopafdsiojaf"],
+                "name": "kaeden le",
+                "visited":["MSB"],
+                "favorite":["SU"]
+            },
+            "expected_response":"",
+            "expected_response_body":{
+                "email": "kaedenle@gmail.com"
+            },
+            "ADD":[
+            ],
+            "GET":[
+                {
+                    "email": "kaedenle@gmail.com",
+                    "username": "kaedenle",
+                    "password": "password",
+                    "schedule":["jofdopafdsiojaf"],
+                    "visited":["MSB"],
+                    "favorite":["SU"],
+                    "name": "kaeden le"
+                }
+            ],
+            "ignore_in_get":["UserID", "timeTilExpire", "verificationCode"],
+            "ignore_in_body":["token", "UserID"],
+            "convert_to_set":[],
+            "handle_token": false
+        },
+        {
+            "name": "Sets Empty",
+            "request":{
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "password": "password",
+                "schedule":[],
+                "name": "kaeden le",
+                "visited":[],
+                "favorite":[]
+            },
+            "expected_response":"",
+            "expected_response_body":{
+                "email": "kaedenle@gmail.com"
+            },
+            "ADD":[
+            ],
+            "GET":[
+                {
+                    "email": "kaedenle@gmail.com",
+                    "username": "kaedenle",
+                    "password": "password",
+                    "name": "kaeden le"
+                }
+            ],
+            "ignore_in_get":["UserID", "timeTilExpire", "verificationCode"],
+            "ignore_in_body":["token", "UserID"],
+            "convert_to_set":[],
+            "handle_token": false
+        },
+        {
+            "name": "Missing Required Fields",
+            "request":{
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "name": "kaeden le"
+            },
+            "expected_response":"ERROR",
+            "expected_response_body":{
+            },
+            "ADD":[
+            ],
+            "GET":[
+            ],
+            "ignore_in_get":[],
+            "ignore_in_body":[],
+            "convert_to_set":[],
+            "handle_token": false
+        },
+        {
+            "name": "Missing Optional Fields",
+            "request":{
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "password": "password",
+                "name": "kaeden le"
+            },
+            "expected_response":"",
+            "expected_response_body":{
+                "email": "kaedenle@gmail.com"
+            },
+            "ADD":[
+            ],
+            "GET":[
+                {
+                    "email": "kaedenle@gmail.com",
+                    "username": "kaedenle",
+                    "password": "password",
+                    "name": "kaeden le"
+                }
+            ],
+            "ignore_in_get":["UserID", "timeTilExpire", "verificationCode"],
+            "ignore_in_body":["token", "UserID"],
+            "convert_to_set":[],
+            "handle_token": false
+        },
+        {
+            "name": "Missing Optional Fields: Mix and Match",
+            "request":{
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "schedule": ["potato"],
+                "password": "password",
+                "name": "kaeden le"
+            },
+            "expected_response":"",
+            "expected_response_body":{
+                "email": "kaedenle@gmail.com"
+            },
+            "ADD":[
+            ],
+            "GET":[
+                {
+                    "email": "kaedenle@gmail.com",
+                    "username": "kaedenle",
+                    "password": "password",
+                    "name": "kaeden le",
+                    "schedule": ["potato"]
+                }
+            ],
+            "ignore_in_get":["UserID", "timeTilExpire", "verificationCode"],
+            "ignore_in_body":["token", "UserID"],
+            "convert_to_set":["schedule"],
+            "handle_token": false
+        }
+    ]
+}

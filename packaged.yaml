@@ -14,7 +14,7 @@ Resources:
       FunctionName: location_add_sam
       Handler: BuildingAdd
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/d5055e5bf13af2408aa09525746decf3
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/3a1ef48b4976448115f9d1c79ff35593
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -40,7 +40,7 @@ Resources:
       FunctionName: building_get_sam
       Handler: BuildingGet
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/20feb41d097bb78afa501741c376a995
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/c647af493502f21fd308760319c72ac2
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -66,7 +66,7 @@ Resources:
       FunctionName: building_update_sam
       Handler: BuildingUpdate
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/3ba7ef0a57f248cf2b77184f6813dfd4
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/a1fcf0076e63337b237b09bc041f676e
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -92,7 +92,7 @@ Resources:
       FunctionName: building_delete_sam
       Handler: BuildingDelete
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/898514fbab87aef8292d4a5d84f115ca
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/3d3835ee16c5f6f89895f6a93f1e47e8
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -118,7 +118,7 @@ Resources:
       FunctionName: location_query_sam
       Handler: BuildingQuery
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/4fd968603363f54374af35a03ddb1d34
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/f63c11376ad05bd5d2b52439ba9ad7c6
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -144,7 +144,7 @@ Resources:
       FunctionName: event_get_sam
       Handler: EventGet
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/942afdc923bc45237af2510795600a7a
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/49b16bdac1ef2a2159653074b65935e7
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -170,7 +170,7 @@ Resources:
       FunctionName: event_add_sam
       Handler: EventsAdd
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/57f872bd5eba45543eda71899cc78485
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/c0f89cd339968f6916b8fd443493f98b
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -196,7 +196,7 @@ Resources:
       FunctionName: event_update_sam
       Handler: EventsUpdate
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/df7ef317df002f59d1387693c1539ec7
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/84624cc079946aa938520553681b8c16
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -222,7 +222,7 @@ Resources:
       FunctionName: event_query_sam
       Handler: EventsQuery
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/b49ab94e39b6f6ebf725e17e48f3cdf3
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/0dcb2ada4067f4d17436d670df7d76de
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -248,7 +248,7 @@ Resources:
       FunctionName: event_delete_sam
       Handler: EventDelete
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/ef74cd6ead84193dfee33945dc9e11ae
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/5ba1e6d07bc842cab4bab933c5c38fa7
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -274,7 +274,7 @@ Resources:
       FunctionName: user_registration_code_sam
       Handler: RegistrationCode
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/8a98141babf82a374dae91a0a8522874
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/626dc5ebf8e7c01881697b0ed279f999
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -300,7 +300,7 @@ Resources:
       FunctionName: user_register_sam
       Handler: LambdaUserCreate
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/5ad5d068a060a177f0c9077846bdd3e3
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/da53463cc9fe83fc0a8332565c5aeffa
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -326,7 +326,7 @@ Resources:
       FunctionName: user_verify_sam
       Handler: LambdaVerify
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/3a50fd1e1a3a2daa3f2ca0a414ea0917
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/3d44d784f807584335f24093a4c6b963
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -352,7 +352,7 @@ Resources:
       FunctionName: user_get_sam
       Handler: UserGet
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/5499b277a3be680c91c47306298c0505
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/fd4a523bdb021d43bc4dae0ace127825
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -378,7 +378,7 @@ Resources:
       FunctionName: user_update_sam
       Handler: UserUpdate
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/7a9e69a7768d4310dcf8eb027e2539f3
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/c66ffd23d9f078c40a9f35163b7d3e41
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -404,7 +404,7 @@ Resources:
       FunctionName: user_delete_sam
       Handler: UserDelete
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/8f619098a2687523e11a7e1f1573101e
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/b318f5bb9f77eda6476dc1937fe020b3
       MemorySize: 256
       Timeout: 10
       Policies:

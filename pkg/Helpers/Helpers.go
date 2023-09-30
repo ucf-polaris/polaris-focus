@@ -265,3 +265,10 @@ func CreateToken(lambdaClient *lambdaCall.Lambda, timeTil int, userID string, mo
 
 	return token, nil
 }
+
+func MergeMaps(M1 map[string]types.AttributeValue, M2 map[string]types.AttributeValue) map[string]types.AttributeValue {
+	for k, v := range M2 {
+		M1[k] = v
+	}
+	return M1
+}

@@ -39,10 +39,22 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	search := Helpers.UnpackRequest(request.Body)
 
 	item, _, _, err := Helpers.ExtractFields(
-		[]string{"BuildingLong", "BuildingLat", "BuildingDesc", "BuildingEvents", "BuildingName"},
+		[]string{"BuildingLong", "BuildingLat", "BuildingDesc", "BuildingName"},
 		search,
 		false,
 		false)
+
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
+	}
+
+	optional_item, _, _, err := Helpers.ExtractFields(
+		[]string{"BuildingEvents"},
+		search,
+		false,
+		true)
+
+	item = Helpers.MergeMaps(item, optional_item)
 
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)

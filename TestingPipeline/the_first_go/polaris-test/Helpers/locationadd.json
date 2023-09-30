@@ -37,6 +37,7 @@
                 }
             ],
             "ignore_in_get":[],
+            "convert_to_set":["BuildingEvents"],
             "handle_token": true
         },
         {
@@ -68,6 +69,7 @@
             "GET":[
             ],
             "ignore_in_get":[],
+            "convert_to_set":["BuildingEvents"],
             "handle_token": true
         },
         {
@@ -89,6 +91,7 @@
             "GET":[
             ],
             "ignore_in_get":[],
+            "convert_to_set":["BuildingEvents"],
             "handle_token": true
         },
         {
@@ -120,6 +123,7 @@
             "GET":[
             ],
             "ignore_in_get":[],
+            "convert_to_set":["BuildingEvents"],
             "handle_token": true
         },
         {
@@ -152,6 +156,34 @@
                 }
             ],
             "ignore_in_get":[],
+            "convert_to_set":["BuildingEvents"],
+            "handle_token": true
+        },
+        {
+            "name": "Optional Key Schema",
+            "request":{
+                "BuildingLong": 1,
+                "BuildingLat": 1,
+                "BuildingDesc": "An old historical building",
+                "BuildingName": "MSB"
+            },
+            "expected_response":"",
+            "expected_response_body":{
+
+            },
+            "ignore_in_body":[],
+            "ADD":[
+            ],
+            "GET":[
+                {
+                    "BuildingLong": 1,
+                    "BuildingLat": 1,
+                    "BuildingDesc": "An old historical building",
+                    "BuildingName": "MSB"
+                }
+            ],
+            "ignore_in_get":[],
+            "convert_to_set":["BuildingEvents"],
             "handle_token": true
         }
     ]

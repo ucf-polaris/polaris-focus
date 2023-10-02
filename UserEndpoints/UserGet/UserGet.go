@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"encoding/json"
 	"fmt"
+	"polaris-api/pkg/Helpers"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
@@ -17,86 +17,102 @@ import (
 )
 
 type User struct {
-	UserID           string   `json:"UserID"`
+	UserID           string   `json:"UserID,omitempty"`
 	Email            string   `json:"email"`
-	Password         string   `json:"password"`
+	Password         string   `json:"password,omitempty"`
 	Schedule         []string `json:"schedule"`
 	Username         string   `json:"username"`
 	Name             string   `json:"name"`
 }
 type Payload struct {
-	UserID			string		`json:"UserID"`
+	Email			string		`json:"email"`
 }
+type Response struct {
+	Users []User `json:"users"`
+	Tokens Tokens  `json:"tokens"`
+}
+
+type Tokens struct {
+	Token        string `json:"token,omitempty"`
+	RefreshToken string `json:"refreshToken,omitempty"`
+}
+
 var table string
-var db *dynamodb.Client
+var client *dynamodb.Client
 
 func init() {
-	table = "Users"
-	cfg, err := config.LoadDefaultConfig(context.Background())
-	if err != nil {
-		log.Fatalf("Failed to load config, %v", err)
+	client, table = Helpers.ConstructDynamoHost()
+
+	if table == "" {
+		log.Fatal("missing environment variable TABLE_NAME")
 	}
-	db = dynamodb.NewFromConfig(cfg)
 }
 
-func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	var payload Payload
-	err := json.Unmarshal([]byte(request.Body), &payload)
+func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	token, refreshToken, err := Helpers.GetTokens(request)
 	if err != nil {
-		return events.APIGatewayProxyResponse{
-			StatusCode: http.StatusBadRequest,
-			Body:		"Invalid input format",
-		}, nil
+		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
 	}
-	id := payload.UserID
+
+	var payload Payload
+    err = json.Unmarshal([]byte(request.Body), &payload)
+    if err != nil {
+        return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
+    }
+	email := payload.Email
 
 	// Fetch the user in the form of a go struct from the database
-	usr, err := getUserByID(ctx, id)
+	usr, err := getUserByEmail(context.Background(), email)
 	// If an error came up, early exit and return the error
 	if err != nil {
-		log.Printf("Error: %v", err)
-		return events.APIGatewayProxyResponse{
-			StatusCode: http.StatusInternalServerError,
-			Body:		fmt.Sprintf("Error fetching user data: %v", err),
-		}, err
+		return Helpers.ResponseGeneration(fmt.Sprintf("fetching user data: %v", err), http.StatusBadRequest)
 	}
 
 	// If the user didn't end up existing, return that information to the user
 	if usr == nil {
-		return events.APIGatewayProxyResponse {
-			StatusCode: http.StatusBadRequest,
-			Body: 		"User not found in table",
-		}, nil
+		return Helpers.ResponseGeneration("User not found in table", http.StatusBadRequest)
+	}
+
+	tokens := Tokens{
+		Token:			token,
+		RefreshToken: 	refreshToken,
+	}
+
+	ret := Response{
+		Users: usr,
+		Tokens: tokens,
 	}
 
 	// Convert the user go struct to a json for return
-	usrJSON, err := json.Marshal(usr)
+	usrJSON, err := json.Marshal(ret)
 	// If marshaling failed, early exit
 	if err != nil {
-		return events.APIGatewayProxyResponse{
-			StatusCode: http.StatusInternalServerError,
-			Body: 		"Error converting user data to JSON",
-		}, err
+		return Helpers.ResponseGeneration("when marshaling data", http.StatusBadRequest)
 	}
 
 	// Return the user info in the form of a stringified JSON
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusOK,
 		Body: 		string(usrJSON),
+		Headers:    map[string]string{"content-type": "application/json"},
 	}, nil
 }
 
-func getUserByID(ctx context.Context, userID string) (*User, error) {
-	// Construct the get item input given the user ID provided
-	inp := &dynamodb.GetItemInput{
-		TableName: aws.String(table),
-		Key: map[string]types.AttributeValue{
-			"UserID": &types.AttributeValueMemberS{Value: userID},
+func getUserByEmail(ctx context.Context, email string) ([]User, error) {
+	// Construct the get item input given the Event ID provided
+	inp := &dynamodb.QueryInput{
+		TableName:                aws.String(table),
+		IndexName:                aws.String("email-index"),
+		KeyConditionExpression:   aws.String("email = :email"),
+		ExpressionAttributeValues: map[string]types.AttributeValue{
+			":email":     &types.AttributeValueMemberS{Value: email},
 		},
+		ProjectionExpression: aws.String("UserID, email, schedule, username, #name"),
+		ExpressionAttributeNames: map[string]string{"#name": "name"},
 	}
 
 	// Try to query dynamodb with this get item
-	output, err := db.GetItem(ctx, inp)
+	output, err := client.Query(ctx, inp)
 
 	// Return the error if it fails
 	if err != nil {
@@ -104,13 +120,13 @@ func getUserByID(ctx context.Context, userID string) (*User, error) {
 	}
 
 	// Return nil if the item didn't end up existing
-	if output.Item == nil {
+	if output.Count == 0 {
 		return nil, nil
 	}
 
 	// construct the go struct from dynamo's item
-	usr := &User{}
-	err = attributevalue.UnmarshalMap(output.Item, usr)
+	usr := []User{}
+	err = attributevalue.UnmarshalListOfMaps(output.Items, &usr)
 	if err != nil { // if this failed, early exit
 		return nil, err
 	}

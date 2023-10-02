@@ -1,0 +1,74 @@
+{
+    "schema":{
+        "keys":["EventID"],
+        "global_secondary_index":["name", "dateTime"],
+        "global_secondary_index_name": "name-dateTime-index",
+        "attributes":{
+            "EventID": "S",
+            "name": "S",
+            "dateTime": "S"
+        }
+    },
+    "test_cases": [
+        {
+            "name": "Delete existing event",
+            "request":{
+                "name": "some event here",
+                "dateTime": "1"
+            },
+            "expected_response":"",
+            "expected_response_body":{
+
+            },
+            "ignore_in_body":[],
+            "ADD":[
+                {
+                    "location": {
+                        "BuildingLong": 1,
+                        "BuildingLat": 1.135325242532
+                    },
+                    "name": "some event here",
+                    "dateTime": "1",
+                    "description": "Heckle an old lady with dementia",
+                    "host": "Some guy with a phone camera",
+                    "EventID": "0"
+                }
+            ],
+            "GET":[
+            ],
+            "ignore_in_get":[],
+            "convert_to_set":[],
+            "handle_token": true
+        },
+        {
+            "name": "Delete non-existent event",
+            "request":{
+                "name": "some event that isn't here",
+                "dateTime": "0"
+            },
+            "expected_response":"",
+            "expected_response_body":{
+
+            },
+            "ignore_in_body":[],
+            "ADD":[
+                {
+                    "location": {
+                        "BuildingLong": 1,
+                        "BuildingLat": 1.135325242532
+                    },
+                    "name": "The Republican Bitch @ UCF Library",
+                    "dateTime": "1",
+                    "description": "Heckle an old lady with dementia",
+                    "host": "Some guy with a phone camera",
+                    "EventID": "0"
+                }
+            ],
+            "GET":[
+            ],
+            "ignore_in_get":[],
+            "convert_to_set":[],
+            "handle_token": true
+        }
+    ]
+}

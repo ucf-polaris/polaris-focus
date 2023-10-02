@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"encoding/json"
 	"fmt"
+	"polaris-api/pkg/Helpers"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
@@ -28,65 +28,76 @@ type Payload struct {
 	BuildingLat		float64		`json:"BuildingLat"`
 }
 
-var table string
-var db *dynamodb.Client
-
-func init() {
-	table = "Buildings"
-	cfg, err := config.LoadDefaultConfig(context.Background())
-	if err != nil {
-		log.Fatalf("Failed to load config, %v", err)
-	}
-	db = dynamodb.NewFromConfig(cfg)
+type Response struct {
+	Building Building `json:"building"`
+	Tokens Tokens  `json:"tokens"`
 }
 
-func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	var payload Payload
+type Tokens struct {
+	Token        string `json:"token,omitempty"`
+	RefreshToken string `json:"refreshToken,omitempty"`
+}
 
-    err := json.Unmarshal([]byte(request.Body), &payload)
+var table string
+var client *dynamodb.Client
+
+func init() {
+	client, table = Helpers.ConstructDynamoHost()
+
+	if table == "" {
+		log.Fatal("missing environment variable TABLE_NAME")
+	}
+}
+
+func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	token, refreshToken, err := Helpers.GetTokens(request)
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
+	}
+
+	var payload Payload
+    err = json.Unmarshal([]byte(request.Body), &payload)
     if err != nil {
-        return events.APIGatewayProxyResponse{
-            StatusCode: http.StatusBadRequest,
-            Body:       "Invalid input format",
-        }, nil
+        return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
     }
 
     bLong := payload.BuildingLong
     bLat := payload.BuildingLat
 
 	// Fetch the building in the form of a go struct from the database
-	building, err := getBuildingByLongLat(ctx, bLong, bLat)
+	building, err := getBuildingByLongLat(context.Background(), bLong, bLat)
 	// If an error came up, early exit and return the error
 	if err != nil {
-		log.Printf("Error: %v", err)
-		return events.APIGatewayProxyResponse{
-			StatusCode: http.StatusInternalServerError,
-			Body:		fmt.Sprintf("Error fetching building data: %v", err),
-		}, err
+		return Helpers.ResponseGeneration(fmt.Sprintf("fetching building data: %v", err), http.StatusBadRequest)
 	}
 
 	// If the building didn't end up existing, return that information to the caller
 	if building == nil {
-		return events.APIGatewayProxyResponse {
-			StatusCode: http.StatusBadRequest,
-			Body: 		"Building not found in table",
-		}, nil
+		return Helpers.ResponseGeneration("Building not found in table", http.StatusBadRequest)
+	}
+
+	tokens := Tokens{
+		Token:			token,
+		RefreshToken: 	refreshToken,
+	}
+
+	ret := Response{
+		Building: *building,
+		Tokens: tokens,
 	}
 
 	// Convert the building go struct to a json for return
-	buildingJSON, err := json.Marshal(building)
+	buildingJSON, err := json.Marshal(ret)
 	// If marshaling failed, early exit
 	if err != nil {
-		return events.APIGatewayProxyResponse{
-			StatusCode: http.StatusInternalServerError,
-			Body: 		"Error converting building data to JSON",
-		}, err
+		return Helpers.ResponseGeneration("when marshaling data", http.StatusBadRequest)
 	}
 
 	// Return the building info in the form of a stringified JSON
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusOK,
-		Body: 		string(buildingJSON),
+		Body:       string(buildingJSON),
+		Headers:    map[string]string{"content-type": "application/json"},
 	}, nil
 }
 
@@ -101,7 +112,7 @@ func getBuildingByLongLat(ctx context.Context, BuildingLong float64, BuildingLat
 	}
 
 	// Try to query dynamodb with this get item
-	output, err := db.GetItem(ctx, inp)
+	output, err := client.GetItem(ctx, inp)
 
 	// Return the error if it fails
 	if err != nil {
@@ -112,7 +123,6 @@ func getBuildingByLongLat(ctx context.Context, BuildingLong float64, BuildingLat
 	if output.Item == nil {
 		return nil, nil
 	}
-	log.Printf("Dynamo return: %v", output.Item)
 	// construct the go struct from dynamo's item
 	building := &Building{}
 	err = attributevalue.UnmarshalMap(output.Item, building)

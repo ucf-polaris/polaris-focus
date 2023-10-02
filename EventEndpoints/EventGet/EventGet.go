@@ -107,7 +107,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	eventJSON, err := json.Marshal(ret)
 	// If marshaling failed, early exit
 	if err != nil {
-		return Helpers.ResponseGeneration("Event not found in table", http.StatusBadRequest)
+		return Helpers.ResponseGeneration("when marshaling data", http.StatusBadRequest)
 	}
 
 	// Return the Event info in the form of a stringified JSON

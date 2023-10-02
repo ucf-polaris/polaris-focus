@@ -6,11 +6,11 @@ import (
 	"net/http"
 	"fmt"
 	"log"
+	"polaris-api/pkg/Helpers"
+	"strings"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/aws/aws-sdk-go-v2/config"
-	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/aws/aws-sdk-go/aws"
@@ -29,122 +29,83 @@ type Event struct {
 	Name            string          `json:"name"`
 }
 type Payload struct {
-	EventID		string		`json:"EventID"`
+	Name     string `json:"name"`
+	DateTime string `json:"dateTime"`
+}
+type Response struct {
+	Tokens Tokens  `json:"tokens"`
+}
+type Tokens struct {
+	Token        string `json:"token,omitempty"`
+	RefreshToken string `json:"refreshToken,omitempty"`
 }
 
+// 1. use table and client as variable names
 var table string
 var client *dynamodb.Client
 
 func init() {
-	table = "Events"
-	cfg, err := config.LoadDefaultConfig(context.Background())
-	if err != nil {
-		log.Fatalf("Failed to load config, %v", err)
+	// 2. Use the helper function for dynamodb host
+	client, table = Helpers.ConstructDynamoHost()
+
+	// 3. error checking on env variables
+	if table == "" {
+		log.Fatal("missing environment variable TABLE_NAME")
 	}
-	client = dynamodb.NewFromConfig(cfg)
 }
 
-func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	// iniitalize the payload structure
+// 4. only request in parameters, replace ctx to context.Background()
+func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	// 5. Add tokens
+	token, refreshToken, err := Helpers.GetTokens(request)
+	// 6. Proper error checking
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
+	}
+
 	var payload Payload
-	// unmarshal the input and error check if something went wrong
-    err := json.Unmarshal([]byte(request.Body), &payload)
-    if err != nil {
-        return events.APIGatewayProxyResponse{
-            StatusCode: http.StatusBadRequest,
-            Body:       "Invalid input format",
-        }, nil
-    }
-
-	// extract event id from the payload
-	id := payload.EventID
-	// if the ID was missing, early exit
-	if id == "" {
-		return events.APIGatewayProxyResponse{
-			StatusCode: 400,
-			Body:       "Event ID missing",
-		}, nil
-	}
-
-	// First check if the event exists or not by getting it
-	// We'll also use this to get its location to remove from there
-	inp := &dynamodb.GetItemInput{
-		TableName: aws.String(table),
-		Key: map[string]types.AttributeValue{
-			"EventID": &types.AttributeValueMemberS{Value: id},
-		},
-	}
-
-	// store the result and error of trying to get the event
-	res, err := client.GetItem(ctx, inp)
-	// failed to get the event
+    err = json.Unmarshal([]byte(request.Body), &payload)
 	if err != nil {
-		return events.APIGatewayProxyResponse{
-			StatusCode: http.StatusInternalServerError,
-			Body:       "Error when checking if event exists",
-		}, nil
-	}
-	// early exit if the event doesn't exist
-	if res.Item == nil {
-		return events.APIGatewayProxyResponse{
-			StatusCode: http.StatusNotFound,
-			Body:       "Event not found",
-		}, nil
+		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
 	}
 
-	// put the event into the go struct by unmarshaling res.Item
-	event := &Event{}
-	err = attributevalue.UnmarshalMap(res.Item, event)
-	if err != nil {
-		return events.APIGatewayProxyResponse{
-			StatusCode: http.StatusInternalServerError,
-			Body:		"Error unmarshaling event after getting it",
-		}, nil
-	}
-	// Delete the entry in Building.BuildingEvents[] list that pertains to this event (it's a set of strings)
-	updateInput := &dynamodb.UpdateItemInput{
-		TableName: aws.String("Buildings"),
-		Key: map[string]types.AttributeValue{
-			"BuildingLong": &types.AttributeValueMemberN{Value: fmt.Sprintf("%f", event.Location.BuildingLong)},
-			"BuildingLat": &types.AttributeValueMemberN{Value: fmt.Sprintf("%f", event.Location.BuildingLat)},
-		},
-		UpdateExpression: aws.String("DELETE BuildingEvents :evtId"),
-		ExpressionAttributeValues: map[string]types.AttributeValue{
-			":evtId": &types.AttributeValueMemberSS{Value: []string{id}},
-		},
+	name := payload.Name
+	dateTime := payload.DateTime
+	if name == "" || dateTime == "" {
+		return Helpers.ResponseGeneration(fmt.Sprintf("Event name and dateTime missing"), http.StatusBadRequest)
 	}
 
-	// Update the building that has this event and remove the event id
-	_, buildingErr := client.UpdateItem(ctx, updateInput)
-	if buildingErr != nil {
-		return events.APIGatewayProxyResponse{
-			StatusCode: http.StatusInternalServerError,
-			Body:		fmt.Sprintf("Failed to remove event from associated building: %+v", buildingErr),
-		}, nil
-	}
-
-	// Now that we know the event exists and it has been removed from its building, get ready to delete it
 	input := &dynamodb.DeleteItemInput{
 		TableName: aws.String(table),
 		Key: map[string]types.AttributeValue{
-			"EventID": &types.AttributeValueMemberS{Value: id},
+			"name": &types.AttributeValueMemberS{Value: name},
+			"dateTime": &types.AttributeValueMemberS{Value: dateTime},
 		},
+		ConditionExpression: aws.String("attribute_exists(name) AND attribute_exists(dateTime)"),
 	}
 
-	// delete event and error check it
-	_, err = client.DeleteItem(ctx, input)
+	_, err = client.DeleteItem(context.Background(), input)
 	if err != nil {
-		return events.APIGatewayProxyResponse{
-			StatusCode: http.StatusInternalServerError,
-			Body:       fmt.Sprintf("Error deleting item %+v", err),
-		}, nil
+		if strings.Contains(err.Error(), "ConditionalCheckFailedException") {
+			return Helpers.ResponseGeneration("Event not found in the table", http.StatusBadRequest)
+		}
+		return Helpers.ResponseGeneration(fmt.Sprintf("deleting item: %v", err), http.StatusInternalServerError)
 	}
 
-	// Finally, return that the item was successfully deleted as expected.
-	// yay!
+	// 7. Pack the tokens with the struct
+	tokens := Tokens{
+		Token: token,
+		RefreshToken: refreshToken,
+	}
+
+	ret := Response{
+		Tokens: tokens,
+	}
+	retJSON, err := json.Marshal(ret)
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusOK,
-		Body:       "Event deleted successfully and removed from its building",
+		Body:		string(retJSON),
+		Headers:	map[string]string{"content-type": "application/json"},
 	}, nil
 }
 

@@ -15,16 +15,16 @@ import (
 )
 
 type EventLocation struct {
-	BuildingLong    float64    `json:"BuildingLong"`
-	BuildingLat     float64    `json:"BuildingLat"`
+	BuildingLong float64 `json:"BuildingLong"`
+	BuildingLat  float64 `json:"BuildingLat"`
 }
 type Event struct {
-	EventID         string          `json:"EventID"`
-	DateTime        string          `json:"dateTime"`
-	Description     string          `json:"description"`
-	Host            string          `json:"host"`
-	Location        EventLocation   `json:"location"`
-	Name            string          `json:"name"`
+	EventID     string        `json:"EventID"`
+	DateTime    string        `json:"dateTime"`
+	Description string        `json:"description"`
+	Host        string        `json:"host"`
+	Location    EventLocation `json:"location"`
+	Name        string        `json:"name"`
 }
 
 var client *dynamodb.Client
@@ -39,42 +39,55 @@ func init() {
 	client = dynamodb.NewFromConfig(cfg)
 }
 
-func convertDynamoDBAttributes(old map[string]events.DynamoDBAttributeValue) map[string]types.AttributeValue {
-	ret := make(map[string]types.AttributeValue)
-	for k, v := range old {
-		if v.DataType() == events.DataTypeString {
-			ret[k] = &types.AttributeValueMemberS{Value: v.String()}
-		} else if v.DataType() == events.DataTypeNumber {
-			ret[k] = &types.AttributeValueMemberN{Value: v.Number()}
-		}
-	}
-	return ret
-}
+// UnmarshalStreamImage converts events.DynamoDBAttributeValue to struct
+func UnmarshalStreamImage(attribute map[string]events.DynamoDBAttributeValue, out interface{}) error {
 
+	dbAttrMap := make(map[string]types.AttributeValue)
+
+	/*for k, v := range attribute {
+		log.Println(k, v)
+
+		var dbAttr types.AttributeValue
+
+		bytes, marshalErr := v.MarshalJSON()
+		if marshalErr != nil {
+			return marshalErr
+		}
+		log.Println(string(bytes))
+		err := json.Unmarshal(bytes, &dbAttr)
+		if err != nil {
+			log.Println(err)
+		}
+		log.Println(dbAttr, bytes)
+		dbAttrMap[k] = dbAttr
+	}*/
+
+	log.Println(dbAttrMap)
+
+	return attributevalue.UnmarshalMap(dbAttrMap, out)
+}
 func handler(ctx context.Context, event events.DynamoDBEvent) {
+	log.Printf("in handler")
+	log.Println(event.Records)
 	// go through all the records
 	for _, record := range event.Records {
+		log.Println("In for loop")
 		// if this was a remove record, that's what we're interested in
 		if record.EventName == "REMOVE" {
-			// grab the old image (the object that just got deleted)
-			oldImage := convertDynamoDBAttributes(record.Change.OldImage)
-			// initialize an event to unmarshal to
-			var evt Event
-			err := attributevalue.UnmarshalMap(oldImage, &evt)
-			if err != nil {
-				log.Printf("Failed to unmarshal record, %v", err)
-				continue
-			}
+			//oldImage := convertDynamoDBAttributes(record.Change.OldImage)
+			oldImage := Event{}
+			UnmarshalStreamImage(record.Change.OldImage, oldImage)
+			log.Println(oldImage)
 			// after unmarshaling the event, create an update input for the building table
 			updateInput := &dynamodb.UpdateItemInput{
 				TableName: aws.String(table),
 				Key: map[string]types.AttributeValue{
-					"BuildingLong": &types.AttributeValueMemberN{Value: fmt.Sprintf("%f", evt.Location.BuildingLong)},
-					"BuildingLat": &types.AttributeValueMemberN{Value: fmt.Sprintf("%f", evt.Location.BuildingLat)},
+					"BuildingLong": &types.AttributeValueMemberN{Value: fmt.Sprintf("%f", oldImage.Location.BuildingLong)},
+					"BuildingLat":  &types.AttributeValueMemberN{Value: fmt.Sprintf("%f", oldImage.Location.BuildingLat)},
 				},
 				UpdateExpression: aws.String("DELETE BuildingEvents :evtId"),
 				ExpressionAttributeValues: map[string]types.AttributeValue{
-					":evtId": &types.AttributeValueMemberSS{Value: []string{evt.EventID}},
+					":evtId": &types.AttributeValueMemberSS{Value: []string{oldImage.EventID}},
 				},
 			}
 
@@ -87,4 +100,10 @@ func handler(ctx context.Context, event events.DynamoDBEvent) {
 
 func main() {
 	lambda.Start(handler)
+	// test := map[string]interface{}{
+	// 	"CALL": true,
+	// }
+
+	// p, _ := dynamodbattribute.MarshalMap(test)
+
 }

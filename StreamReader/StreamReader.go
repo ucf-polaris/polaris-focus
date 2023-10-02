@@ -63,33 +63,46 @@ func init() {
 func EvaluateType(e events.DynamoDBAttributeValue, name string) interface{} {
 	switch e.DataType() {
 	case events.DataTypeNumber:
+		//if it's a number, get to float
 		log.Println("NUMBER", name)
 		val, err := e.Float()
 		if err != nil {
 			panic(err)
 		}
 		return val
+
 	case events.DataTypeString:
+		//if it's a string. Very Simple
 		log.Println("STRING", name)
 		return e.String()
+
 	case events.DataTypeMap:
+		//if it's a map, recursively call on itself
 		log.Println("MAP", name)
 		m := e.Map()
 		map_create := make(map[string]interface{})
+
+		//iterate through map of 'events.DynamoDBAttributes'
 		for k, v := range m {
 			new_val := EvaluateType(v, name)
+			//check if there's type not accounted for
 			if new_val == nil {
 				panic(errors.New("returned nil in EvaluateType"))
 			}
 			map_create[k] = new_val
 		}
 		return map_create
+
 	case events.DataTypeList:
+		//if it's list, recursively call on itself (untested)
 		log.Println("LIST", name)
 		m := e.List()
 		list_create := []interface{}{}
+
+		//iterate through list of 'events.DynamoDBAttributes'
 		for _, v := range m {
 			new_val := EvaluateType(v, name)
+			//check if there's type not accounted for
 			if new_val == nil {
 				panic(errors.New("returned nil in EvaluateType"))
 			}
@@ -105,7 +118,9 @@ func PackValues(record events.DynamoDBEventRecord) map[string]interface{} {
 	ret := make(map[string]interface{})
 
 	for name, value := range record.Change.OldImage {
+		//iterate through OldImage to get foriegn keys for deletion
 		new_val := EvaluateType(value, name)
+		//check if there's type not accounted for
 		if new_val == nil {
 			panic(errors.New("returned nil in EvaluateType"))
 		}

@@ -4,173 +4,132 @@ import (
 	"context"
 	"encoding/json"
 	"log"
-	"math/rand"
 	"net/http"
 	"polaris-api/pkg/Helpers"
 	"strconv"
-	"time"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	lambdaCall "github.com/aws/aws-sdk-go/service/lambda"
-	"github.com/google/uuid"
+	"github.com/golang-jwt/jwt/v4"
 )
+
+type Claims struct {
+	UserID string `json:"userID,omitempty"`
+	jwt.RegisteredClaims
+}
+
+type CodeQuery struct {
+	UserID string `json:"UserID"`
+	Code   int    `json:"code,omitempty"`
+}
 
 var table string
 var client *dynamodb.Client
 var lambdaClient *lambdaCall.Lambda
 
 func init() {
+	//dynamo stuff
 	client, table = Helpers.ConstructDynamoHost()
 
 	if table == "" {
 		log.Fatal("missing environment variable TABLE_NAME")
 	}
 
+	//set up lambda client
 	//create session for lambda
 	sess := session.Must(session.NewSessionWithOptions(session.Options{
 		SharedConfigState: session.SharedConfigEnable,
 	}))
 	lambdaClient = lambdaCall.New(sess, &aws.Config{Region: aws.String("us-east-2")})
+
 }
 
 func main() {
 	lambda.Start(handler)
 }
 
-func produceRandomNDigits(N int) string {
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	var number string
-
-	for i := 0; i < N; i++ {
-		digit := r.Intn(10)
-		number += strconv.Itoa(digit)
-	}
-
-	return number
-}
-
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	//-----------------------------------------EXTRACT FIELDS-----------------------------------------
-	search := Helpers.UnpackRequest(request.Body)
+	var contextString string
+	query := CodeQuery{}
+	ctxt := make(map[string]interface{})
 
-	item, _, _, err := Helpers.ExtractFields(
-		[]string{"email", "password"},
-		search,
-		false,
-		false,
-	)
+	err := json.Unmarshal([]byte(request.Body), &query)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
-	//-----------------------------------------EXTRACT OPTIONAL FIELDS-----------------------------------------
-	optional_items, _, _, err := Helpers.ExtractFields(
-		[]string{"schedule", "favorite", "visited", "name", "username"},
-		search,
-		false,
-		true,
-	)
-	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
+	if request.RequestContext.Authorizer != nil {
+		contextString = request.RequestContext.Authorizer["stringKey"].(string)
+		log.Println(contextString)
 	}
 
-	item = Helpers.MergeMaps(item, optional_items)
-	//-----------------------------------------FORMAT SCHEDULE-----------------------------------------
-	Helpers.ListToStringSet(
-		[]string{"schedule", "favorite", "visited"},
-		item,
-		false,
-	)
-	//-----------------------------------------EXTRACT FORMATTED EMAIL-----------------------------------------
-	item_email, _, _, err := Helpers.ExtractFields(
-		[]string{"email"},
-		search,
-		true,
-		false,
-	)
+	json.Unmarshal([]byte(contextString), &ctxt)
 
-	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
+	//look for email from JWT first, if not there look in passed in body
+	if val, ok := ctxt["UserID"].(string); ok && query.UserID == "" {
+		query.UserID = val
 	}
 
-	//-----------------------------------------CHECK QUERY TO PREVENT DUPLICATE EMAILS-----------------------------------------
-	TheInput, err := client.Query(context.Background(), &dynamodb.QueryInput{
+	if query.Code == 0 {
+		return Helpers.ResponseGeneration("code field not set", http.StatusOK)
+	}
+
+	codeStr := strconv.Itoa(query.Code)
+	//-----------------------------------------THE UPDATE CALL-----------------------------------------
+	//pass changes into update
+	item := make(map[string]types.AttributeValue)
+	item[":code"] = &types.AttributeValueMemberN{Value: codeStr}
+
+	//who we're trying to find
+	key := make(map[string]types.AttributeValue)
+	key["UserID"] = &types.AttributeValueMemberS{Value: query.UserID}
+
+	input := &dynamodb.UpdateItemInput{
+		ExpressionAttributeValues: item,
 		TableName:                 aws.String(table),
-		IndexName:                 aws.String("email-index"),
-		KeyConditionExpression:    aws.String("email = :email"),
-		ExpressionAttributeValues: item_email,
-	})
+		Key:                       key,
+		ReturnValues:              types.ReturnValueAllNew,
+		UpdateExpression:          aws.String("remove timeTilExpire, verificationCode"),
+		ConditionExpression:       aws.String("verificationCode = :code"),
+	}
 
+	output, err := client.UpdateItem(context.Background(), input)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
-	if TheInput.Count != 0 {
-		return Helpers.ResponseGeneration("email already in use", http.StatusOK)
+	//-----------------------------------------RESULTS PROCESSING-----------------------------------------
+	map_output := make(map[string]interface{})
+	tokens := make(map[string]interface{})
+
+	attributevalue.UnmarshalMap(output.Attributes, &map_output)
+	delete(map_output, "password")
+
+	if len(map_output) == 0 {
+		return Helpers.ResponseGeneration("code incorrect", http.StatusOK)
 	}
 
-	//-----------------------------------------NEW USER CONSTRUCTION-----------------------------------------
-	uuid_new := uuid.Must(uuid.NewRandom()).String()
-	code := produceRandomNDigits(5)
-
-	item["UserID"] = &types.AttributeValueMemberS{Value: uuid_new}
-	item["timeTilExpire"] = &types.AttributeValueMemberN{Value: strconv.FormatInt(time.Now().UTC().Add(time.Minute*15).Unix(), 10)}
-	item["verificationCode"] = &types.AttributeValueMemberN{Value: code}
-
-	//-----------------------------------------PUT UNVERIFIED USER INTO DATABASE-----------------------------------------
-	_, err = client.PutItem(context.Background(), &dynamodb.PutItemInput{
-		TableName: aws.String(table),
-		Item:      item,
-	})
+	//-----------------------------------------CREATE TOKENS-----------------------------------------
+	tokens["token"], err = Helpers.CreateToken(lambdaClient, 15, "", 0)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
-	//-----------------------------------------SEND EMAIL CODE-----------------------------------------
-	body := make(map[string]interface{})
-	body["email"] = search["email"].(string)
-	body["code"], err = strconv.ParseFloat(code, 64)
-
+	tokens["refreshToken"], err = Helpers.CreateToken(lambdaClient, 15, "", 1)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
-	payload, err := json.Marshal(body)
-	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
-	}
+	map_output["tokens"] = tokens
 
-	if !Helpers.IsLambdaLocal() {
-		_, err = lambdaClient.Invoke(&lambdaCall.InvokeInput{FunctionName: aws.String("email_code"), Payload: payload})
-		if err != nil {
-			return Helpers.ResponseGeneration("email error: "+err.Error(), http.StatusOK)
-		}
-	}
-
-	//log.Println(result.Payload)
-
-	//-----------------------------------------CREATE TOKEN-----------------------------------------
-	tokenRet, err := Helpers.CreateToken(lambdaClient, 15, uuid_new, 2)
-	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
-	}
-
-	//-----------------------------------------PACK RETURN VALUES-----------------------------------------
-	ret := make(map[string]interface{})
-
-	ret["UserID"] = uuid_new
-	ret["email"] = search["email"].(string)
-
-	ret["token"] = tokenRet
-	//put user fields in its own field (easier documentation)
-
-	js, err := json.Marshal(ret)
-
+	js, err := json.Marshal(map_output)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}

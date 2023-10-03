@@ -130,47 +130,59 @@ func PackValues(record events.DynamoDBEventRecord) map[string]interface{} {
 	return ret
 }
 
-func handler(ctx context.Context, event events.DynamoDBEvent) {
+func operationOnList(record events.DynamoDBEventRecord, mode int) {
+	var evt Event
+	m := PackValues(record)
+
+	//get into struct from map interface
+	js, _ := json.Marshal(m)
+	err := json.Unmarshal(js, &evt)
+
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	log.Println(evt.Location.BuildingLong, evt.Location.BuildingLat)
+
+	query := "DELETE"
+	if mode == 1 {
+		query = "ADD"
+	}
+	query += " BuildingEvents :evtId"
+
+	// after unmarshaling the event, create an update input for the building table
+	updateInput := &dynamodb.UpdateItemInput{
+		TableName: aws.String(table),
+		Key: map[string]types.AttributeValue{
+			"BuildingLong": &types.AttributeValueMemberN{Value: fmt.Sprintf("%f", evt.Location.BuildingLong)},
+			"BuildingLat":  &types.AttributeValueMemberN{Value: fmt.Sprintf("%f", evt.Location.BuildingLat)},
+		},
+		UpdateExpression: aws.String(query),
+		ExpressionAttributeValues: map[string]types.AttributeValue{
+			":evtId": &types.AttributeValueMemberSS{Value: []string{evt.EventID}},
+		},
+		ReturnValues: types.ReturnValueAllNew,
+	}
+
+	upd, err := client.UpdateItem(context.Background(), updateInput)
+	if err != nil {
+		log.Printf("Failed to update building, %v", err)
+	}
+
+	output := make(map[string]interface{})
+	attributevalue.UnmarshalMap(upd.Attributes, &output)
+	log.Println(output)
+}
+
+func handler(event events.DynamoDBEvent) {
 	// go through all the records
 	for _, record := range event.Records {
 		// if this was a remove record, that's what we're interested in
 		if record.EventName == "REMOVE" {
-			var evt Event
-			m := PackValues(record)
-
-			//get into struct from map interface
-			js, _ := json.Marshal(m)
-			err := json.Unmarshal(js, &evt)
-
-			if err != nil {
-				log.Println(err)
-				continue
-			}
-
-			log.Println(evt.Location.BuildingLong, evt.Location.BuildingLat)
-
-			// after unmarshaling the event, create an update input for the building table
-			updateInput := &dynamodb.UpdateItemInput{
-				TableName: aws.String(table),
-				Key: map[string]types.AttributeValue{
-					"BuildingLong": &types.AttributeValueMemberN{Value: fmt.Sprintf("%f", evt.Location.BuildingLong)},
-					"BuildingLat":  &types.AttributeValueMemberN{Value: fmt.Sprintf("%f", evt.Location.BuildingLat)},
-				},
-				UpdateExpression: aws.String("DELETE BuildingEvents :evtId"),
-				ExpressionAttributeValues: map[string]types.AttributeValue{
-					":evtId": &types.AttributeValueMemberSS{Value: []string{evt.EventID}},
-				},
-				ReturnValues: types.ReturnValueAllNew,
-			}
-
-			upd, err := client.UpdateItem(ctx, updateInput)
-			if err != nil {
-				log.Printf("Failed to update building, %v", err)
-			}
-
-			output := make(map[string]interface{})
-			attributevalue.UnmarshalMap(upd.Attributes, &output)
-			log.Println(output)
+			operationOnList(record, 0)
+		} else if record.EventName == "INSERT" {
+			operationOnList(record, 1)
 		}
 	}
 }

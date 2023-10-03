@@ -95,9 +95,7 @@
             "name": "Missing Optional Fields",
             "request":{
                 "email": "kaedenle@gmail.com",
-                "username": "kaedenle",
-                "password": "password",
-                "name": "kaeden le"
+                "password": "password"
             },
             "expected_response":"",
             "expected_response_body":{
@@ -108,9 +106,7 @@
             "GET":[
                 {
                     "email": "kaedenle@gmail.com",
-                    "username": "kaedenle",
-                    "password": "password",
-                    "name": "kaeden le"
+                    "password": "password"
                 }
             ],
             "ignore_in_get":["UserID", "timeTilExpire", "verificationCode"],
@@ -145,6 +141,23 @@
             "ignore_in_get":["UserID", "timeTilExpire", "verificationCode"],
             "ignore_in_body":["token", "UserID"],
             "convert_to_set":["schedule"],
+            "handle_token": false
+        },
+        {
+            "name": "Empty Fields",
+            "request":{
+            },
+            "expected_response":"ERROR",
+            "expected_response_body":{
+                "email": "kaedenle@gmail.com"
+            },
+            "ADD":[
+            ],
+            "GET":[
+            ],
+            "ignore_in_get":["UserID", "timeTilExpire", "verificationCode"],
+            "ignore_in_body":["token", "UserID"],
+            "convert_to_set":[],
             "handle_token": false
         }
     ]

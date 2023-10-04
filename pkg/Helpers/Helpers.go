@@ -272,3 +272,60 @@ func MergeMaps(M1 map[string]types.AttributeValue, M2 map[string]types.Attribute
 	}
 	return M1
 }
+
+func QueryKey(client *dynamodb.Client, index_map map[string]interface{}, table string, keys []string) ([]map[string]interface{}, error) {
+	query := ""
+	index_name := ""
+	name_express := map[string]string{}
+	projection := ""
+
+	//construct query and index name
+	for k, _ := range index_map {
+		if query != "" {
+			query += " AND "
+		}
+
+		query += ("#" + k + " = :" + k)
+
+		index_name += (k + "-")
+
+		name_express["#"+k] = k
+	}
+
+	for _, val := range keys {
+		if projection != "" {
+			projection += ", "
+		}
+		projection += "#" + val
+		name_express["#"+val] = val
+	}
+
+	index_name += "index"
+
+	index_map = addColonToField(index_map)
+	using_map, _ := attributevalue.MarshalMap(index_map)
+
+	QueryResults, err := client.Query(context.Background(), &dynamodb.QueryInput{
+		TableName:                 aws.String(table),
+		IndexName:                 aws.String(index_name),
+		KeyConditionExpression:    aws.String(query),
+		ExpressionAttributeValues: using_map,
+		ExpressionAttributeNames:  name_express,
+		ProjectionExpression:      &projection,
+	})
+	//-----------------------------------------ERROR CHECKING-----------------------------------------
+	//General error occured
+	if err != nil {
+		return nil, err
+	}
+
+	//No username found
+	if QueryResults.Count == 0 {
+		return nil, errors.New("no keys found")
+	}
+
+	output := []map[string]interface{}{}
+	attributevalue.UnmarshalListOfMaps(QueryResults.Items, &output)
+
+	return output, nil
+}

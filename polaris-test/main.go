@@ -3,158 +3,177 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 	"polaris-api/pkg/Helpers"
+	"strconv"
+	"time"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	lambdaCall "github.com/aws/aws-sdk-go/service/lambda"
+	"github.com/google/uuid"
 )
 
-type EventLocation struct {
-	BuildingLong float64 `json:"BuildingLong"`
-	BuildingLat  float64 `json:"BuildingLat"`
-}
-type Event struct {
-	EventID     string        `json:"EventID"`
-	DateTime    string        `json:"dateTime"`
-	Description string        `json:"description"`
-	Host        string        `json:"host"`
-	Location    EventLocation `json:"location"`
-	Name        string        `json:"name"`
-}
-type Payload struct {
-	Name     string `json:"name"`
-	DateTime string `json:"dateTime"`
-}
-
-type Response struct {
-	Events []Event `json:"events"`
-	Tokens Tokens  `json:"tokens"`
-}
-
-type Tokens struct {
-	Token        string `json:"token,omitempty"`
-	RefreshToken string `json:"refreshToken,omitempty"`
-}
-
-// 1. Define as table and client
 var table string
 var client *dynamodb.Client
+var lambdaClient *lambdaCall.Lambda
 
 func init() {
-	// 2. client, table set equal to Helper function
 	client, table = Helpers.ConstructDynamoHost()
 
-	// 3. Error checking on env variables
 	if table == "" {
 		log.Fatal("missing environment variable TABLE_NAME")
 	}
-}
 
-// 4. Only request in parameters and replace ctx with context.Background()
-func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-
-	// 5. (if need to be protected) Add tokens
-	token, refreshToken, err := Helpers.GetTokens(request)
-	// 6. Proper error checking
-	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
-	}
-
-	// Create a payload struct
-	var payload Payload
-	// Unmarshal the request body into the payload struct and error check it
-	err = json.Unmarshal([]byte(request.Body), &payload)
-	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
-	}
-
-	// Extract the ID and use this to get the item from dynamo
-	name := payload.Name
-	dateTime := payload.DateTime
-
-	// Fetch the Event in the form of a go struct from the database
-	event, err := getEventByIndex(context.Background(), name, dateTime)
-
-	// If an error came up, early exit and return the error
-	if err != nil {
-		return Helpers.ResponseGeneration(fmt.Sprintf("fetching Event data: %v", err), http.StatusBadRequest)
-	}
-
-	// If the Event didn't end up existing, return that information to the caller
-	if event == nil {
-		return Helpers.ResponseGeneration("Event not found in table", http.StatusBadRequest)
-	}
-
-	// 7. Pack the tokens with the struct
-	tokens := Tokens{
-		Token:        token,
-		RefreshToken: refreshToken,
-	}
-
-	ret := Response{
-		Events: event,
-		Tokens: tokens,
-	}
-
-	// Convert the Event go struct to a json for return
-	eventJSON, err := json.Marshal(ret)
-	// If marshaling failed, early exit
-	if err != nil {
-		return Helpers.ResponseGeneration("when marshaling data", http.StatusBadRequest)
-	}
-
-	// Return the Event info in the form of a stringified JSON
-	return events.APIGatewayProxyResponse{
-		StatusCode: http.StatusOK,
-		Body:       string(eventJSON),
-		Headers:    map[string]string{"content-type": "application/json"},
-	}, nil
-}
-
-func getEventByIndex(ctx context.Context, name, dateTime string) ([]Event, error) {
-	// Construct the get item input given the Event ID provided
-	inp := &dynamodb.QueryInput{
-		TableName:                aws.String(table),
-		IndexName:                aws.String("name-dateTime-index"),
-		KeyConditionExpression:   aws.String("#name = :name AND #dateTime = :dateTime"),
-		ExpressionAttributeNames: map[string]string{"#name": "name", "#dateTime": "dateTime"},
-		ExpressionAttributeValues: map[string]types.AttributeValue{
-			":name":     &types.AttributeValueMemberS{Value: name},
-			":dateTime": &types.AttributeValueMemberS{Value: dateTime},
-		},
-	}
-
-	// Try to query dynamodb with this get item
-	output, err := client.Query(ctx, inp)
-
-	// Return the error if it fails
-	if err != nil {
-		return nil, err
-	}
-
-	// Return nil if the item didn't end up existing
-	if output.Count == 0 {
-		return nil, nil
-	}
-
-	// construct the go struct from dynamo's item
-	event := []Event{}
-	err = attributevalue.UnmarshalListOfMaps(output.Items, &event)
-	if err != nil { // if this failed, early exit
-		return nil, err
-	}
-
-	// yay!
-	return event, nil
+	//create session for lambda
+	sess := session.Must(session.NewSessionWithOptions(session.Options{
+		SharedConfigState: session.SharedConfigEnable,
+	}))
+	lambdaClient = lambdaCall.New(sess, &aws.Config{Region: aws.String("us-east-2")})
 }
 
 func main() {
 	lambda.Start(handler)
+}
+
+func produceRandomNDigits(N int) string {
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	var number string
+
+	for i := 0; i < N; i++ {
+		digit := r.Intn(10)
+		number += strconv.Itoa(digit)
+	}
+
+	return number
+}
+
+func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	//-----------------------------------------EXTRACT FIELDS-----------------------------------------
+	search := Helpers.UnpackRequest(request.Body)
+
+	item, _, _, err := Helpers.ExtractFields(
+		[]string{"email", "password"},
+		search,
+		false,
+		false,
+	)
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
+	}
+
+	//-----------------------------------------EXTRACT OPTIONAL FIELDS-----------------------------------------
+	optional_items, _, _, err := Helpers.ExtractFields(
+		[]string{"schedule", "favorite", "visited", "name", "username"},
+		search,
+		false,
+		true,
+	)
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
+	}
+
+	item = Helpers.MergeMaps(item, optional_items)
+	//-----------------------------------------FORMAT SCHEDULE-----------------------------------------
+	Helpers.ListToStringSet(
+		[]string{"schedule", "favorite", "visited"},
+		item,
+		false,
+	)
+	//-----------------------------------------EXTRACT FORMATTED EMAIL-----------------------------------------
+	item_email, _, _, err := Helpers.ExtractFields(
+		[]string{"email"},
+		search,
+		true,
+		false,
+	)
+
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
+	}
+
+	//-----------------------------------------CHECK QUERY TO PREVENT DUPLICATE EMAILS-----------------------------------------
+	TheInput, err := client.Query(context.Background(), &dynamodb.QueryInput{
+		TableName:                 aws.String(table),
+		IndexName:                 aws.String("email-index"),
+		KeyConditionExpression:    aws.String("email = :email"),
+		ExpressionAttributeValues: item_email,
+	})
+
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
+	}
+
+	if TheInput.Count != 0 {
+		return Helpers.ResponseGeneration("email already in use", http.StatusOK)
+	}
+
+	//-----------------------------------------NEW USER CONSTRUCTION-----------------------------------------
+	uuid_new := uuid.Must(uuid.NewRandom()).String()
+	code := produceRandomNDigits(5)
+
+	item["UserID"] = &types.AttributeValueMemberS{Value: uuid_new}
+	item["timeTilExpire"] = &types.AttributeValueMemberN{Value: strconv.FormatInt(time.Now().UTC().Add(time.Minute*15).Unix(), 10)}
+	item["verificationCode"] = &types.AttributeValueMemberN{Value: code}
+
+	//-----------------------------------------PUT UNVERIFIED USER INTO DATABASE-----------------------------------------
+	_, err = client.PutItem(context.Background(), &dynamodb.PutItemInput{
+		TableName: aws.String(table),
+		Item:      item,
+	})
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
+	}
+
+	//-----------------------------------------SEND EMAIL CODE-----------------------------------------
+	body := make(map[string]interface{})
+	body["email"] = search["email"].(string)
+	body["code"], err = strconv.ParseFloat(code, 64)
+
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
+	}
+
+	payload, err := json.Marshal(body)
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
+	}
+
+	if !Helpers.IsLambdaLocal() {
+		_, err = lambdaClient.Invoke(&lambdaCall.InvokeInput{FunctionName: aws.String("email_code"), Payload: payload})
+		if err != nil {
+			return Helpers.ResponseGeneration("email error: "+err.Error(), http.StatusOK)
+		}
+	}
+
+	//log.Println(result.Payload)
+
+	//-----------------------------------------CREATE TOKEN-----------------------------------------
+	tokenRet, err := Helpers.CreateToken(lambdaClient, 15, uuid_new, 2)
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
+	}
+
+	//-----------------------------------------PACK RETURN VALUES-----------------------------------------
+	ret := make(map[string]interface{})
+
+	ret["UserID"] = uuid_new
+	ret["email"] = search["email"].(string)
+
+	ret["token"] = tokenRet
+	//put user fields in its own field (easier documentation)
+
+	js, err := json.Marshal(ret)
+
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
+	}
+
+	return events.APIGatewayProxyResponse{StatusCode: http.StatusOK, Body: string(js), Headers: map[string]string{"content-type": "application/json"}}, nil
 }

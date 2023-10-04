@@ -170,7 +170,7 @@ Resources:
       FunctionName: event_add_sam
       Handler: EventsAdd
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/c0f89cd339968f6916b8fd443493f98b
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/e474308a667c596db87f79494b05a7cd
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -300,7 +300,7 @@ Resources:
       FunctionName: user_register_sam
       Handler: LambdaUserCreate
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/da53463cc9fe83fc0a8332565c5aeffa
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/f6d8b83e4f81ca2c00307766cbe90fd2
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -326,7 +326,7 @@ Resources:
       FunctionName: user_verify_sam
       Handler: LambdaVerify
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/3d44d784f807584335f24093a4c6b963
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/ee98faf5133f53082c9894e7cd0070dc
       MemorySize: 256
       Timeout: 10
       Policies:

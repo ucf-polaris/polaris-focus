@@ -62,7 +62,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	err := json.Unmarshal([]byte(request.Body), &query)
 	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	if request.RequestContext.Authorizer != nil {

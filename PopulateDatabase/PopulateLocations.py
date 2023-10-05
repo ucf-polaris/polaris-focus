@@ -40,10 +40,6 @@ def remove_null(js_list):
                 del copy[key]
         js_list[i] = copy
         
-def add_override(js_list):
-    for i in range(len(js_list)):
-        js_list[i]["DoOverride"] = True
-        
 def populate_database(js_list):
     api_url = input("provide api url: ")
     
@@ -55,7 +51,6 @@ def populate_database(js_list):
 
 def main():
     js = get_json()
-    add_override(js)
     populate_database(js)
     
 if __name__ == '__main__':

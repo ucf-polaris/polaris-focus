@@ -81,36 +81,10 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
-	//-----------------------------------------EXTRACT FIELDS-----------------------------------------
-	search := LocationQuery{}
-
-	err = json.Unmarshal([]byte(request.Body), &search)
-
-	if err != nil {
-		return Helpers.ResponseGeneration("missing field", http.StatusOK)
-	}
-
-	//-----------------------------------------GET CALCULATIONS-----------------------------------------
-	calculations := make(map[string]interface{})
-	calculations[":MinLat"] = search.Lat - search.Radius
-	calculations[":MaxLat"] = search.Lat + search.Radius
-
-	calculations[":MinLong"] = search.Long - search.Radius
-	calculations[":MaxLong"] = search.Long + search.Radius
-
-	calc_attr, err := attributevalue.MarshalMap(calculations)
-	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
-	}
-	//-----------------------------------------BUILD QUERY-----------------------------------------
-	query := "BuildingLong BETWEEN :MinLong AND :MaxLong AND BuildingLat BETWEEN :MinLat AND :MaxLat"
-
 	//-----------------------------------------PUT INTO DATABASE-----------------------------------------
 	scanInput := &dynamodb.ScanInput{
 		// table name is a global variable
-		TableName:                 &table,
-		ExpressionAttributeValues: calc_attr,
-		FilterExpression:          &query,
+		TableName: &table,
 	}
 
 	paginator := dynamodb.NewScanPaginator(client, scanInput)
@@ -131,13 +105,13 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	ret["tokens"] = tokens
 
-	square_results, err := produceQueryResult(paginator)
+	res, err := produceQueryResult(paginator)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
 	//-----------------------------------------FILTER BASED ON CIRCULAR RANGE-----------------------------------------
-	ret["locations"] = filterByRadius(square_results, search.Radius, search.Lat, search.Long)
+	ret["locations"] = res
 
 	js, err := json.Marshal(ret)
 	if err != nil {

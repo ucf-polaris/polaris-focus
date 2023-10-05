@@ -1,0 +1,120 @@
+{
+    "schema":{
+        "keys":["BuildingLong",  "BuildingLat"],
+        "attributes":{
+            "BuildingLong": "N",
+            "BuildingLat": "N"
+        }   
+    },
+    "test_cases": [
+        {
+            "name": "Successful Query",
+            "request":{
+            },
+            "expected_response":"",
+            "expected_response_body":{
+                "locations":[
+                    {
+                        "BuildingLong": 1,
+                        "BuildingLat": 1,
+                        "BuildingDesc": "An old historical building",
+                        "BuildingEvents":[
+                            "a_cool_event_id"
+                        ],
+                        "BuildingName": "MSB"
+                    },
+                    {
+                        "BuildingLong": 1,
+                        "BuildingLat": 2,
+                        "BuildingDesc": "An old historical building",
+                        "BuildingEvents":[
+                            "a_cool_event_id"
+                        ],
+                        "BuildingName": "MSB"
+                    },
+                    {
+                        "BuildingLong": 2,
+                        "BuildingLat": 1,
+                        "BuildingDesc": "An old historical building",
+                        "BuildingEvents":[
+                            "a_cool_event_id"
+                        ],
+                        "BuildingName": "MSB"
+                    },
+                    {
+                        "BuildingLong": 2,
+                        "BuildingLat": 2,
+                        "BuildingDesc": "An old historical building",
+                        "BuildingEvents":[
+                            "a_cool_event_id"
+                        ],
+                        "BuildingName": "MSB"
+                    },
+                    {
+                        "BuildingLong": 3,
+                        "BuildingLat": 3,
+                        "BuildingDesc": "An old historical building",
+                        "BuildingEvents":[
+                            "a_cool_event_id"
+                        ],
+                        "BuildingName": "MSB"
+                    }
+                ]
+            },
+            "ignore_in_body":[],
+            "ADD":[
+                {
+                    "BuildingLong": 1,
+                    "BuildingLat": 1,
+                    "BuildingDesc": "An old historical building",
+                    "BuildingEvents":[
+                        "a_cool_event_id"
+                    ],
+                    "BuildingName": "MSB"
+                },
+                {
+                    "BuildingLong": 1,
+                    "BuildingLat": 2,
+                    "BuildingDesc": "An old historical building",
+                    "BuildingEvents":[
+                        "a_cool_event_id"
+                    ],
+                    "BuildingName": "MSB"
+                },
+                {
+                    "BuildingLong": 2,
+                    "BuildingLat": 1,
+                    "BuildingDesc": "An old historical building",
+                    "BuildingEvents":[
+                        "a_cool_event_id"
+                    ],
+                    "BuildingName": "MSB"
+                },
+                {
+                    "BuildingLong": 2,
+                    "BuildingLat": 2,
+                    "BuildingDesc": "An old historical building",
+                    "BuildingEvents":[
+                        "a_cool_event_id"
+                    ],
+                    "BuildingName": "MSB"
+                },
+                {
+                    "BuildingLong": 3,
+                    "BuildingLat": 3,
+                    "BuildingDesc": "An old historical building",
+                    "BuildingEvents":[
+                        "a_cool_event_id"
+                    ],
+                    "BuildingName": "MSB"
+                }
+            ],
+            "GET":[
+                
+            ],
+            "ignore_in_get":[],
+            "convert_to_set":["BuildingEvents"],
+            "handle_token": true
+        }
+    ]
+}

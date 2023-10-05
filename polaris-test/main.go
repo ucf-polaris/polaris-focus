@@ -4,50 +4,70 @@ import (
 	"context"
 	"encoding/json"
 	"log"
+	"math"
 	"net/http"
 	"polaris-api/pkg/Helpers"
-	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
-	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/session"
-	lambdaCall "github.com/aws/aws-sdk-go/service/lambda"
-	"github.com/golang-jwt/jwt/v4"
 )
 
-type Claims struct {
-	UserID string `json:"userID,omitempty"`
-	jwt.RegisteredClaims
-}
-
-type CodeQuery struct {
-	UserID string `json:"UserID"`
-	Code   int    `json:"code,omitempty"`
+type LocationQuery struct {
+	Radius float64 `json:"radius"`
+	Long   float64 `json:"long"`
+	Lat    float64 `json:"lat"`
 }
 
 var table string
 var client *dynamodb.Client
-var lambdaClient *lambdaCall.Lambda
 
 func init() {
-	//dynamo stuff
 	client, table = Helpers.ConstructDynamoHost()
 
 	if table == "" {
 		log.Fatal("missing environment variable TABLE_NAME")
 	}
+}
 
-	//set up lambda client
-	//create session for lambda
-	sess := session.Must(session.NewSessionWithOptions(session.Options{
-		SharedConfigState: session.SharedConfigEnable,
-	}))
-	lambdaClient = lambdaCall.New(sess, &aws.Config{Region: aws.String("us-east-2")})
+func produceQueryResult(page *dynamodb.ScanPaginator) ([]map[string]interface{}, error) {
+	p := []map[string]interface{}{}
 
+	for page.HasMorePages() {
+		out, err := page.NextPage(context.TODO())
+		if err != nil {
+			return nil, err
+		}
+
+		temp := []map[string]interface{}{}
+		err = attributevalue.UnmarshalListOfMaps(out.Items, &temp)
+		if err != nil {
+			return nil, err
+		}
+
+		p = append(p, temp...)
+	}
+
+	return p, nil
+}
+
+func pointInRadius(radius float64, lat float64, long float64, myLat float64, myLong float64) bool {
+	return math.Sqrt(math.Pow(myLat-lat, 2)+math.Pow(myLong-long, 2)) <= radius
+}
+
+func filterByRadius(M []map[string]interface{}, radius float64, lat float64, long float64) []map[string]interface{} {
+	ret := []map[string]interface{}{}
+	for _, e := range M {
+		myLat, _ := e["BuildingLat"].(float64)
+		myLong, _ := e["BuildingLong"].(float64)
+
+		if pointInRadius(radius, lat, long, myLat, myLong) {
+			ret = append(ret, e)
+		}
+	}
+
+	return ret
 }
 
 func main() {
@@ -55,81 +75,45 @@ func main() {
 }
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	//-----------------------------------------EXTRACT FIELDS-----------------------------------------
-	var contextString string
-	query := CodeQuery{}
-	ctxt := make(map[string]interface{})
-
-	err := json.Unmarshal([]byte(request.Body), &query)
+	//-----------------------------------------EXTRACT TOKEN FIELDS-----------------------------------------
+	token, rfsTkn, err := Helpers.GetTokens(request)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
-	if request.RequestContext.Authorizer != nil {
-		contextString = request.RequestContext.Authorizer["stringKey"].(string)
-		log.Println(contextString)
+	//-----------------------------------------PUT INTO DATABASE-----------------------------------------
+	scanInput := &dynamodb.ScanInput{
+		// table name is a global variable
+		TableName: &table,
 	}
 
-	json.Unmarshal([]byte(contextString), &ctxt)
-
-	//look for email from JWT first, if not there look in passed in body
-	if val, ok := ctxt["UserID"].(string); ok && query.UserID == "" {
-		query.UserID = val
-	}
-
-	if query.Code == 0 {
-		return Helpers.ResponseGeneration("code field not set", http.StatusOK)
-	}
-
-	codeStr := strconv.Itoa(query.Code)
-	//-----------------------------------------THE UPDATE CALL-----------------------------------------
-	//pass changes into update
-	item := make(map[string]types.AttributeValue)
-	item[":code"] = &types.AttributeValueMemberN{Value: codeStr}
-
-	//who we're trying to find
-	key := make(map[string]types.AttributeValue)
-	key["UserID"] = &types.AttributeValueMemberS{Value: query.UserID}
-
-	input := &dynamodb.UpdateItemInput{
-		ExpressionAttributeValues: item,
-		TableName:                 aws.String(table),
-		Key:                       key,
-		ReturnValues:              types.ReturnValueAllNew,
-		UpdateExpression:          aws.String("remove timeTilExpire, verificationCode"),
-		ConditionExpression:       aws.String("verificationCode = :code"),
-	}
-
-	output, err := client.UpdateItem(context.Background(), input)
+	paginator := dynamodb.NewScanPaginator(client, scanInput)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
-	//-----------------------------------------RESULTS PROCESSING-----------------------------------------
-	map_output := make(map[string]interface{})
+	//-----------------------------------------PACK RETURN VALUES-----------------------------------------
+	ret := make(map[string]interface{})
 	tokens := make(map[string]interface{})
-
-	attributevalue.UnmarshalMap(output.Attributes, &map_output)
-	delete(map_output, "password")
-
-	if len(map_output) == 0 {
-		return Helpers.ResponseGeneration("code incorrect", http.StatusOK)
+	if token != "" {
+		tokens["token"] = token
 	}
 
-	//-----------------------------------------CREATE TOKENS-----------------------------------------
-	tokens["token"], err = Helpers.CreateToken(lambdaClient, 15, "", 0)
+	if rfsTkn != "" {
+		tokens["refreshToken"] = rfsTkn
+	}
+
+	ret["tokens"] = tokens
+
+	res, err := produceQueryResult(paginator)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
-	tokens["refreshToken"], err = Helpers.CreateToken(lambdaClient, 15, "", 1)
-	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
-	}
+	//-----------------------------------------FILTER BASED ON CIRCULAR RANGE-----------------------------------------
+	ret["locations"] = res
 
-	map_output["tokens"] = tokens
-
-	js, err := json.Marshal(map_output)
+	js, err := json.Marshal(ret)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}

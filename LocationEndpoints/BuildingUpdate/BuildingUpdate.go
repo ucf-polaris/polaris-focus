@@ -65,10 +65,6 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
-
-	//put keys in ExpressionAttributeValues for ConditionExpression
-	items[":BuildingLong"] = key["BuildingLong"]
-	items[":BuildingLat"] = key["BuildingLat"]
 	//-----------------------------------------PUT INTO DATABASE-----------------------------------------
 	updateInput := &dynamodb.UpdateItemInput{
 		// table name is a global variable
@@ -90,6 +86,9 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	if !doConditionExpression {
 		//don't make new record if key doesn't exist (could take this out and make a new add?)
 		updateInput.ConditionExpression = aws.String("BuildingLong = :BuildingLong AND BuildingLat = :BuildingLat")
+		//put keys in ExpressionAttributeValues for ConditionExpression
+		items[":BuildingLong"] = key["BuildingLong"]
+		items[":BuildingLat"] = key["BuildingLat"]
 	}
 
 	retValues, err := client.UpdateItem(context.Background(), updateInput)

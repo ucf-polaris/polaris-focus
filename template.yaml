@@ -8,7 +8,35 @@ Resources:
     Properties:
       Name: PolarisAPI
       StageName: Testing
+      Auth:
+        DefaultAuthorizer: JwtAuthorizer
+        Authorizers:
+          JwtAuthorizer:
+            FunctionArn: !Ref JwtAuthorizerFunction
+          JwtAuthorizerRegister:
+            FunctionArn: !Ref JwtAuthorizerRegisterFunction
 
+# --- LAMBDA AUTHORIZER ---
+  JwtAuthorizerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: jwt_authorizer_sam
+      Handler: TokenVerify
+      Runtime: go1.x
+      CodeUri: JWTFiles/TokenVerify
+      MemorySize: 256
+      Timeout: 10
+
+  JwtAuthorizerRegisterFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: jwt_authorizer_register_sam
+      Handler: TokenVerify
+      Runtime: go1.x
+      CodeUri: JWTFiles/TokenVerify
+      MemorySize: 256
+      Timeout: 10
+    
 # --- BUILDING FUNCTIONS ---
   BuildingAddFunction:
     Type: AWS::Serverless::Function
@@ -33,6 +61,8 @@ Resources:
             RestApiId: !Ref TheBestApi
             Path: /building/add
             Method: POST
+            Auth:
+              Authorizer: !Ref JwtAuthorizer
   BuildingGetFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -273,7 +303,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: user_register_sam
-      Handler: LambdaUserCreate
+      Handler: Register
       Runtime: go1.x
       CodeUri: UserEndpoints/Register
       MemorySize: 256
@@ -296,7 +326,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: user_verify_sam
-      Handler: LambdaVerify
+      Handler: Login
       Runtime: go1.x
       CodeUri: UserEndpoints/Login
       MemorySize: 256

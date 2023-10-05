@@ -87,7 +87,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		doConditionExpression = val
 	}
 
-	if doConditionExpression {
+	if !doConditionExpression {
 		//don't make new record if key doesn't exist (could take this out and make a new add?)
 		updateInput.ConditionExpression = aws.String("BuildingLong = :BuildingLong AND BuildingLat = :BuildingLat")
 	}

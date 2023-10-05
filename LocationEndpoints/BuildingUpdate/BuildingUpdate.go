@@ -83,7 +83,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}
 
 	doConditionExpression := false
-	if val, ok := search["DoOverride"].(bool); !ok {
+	if val, ok := search["DoOverride"].(bool); ok {
 		doConditionExpression = val
 	}
 

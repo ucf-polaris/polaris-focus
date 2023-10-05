@@ -6,11 +6,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"polaris-api/pkg/Helpers"
+	"strings"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 )
@@ -18,39 +19,43 @@ import (
 type Payload struct {
 	UserID string `json:"UserID"`
 }
+type Response struct {
+	Tokens Tokens  `json:"tokens"`
+}
+type Tokens struct {
+	Token        string `json:"token,omitempty"`
+	RefreshToken string `json:"refreshToken,omitempty"`
+}
 
 var table string
 var client *dynamodb.Client
 
 func init() {
-	table = "Users"
-	cfg, err := config.LoadDefaultConfig(context.Background())
-	if err != nil {
-		log.Fatalf("Failed to load config, %v", err)
+	client, table = Helpers.ConstructDynamoHost()
+
+	if table == "" {
+		log.Fatal("missing environment variable TABLE_NAME")
 	}
-	client = dynamodb.NewFromConfig(cfg)
 }
 
-func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	token, refreshToken, err := Helpers.GetTokens(request)
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
+	}
 	// iniitalize the  payload structure
 	var payload Payload
 	// unmarshal the input and error check if something went wrong
-	err := json.Unmarshal([]byte(request.Body), &payload)
+	err = json.Unmarshal([]byte(request.Body), &payload)
 	if err != nil {
-		return events.APIGatewayProxyResponse{
-			StatusCode: http.StatusBadRequest,
-			Body:       "Invalid input format",
-		}, nil
+		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
 	}
 
 	// extract the user id from the payload
 	id := payload.UserID
 	// if the ID is mising, early exit
 	if id == "" {
-		return events.APIGatewayProxyResponse{
-			StatusCode: http.StatusBadRequest,
-			Body:       "User ID is missing",
-		}, nil
+		return Helpers.ResponseGeneration(fmt.Sprintf("UserID missing"), http.StatusBadRequest)
 	}
 
 	// Now that we know the user exists, construct the delete input
@@ -63,19 +68,28 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	}
 
 	// Try to delete the user from the table and catch errors
-	_, err = client.DeleteItem(ctx, input)
+	_, err = client.DeleteItem(context.Background(), input)
 	if err != nil {
-		log.Printf("%+v", err)
-		return events.APIGatewayProxyResponse{
-			StatusCode: http.StatusInternalServerError,
-			Body:       fmt.Sprintf("Error when deleting user from table, user may not exist"),
-		}, nil
+		if strings.Contains(err.Error(), "ConditionalCheckFailedException") {
+			return Helpers.ResponseGeneration("User not found in the table", http.StatusBadRequest)
+		}
+		return Helpers.ResponseGeneration(fmt.Sprintf("Issue when deleting user from table: %v", err), http.StatusInternalServerError)
 	}
 
-	// yay!
+	// 7. Pack the tokens with the struct
+	tokens := Tokens{
+		Token: token,
+		RefreshToken: refreshToken,
+	}
+
+	ret := Response{
+		Tokens: tokens,
+	}
+	retJSON, err := json.Marshal(ret)
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusOK,
-		Body:       "User deleted successfully",
+		Body:		string(retJSON),
+		Headers:	map[string]string{"content-type": "application/json"},
 	}, nil
 }
 

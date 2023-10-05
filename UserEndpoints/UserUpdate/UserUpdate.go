@@ -5,10 +5,10 @@ import (
 	"log"
 	"net/http"
 	"encoding/json"
+	"polaris-api/pkg/Helpers"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -22,34 +22,39 @@ type User struct {
 	Username         string   `json:"username"`
 	Name             string   `json:"name"`
 }
-
-var table string
-var db *dynamodb.Client
-
-func init() {
-	table = "Users"
-	cfg, err := config.LoadDefaultConfig(context.Background())
-	if err != nil {
-		log.Fatalf("Failed to load config, %v", err)
-	}
-	db = dynamodb.NewFromConfig(cfg)
+type Response struct {
+	Tokens Tokens  `json:"tokens"`
 }
 
-func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+type Tokens struct {
+	Token        string `json:"token,omitempty"`
+	RefreshToken string `json:"refreshToken,omitempty"`
+}
+var table string
+var client *dynamodb.Client
+
+func init() {
+	client, table = Helpers.ConstructDynamoHost()
+
+	if table == "" {
+		log.Fatal("missing environment variable TABLE_NAME")
+	}
+}
+
+func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	token, refreshToken, err := Helpers.GetTokens(request)
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
+	}
 	// create instance of user struct
 	var usr User
 	// unmarshal the raw input into a go struct type
-	err := json.Unmarshal([]byte(request.Body), &usr)
+	err = json.Unmarshal([]byte(request.Body), &usr)
 
 	// if parsing failed then the input was invalid, let the caller know and return.
-	if err != nil {
-		return events.APIGatewayProxyResponse{
-			StatusCode: http.StatusBadRequest,
-			Body:       "Invalid input",
-		}, nil
-	}
-	// debug
-	log.Printf("Parsed User: %+v", usr)
+    if err != nil {
+        return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
+    }
 
 	// Construct the required update input for dynamodb
 	updateInput := &dynamodb.UpdateItemInput {
@@ -74,19 +79,27 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	}
 
 	// Try to update the item, if it failed return and tell the user
-	_, err = db.UpdateItem(ctx, updateInput)
+	_, err = client.UpdateItem(context.Background(), updateInput)
 	if err != nil {
-		log.Printf("Error: %v", err)
-		return events.APIGatewayProxyResponse {
-			StatusCode: http.StatusInternalServerError,
-			Body: "Error updating item",
-		}, nil
+		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
 	}
 
+	tokens := Tokens{
+		Token:			token,
+		RefreshToken:	refreshToken,
+	}
+	ret := Response{
+		Tokens: tokens,
+	}
+	retJSON, err := json.Marshal(ret)
+	if err != nil {
+		return Helpers.ResponseGeneration("when marshaling data", http.StatusBadRequest)
+	}
 	// Great success!
     return events.APIGatewayProxyResponse{
         StatusCode: http.StatusOK,
-        Body:       "Yay!",
+        Body:       string(retJSON),
+		Headers:	map[string]string{"content-type": "application/json"},
     }, nil
 }
 

@@ -49,7 +49,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}
 
 	optional_item, _, _, err := Helpers.ExtractFields(
-		[]string{"BuildingEvents"},
+		[]string{"BuildingEvents", "BuildingImage"},
 		search,
 		false,
 		true)

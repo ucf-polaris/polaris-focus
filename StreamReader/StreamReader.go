@@ -114,10 +114,10 @@ func EvaluateType(e events.DynamoDBAttributeValue, name string) interface{} {
 	return nil
 }
 
-func PackValues(record events.DynamoDBEventRecord) map[string]interface{} {
+func PackValues(record map[string]events.DynamoDBAttributeValue) map[string]interface{} {
 	ret := make(map[string]interface{})
 
-	for name, value := range record.Change.OldImage {
+	for name, value := range record {
 		//iterate through OldImage to get foriegn keys for deletion
 		new_val := EvaluateType(value, name)
 		//check if there's type not accounted for
@@ -130,7 +130,7 @@ func PackValues(record events.DynamoDBEventRecord) map[string]interface{} {
 	return ret
 }
 
-func operationOnList(record events.DynamoDBEventRecord, mode int) {
+func operationOnList(record map[string]events.DynamoDBAttributeValue, mode int) {
 	var evt Event
 	m := PackValues(record)
 
@@ -180,9 +180,11 @@ func handler(event events.DynamoDBEvent) {
 	for _, record := range event.Records {
 		// if this was a remove record, that's what we're interested in
 		if record.EventName == "REMOVE" {
-			operationOnList(record, 0)
+			operationOnList(record.Change.OldImage, 0)
+			log.Println("Did Remove")
 		} else if record.EventName == "INSERT" {
-			operationOnList(record, 1)
+			operationOnList(record.Change.NewImage, 1)
+			log.Println("Did Add")
 		}
 	}
 }

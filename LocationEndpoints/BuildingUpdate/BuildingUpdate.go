@@ -80,8 +80,16 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		ExpressionAttributeNames:  mapQuery,
 		ExpressionAttributeValues: items,
 		ReturnValues:              types.ReturnValueUpdatedNew,
+	}
+
+	doConditionExpression := false
+	if val, ok := search["DoOverride"].(bool); !ok {
+		doConditionExpression = val
+	}
+
+	if doConditionExpression {
 		//don't make new record if key doesn't exist (could take this out and make a new add?)
-		ConditionExpression: aws.String("BuildingLong = :BuildingLong AND BuildingLat = :BuildingLat"),
+		updateInput.ConditionExpression = aws.String("BuildingLong = :BuildingLong AND BuildingLat = :BuildingLat")
 	}
 
 	retValues, err := client.UpdateItem(context.Background(), updateInput)

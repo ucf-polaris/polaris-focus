@@ -4,8 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -155,8 +155,8 @@ func operationOnList(record map[string]events.DynamoDBAttributeValue, mode int) 
 	updateInput := &dynamodb.UpdateItemInput{
 		TableName: aws.String(table),
 		Key: map[string]types.AttributeValue{
-			"BuildingLong": &types.AttributeValueMemberN{Value: fmt.Sprintf("%f", evt.Location.BuildingLong)},
-			"BuildingLat":  &types.AttributeValueMemberN{Value: fmt.Sprintf("%f", evt.Location.BuildingLat)},
+			"BuildingLong": &types.AttributeValueMemberN{Value: strconv.FormatFloat(evt.Location.BuildingLong, 'f', -1, 64)},
+			"BuildingLat":  &types.AttributeValueMemberN{Value: strconv.FormatFloat(evt.Location.BuildingLat, 'f', -1, 64)},
 		},
 		UpdateExpression: aws.String(query),
 		ExpressionAttributeValues: map[string]types.AttributeValue{

@@ -2,35 +2,40 @@ package main
 
 import (
 	"context"
-	"log"
-	"net/http"
 	"encoding/json"
 	"fmt"
+	"log"
+	"net/http"
 	"polaris-api/pkg/Helpers"
+	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
-	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
-	"github.com/aws/aws-sdk-go-v2/aws"
 )
 
 type Building struct {
-	BuildingLong    float64    		`json:"BuildingLong"`
-	BuildingLat     float64    		`json:"BuildingLat"`
-	BuildingDesc    string          `json:"BuildingDesc"`
-	BuildingEvents  []string        `json:"BuildingEvents"`
-	BuildingName    string   		`json:"BuildingName"`
+	BuildingLong         float64  `json:"BuildingLong"`
+	BuildingLat          float64  `json:"BuildingLat"`
+	BuildingDesc         string   `json:"BuildingDesc"`
+	BuildingEvents       []string `json:"BuildingEvents,omitempty"`
+	BuildingName         string   `json:"BuildingName"`
+	BuildingAltitude     string   `json:"BuildingAltitude,omitempty"`
+	BuildingLocationType string   `json:"BuildingLocationType,omitempty"`
+	BuildingAddress      string   `json:"BuildingAddress,omitempty"`
+	BuildingImage        string   `json:"BuildingImage,omitempty"`
 }
 type Payload struct {
-	BuildingLong	float64		`json:"BuildingLong"`
-	BuildingLat		float64		`json:"BuildingLat"`
+	BuildingLong float64 `json:"BuildingLong"`
+	BuildingLat  float64 `json:"BuildingLat"`
 }
 
 type Response struct {
 	Building Building `json:"building"`
-	Tokens Tokens  `json:"tokens"`
+	Tokens   Tokens   `json:"tokens"`
 }
 
 type Tokens struct {
@@ -56,13 +61,13 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}
 
 	var payload Payload
-    err = json.Unmarshal([]byte(request.Body), &payload)
-    if err != nil {
-        return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
-    }
+	err = json.Unmarshal([]byte(request.Body), &payload)
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
+	}
 
-    bLong := payload.BuildingLong
-    bLat := payload.BuildingLat
+	bLong := payload.BuildingLong
+	bLat := payload.BuildingLat
 
 	// Fetch the building in the form of a go struct from the database
 	building, err := getBuildingByLongLat(context.Background(), bLong, bLat)
@@ -77,13 +82,13 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}
 
 	tokens := Tokens{
-		Token:			token,
-		RefreshToken: 	refreshToken,
+		Token:        token,
+		RefreshToken: refreshToken,
 	}
 
 	ret := Response{
 		Building: *building,
-		Tokens: tokens,
+		Tokens:   tokens,
 	}
 
 	// Convert the building go struct to a json for return
@@ -106,8 +111,8 @@ func getBuildingByLongLat(ctx context.Context, BuildingLong float64, BuildingLat
 	inp := &dynamodb.GetItemInput{
 		TableName: aws.String(table),
 		Key: map[string]types.AttributeValue{
-			"BuildingLong": &types.AttributeValueMemberN{Value: fmt.Sprintf("%f", BuildingLong)},
-			"BuildingLat": &types.AttributeValueMemberN{Value: fmt.Sprintf("%f", BuildingLat)},
+			"BuildingLong": &types.AttributeValueMemberN{Value: strconv.FormatFloat(BuildingLong, 'f', -1, 64)},
+			"BuildingLat":  &types.AttributeValueMemberN{Value: strconv.FormatFloat(BuildingLat, 'f', -1, 64)},
 		},
 	}
 
@@ -129,7 +134,7 @@ func getBuildingByLongLat(ctx context.Context, BuildingLong float64, BuildingLat
 	if err != nil { // if this failed, early exit
 		return nil, err
 	}
-	
+
 	// yay!
 	return building, nil
 }

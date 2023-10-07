@@ -1,0 +1,20 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  BuildingGetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: building_get_sam
+      Handler: BuildingGet
+      Runtime: go1.x
+      CodeUri: ./
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Buildings"

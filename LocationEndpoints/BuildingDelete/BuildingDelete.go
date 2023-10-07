@@ -2,22 +2,23 @@ package main
 
 import (
 	"context"
-	"log"
-	"net/http"
 	"encoding/json"
 	"fmt"
+	"log"
+	"net/http"
+	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
-	"github.com/aws/aws-sdk-go-v2/aws"
 )
 
 type Payload struct {
-	BuildingLong	float64		`json:"BuildingLong"`
-	BuildingLat		float64		`json:"BuildingLat"`
+	BuildingLong float64 `json:"BuildingLong"`
+	BuildingLat  float64 `json:"BuildingLat"`
 }
 
 var table string
@@ -36,13 +37,13 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	// iniitalize the longlat payload structure
 	var payload Payload
 	// unmarshal the input and error check if something went wrong
-    err := json.Unmarshal([]byte(request.Body), &payload)
-    if err != nil {
-        return events.APIGatewayProxyResponse{
-            StatusCode: http.StatusBadRequest,
-            Body:       "Invalid input format",
-        }, nil
-    }
+	err := json.Unmarshal([]byte(request.Body), &payload)
+	if err != nil {
+		return events.APIGatewayProxyResponse{
+			StatusCode: http.StatusBadRequest,
+			Body:       "Invalid input format",
+		}, nil
+	}
 
 	// extract long and lat from the payload
 	blat := payload.BuildingLat
@@ -60,8 +61,8 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	input := &dynamodb.DeleteItemInput{
 		TableName: aws.String(table),
 		Key: map[string]types.AttributeValue{
-			"BuildingLong": &types.AttributeValueMemberN{Value: fmt.Sprintf("%f", blong)},
-			"BuildingLat": &types.AttributeValueMemberN{Value: fmt.Sprintf("%f", blat)},
+			"BuildingLong": &types.AttributeValueMemberN{Value: strconv.FormatFloat(blong, 'f', -1, 64)},
+			"BuildingLat":  &types.AttributeValueMemberN{Value: strconv.FormatFloat(blat, 'f', -1, 64)},
 		},
 		ConditionExpression: aws.String("attribute_exists(BuildingLong) AND attribute_exists(BuildingLat)"),
 	}
@@ -74,7 +75,7 @@ func handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 			Body:       fmt.Sprintf("Error when deleting building from table, building may not exist"),
 		}, nil
 	}
-
+	log.Printf("yay!")
 	// Finally, return that the item was successfully deleted as expected.
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusOK,

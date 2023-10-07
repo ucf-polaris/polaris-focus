@@ -2,13 +2,14 @@ import os
 import subprocess
 
 # define all the root directory names
-roots = ['LocationEndpoints', 'EventEndpoints', 'UserEndpoints', 'JWTFiles']
+roots = ['LocationEndpoints', 'EventEndpoints', 'UserEndpoints', 'JWTFiles', 'Scan']
 # map each root directory to its list of endpoints
 functions = {
-    'LocationEndpoints': ['BuildingAdd', 'BuildingGet', 'BuildingDelete', 'BuildingQuery', 'BuildingUpdate'],
-    'EventEndpoints': ['EventGet', 'EventsAdd', 'EventsDelete', 'EventsQuery', 'EventsUpdate'],
+    'LocationEndpoints': ['BuildingAdd', 'BuildingGet', 'BuildingDelete', 'BuildingUpdate'],
+    'EventEndpoints': ['EventGet', 'EventsAdd', 'EventsDelete', 'EventsUpdate'],
     'UserEndpoints': ['RegistrationCode', 'Register', 'Login', 'UserGet', 'UserUpdate', 'UserDelete'],
-    'JWTFiles': ['TokenVerify']
+    'JWTFiles': ['TokenVerify'],
+    'Scan': ['Scan']
 }
 
 # go through each of the roots

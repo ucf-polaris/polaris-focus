@@ -1,0 +1,63 @@
+{
+    "schema":{
+        "keys":["BuildingLong",  "BuildingLat"],
+        "attributes":{
+            "BuildingLong": "N",
+            "BuildingLat": "N"
+        }   
+    },
+    "test_cases": [
+        {
+            "name": "Get building that exists",
+            "request":{
+                "BuildingLong": -81.19973601440675,
+                "BuildingLat": 28.600288638812795
+            },
+            "expected_response":"",
+            "expected_response_body":{
+                "BuildingLong": -81.19973601440675,
+                "BuildingLat": 28.600288638812795,
+                "BuildingDesc": "Florida Technological University Theatre complex started as a yellow-and-blue tent in 1969 and grew over the years to become a separate program in 1981 under a new director. A $1.2m renovation in 1983 created a large black box theatre and multipurpose rooms, in addition to a range of degrees and specializations. In the 2000/2001 academic year, the Department partnered with the Civic Theatre to create The Orlando Repertory Theatre, which led to the development of an MFA course in Theater for Young Audiences in 2004.",
+                "BuildingName": "Theatre"
+            },
+            "ignore_in_body":[],
+            "ADD":[
+                {
+                    "BuildingLong": -81.19973601440675,
+                    "BuildingLat": 28.600288638812795,
+                    "BuildingDesc": "Florida Technological University Theatre complex started as a yellow-and-blue tent in 1969 and grew over the years to become a separate program in 1981 under a new director. A $1.2m renovation in 1983 created a large black box theatre and multipurpose rooms, in addition to a range of degrees and specializations. In the 2000/2001 academic year, the Department partnered with the Civic Theatre to create The Orlando Repertory Theatre, which led to the development of an MFA course in Theater for Young Audiences in 2004.",
+                    "BuildingName": "Theatre"
+                }
+            ],
+            "GET":[
+            ],
+            "ignore_in_get":[],
+            "convert_to_set":[],
+            "handle_token": true
+        },
+        {
+            "name": "Get building that doesn't exist",
+            "request":{
+                "BuildingLong": -81.19973601440675,
+                "BuildingLat": -81.19973601440675
+            },
+            "expected_response":"ERROR",
+            "expected_response_body":{
+            },
+            "ignore_in_body":[],
+            "ADD":[
+                {
+                    "BuildingLong": -81.19973601440675,
+                    "BuildingLat": 28.600288638812795,
+                    "BuildingDesc": "Florida Technological University Theatre complex started as a yellow-and-blue tent in 1969 and grew over the years to become a separate program in 1981 under a new director. A $1.2m renovation in 1983 created a large black box theatre and multipurpose rooms, in addition to a range of degrees and specializations. In the 2000/2001 academic year, the Department partnered with the Civic Theatre to create The Orlando Repertory Theatre, which led to the development of an MFA course in Theater for Young Audiences in 2004.",
+                    "BuildingName": "Theatre"
+                }
+            ],
+            "GET":[
+            ],
+            "ignore_in_get":[],
+            "convert_to_set":[],
+            "handle_token": true
+        }
+    ]
+}

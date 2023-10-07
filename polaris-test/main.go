@@ -2,22 +2,40 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"log"
-	"math"
 	"net/http"
+	"encoding/json"
+	"fmt"
 	"polaris-api/pkg/Helpers"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
+	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
+	"github.com/aws/aws-sdk-go-v2/aws"
 )
 
-type LocationQuery struct {
-	Radius float64 `json:"radius"`
-	Long   float64 `json:"long"`
-	Lat    float64 `json:"lat"`
+type Building struct {
+	BuildingLong    float64    		`json:"BuildingLong"`
+	BuildingLat     float64    		`json:"BuildingLat"`
+	BuildingDesc    string          `json:"BuildingDesc"`
+	BuildingEvents  []string        `json:"BuildingEvents"`
+	BuildingName    string   		`json:"BuildingName"`
+}
+type Payload struct {
+	BuildingLong	float64		`json:"BuildingLong"`
+	BuildingLat		float64		`json:"BuildingLat"`
+}
+
+type Response struct {
+	Building Building `json:"building"`
+	Tokens Tokens  `json:"tokens"`
+}
+
+type Tokens struct {
+	Token        string `json:"token,omitempty"`
+	RefreshToken string `json:"refreshToken,omitempty"`
 }
 
 var table string
@@ -31,92 +49,91 @@ func init() {
 	}
 }
 
-func produceQueryResult(page *dynamodb.ScanPaginator) ([]map[string]interface{}, error) {
-	p := []map[string]interface{}{}
-
-	for page.HasMorePages() {
-		out, err := page.NextPage(context.TODO())
-		if err != nil {
-			return nil, err
-		}
-
-		temp := []map[string]interface{}{}
-		err = attributevalue.UnmarshalListOfMaps(out.Items, &temp)
-		if err != nil {
-			return nil, err
-		}
-
-		p = append(p, temp...)
+func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	token, refreshToken, err := Helpers.GetTokens(request)
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
 	}
 
-	return p, nil
-}
+	var payload Payload
+    err = json.Unmarshal([]byte(request.Body), &payload)
+    if err != nil {
+        return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
+    }
 
-func pointInRadius(radius float64, lat float64, long float64, myLat float64, myLong float64) bool {
-	return math.Sqrt(math.Pow(myLat-lat, 2)+math.Pow(myLong-long, 2)) <= radius
-}
+    bLong := payload.BuildingLong
+    bLat := payload.BuildingLat
 
-func filterByRadius(M []map[string]interface{}, radius float64, lat float64, long float64) []map[string]interface{} {
-	ret := []map[string]interface{}{}
-	for _, e := range M {
-		myLat, _ := e["BuildingLat"].(float64)
-		myLong, _ := e["BuildingLong"].(float64)
-
-		if pointInRadius(radius, lat, long, myLat, myLong) {
-			ret = append(ret, e)
-		}
+	// Fetch the building in the form of a go struct from the database
+	building, err := getBuildingByLongLat(context.Background(), bLong, bLat)
+	// If an error came up, early exit and return the error
+	if err != nil {
+		return Helpers.ResponseGeneration(fmt.Sprintf("fetching building data: %v", err), http.StatusBadRequest)
 	}
 
-	return ret
+	// If the building didn't end up existing, return that information to the caller
+	if building == nil {
+		return Helpers.ResponseGeneration("Building not found in table", http.StatusBadRequest)
+	}
+
+	tokens := Tokens{
+		Token:			token,
+		RefreshToken: 	refreshToken,
+	}
+
+	ret := Response{
+		Building: *building,
+		Tokens: tokens,
+	}
+
+	// Convert the building go struct to a json for return
+	buildingJSON, err := json.Marshal(ret)
+	// If marshaling failed, early exit
+	if err != nil {
+		return Helpers.ResponseGeneration("when marshaling data", http.StatusBadRequest)
+	}
+
+	// Return the building info in the form of a stringified JSON
+	return events.APIGatewayProxyResponse{
+		StatusCode: http.StatusOK,
+		Body:       string(buildingJSON),
+		Headers:    map[string]string{"content-type": "application/json"},
+	}, nil
+}
+
+func getBuildingByLongLat(ctx context.Context, BuildingLong float64, BuildingLat float64) (*Building, error) {
+	// Construct the get item input given the long and lat provided
+	inp := &dynamodb.GetItemInput{
+		TableName: aws.String(table),
+		Key: map[string]types.AttributeValue{
+			"BuildingLong": &types.AttributeValueMemberN{Value: fmt.Sprintf("%f", BuildingLong)},
+			"BuildingLat": &types.AttributeValueMemberN{Value: fmt.Sprintf("%f", BuildingLat)},
+		},
+	}
+
+	// Try to query dynamodb with this get item
+	output, err := client.GetItem(ctx, inp)
+
+	// Return the error if it fails
+	if err != nil {
+		return nil, err
+	}
+
+	// Return nil if the item didn't end up existing
+	if output.Item == nil {
+		return nil, nil
+	}
+	// construct the go struct from dynamo's item
+	building := &Building{}
+	err = attributevalue.UnmarshalMap(output.Item, building)
+	if err != nil { // if this failed, early exit
+		return nil, err
+	}
+	
+	// yay!
+	return building, nil
 }
 
 func main() {
 	lambda.Start(handler)
-}
-
-func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	//-----------------------------------------EXTRACT TOKEN FIELDS-----------------------------------------
-	token, rfsTkn, err := Helpers.GetTokens(request)
-	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
-	}
-
-	//-----------------------------------------PUT INTO DATABASE-----------------------------------------
-	scanInput := &dynamodb.ScanInput{
-		// table name is a global variable
-		TableName: &table,
-	}
-
-	paginator := dynamodb.NewScanPaginator(client, scanInput)
-	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
-	}
-
-	//-----------------------------------------PACK RETURN VALUES-----------------------------------------
-	ret := make(map[string]interface{})
-	tokens := make(map[string]interface{})
-	if token != "" {
-		tokens["token"] = token
-	}
-
-	if rfsTkn != "" {
-		tokens["refreshToken"] = rfsTkn
-	}
-
-	ret["tokens"] = tokens
-
-	res, err := produceQueryResult(paginator)
-	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
-	}
-
-	//-----------------------------------------FILTER BASED ON CIRCULAR RANGE-----------------------------------------
-	ret["locations"] = res
-
-	js, err := json.Marshal(ret)
-	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
-	}
-
-	return events.APIGatewayProxyResponse{StatusCode: http.StatusOK, Body: string(js), Headers: map[string]string{"content-type": "application/json"}}, nil
 }

@@ -83,8 +83,15 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		return Helpers.ResponseGeneration(errs.Error(), http.StatusOK)
 	}
 
-	uuid_new := produceUUID()
+	var uuid_new string
+	if val, ok := search["EventID"].(string); ok {
+		uuid_new = val
+	} else {
+		uuid_new = produceUUID()
+	}
+
 	item["EventID"] = &types.AttributeValueMemberS{Value: uuid_new}
+
 	//-----------------------------------------GET QUERY LOCATION FIELD-----------------------------------------
 	if val, ok := search["location"].(map[string]interface{}); ok {
 		long, ok2 := val["BuildingLong"].(float64)
@@ -109,7 +116,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	makeTTL(item, search, expire)
 	//-----------------------------------------GET KEYS TO FILTER-----------------------------------------
 	keys := make(map[string]types.AttributeValue)
-	keys[":EventsID"] = &types.AttributeValueMemberS{Value: uuid_new}
+	keys[":EventID"] = &types.AttributeValueMemberS{Value: uuid_new}
 
 	if errs != nil {
 		return Helpers.ResponseGeneration(errs.Error(), http.StatusOK)
@@ -120,7 +127,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		ExpressionAttributeValues: keys,
 		TableName:                 aws.String(table),
 		Item:                      item,
-		ConditionExpression:       aws.String("EventsID <> :EventsID"),
+		ConditionExpression:       aws.String("EventID <> :EventID"),
 	})
 
 	if err != nil {

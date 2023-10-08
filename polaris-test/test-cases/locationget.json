@@ -1,0 +1,46 @@
+{
+    "schema":{
+        "keys":["BuildingLong",  "BuildingLat"],
+        "attributes":{
+            "BuildingLong": "N",
+            "BuildingLat": "N"
+        }   
+    },
+    "test_cases": [
+        {
+            "name": "Successful Get",
+            "request":{
+                "BuildingLong": -28.594471558689644,
+                "BuildingLat": -28.594471558689644
+            },
+            "expected_response":"",
+            "expected_response_body":{
+                "BuildingLong": -28.594471558689644,
+                "BuildingLat": -28.594471558689644,
+                "BuildingDesc": "An old historical building",
+                "BuildingEvents":[
+                    "a_cool_event_id"
+                ],
+                "BuildingName": "MSB"
+            },
+            "ignore_in_body":[],
+            "ADD":[
+                {
+                    "BuildingLong": -28.594471558689644,
+                    "BuildingLat": -28.594471558689644,
+                    "BuildingDesc": "An old historical building",
+                    "BuildingEvents":[
+                        "a_cool_event_id"
+                    ],
+                    "BuildingName": "MSB"
+                }
+            ],
+            "GET":[
+                
+            ],
+            "ignore_in_get":[],
+            "convert_to_set":["BuildingEvents"],
+            "handle_token": true
+        }
+    ]
+}

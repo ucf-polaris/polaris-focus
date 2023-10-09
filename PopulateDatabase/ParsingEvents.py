@@ -1,7 +1,7 @@
 import requests, json
 
 def main():
-    url = "https://knightconnect.campuslabs.com/engage/api/discovery/event/search?take=1&status=Approved&orderByField=endsOn&orderByDirection=ascending&status=Approved"
+    url = "https://knightconnect.campuslabs.com/engage/api/discovery/event/search?&take=1&status=Approved&endsAfter=2023-1-1&orderByField=endsOn&orderByDirection=ascending&status=Approved"
     r = requests.get(url)
 
     response = r.json()
@@ -15,7 +15,7 @@ def main():
     print("length is " + str(len(location_dict)))
 
 def parseLocations(total):
-    url = "https://knightconnect.campuslabs.com/engage/api/discovery/event/search?&take=4000&status=Approved&orderByField=endsOn&orderByDirection=ascending&status=Approved"
+    url = "https://knightconnect.campuslabs.com/engage/api/discovery/event/search?&take=4000&status=Approved&endsAfter=2023-1-1&orderByField=endsOn&orderByDirection=ascending&status=Approved"
     location_dict = {}
     skip = 0    
     while(skip < total):
@@ -30,6 +30,7 @@ def parseLocations(total):
                 location_dict[loc["location"]] += 1
             
         print("SKIP TOTAL: " + str(skip))
+        if(len(response["value"]) == 0): break
 
     return location_dict
     

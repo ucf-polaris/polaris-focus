@@ -38,10 +38,10 @@ def findWholeWord(w):
     return re.compile(r'\b({0})\b'.format(w), flags=re.IGNORECASE).search
 
 def ridNumbers(s):
-    return re.sub(r'[0-9]+', '', s)
+    return re.sub(r'[0-9]+', ' ', s)
 
 def stripSpecial(s):
-	return re.sub(r'[^A-Za-z0-9 ]+', '', s)
+	return re.sub(r'[^A-Za-z0-9 ]+', ' ', s)
 
 def checkFullName(location, truth, found):
     for record in truth:
@@ -71,13 +71,18 @@ def checkPartialAbbre(location, truth, found):
         for abb in abbres:
             #first try with whole location (strip special characters)
             if(findWholeWord(abb)(stripSpecial(location)) != None):
-                found.write("3. ABBRE Found " + location + " --- " + abb + " (" + record["Name"] +")\n")
+                found.write("3. ABBRE1 Found " + location + " --- " + abb + " (" + record["Name"] +")\n")
                 return record["Name"]
             
             #try with location without numbers
             if(findWholeWord(abb)(stripSpecial(ridNumbers(location))) != None):
-                found.write("3. ABBRE Found " + location + " --- " + abb + " (" + record["Name"] +")\n")
+                found.write("3. ABBRE2 Found " + location + " --- " + abb + " (" + record["Name"] +")\n")
                 return record["Name"]
+            
+            #check if first three characters match
+            """if(abb.lower() == location[:4].lower()):
+                found.write("3. ABBRE3 Found " + location + " --- " + abb + " (" + record["Name"] +")\n")
+                return record["Name"]"""
     return None
 
 def checkPartialAlias(location, truth, found):

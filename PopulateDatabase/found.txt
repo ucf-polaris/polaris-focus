@@ -1,0 +1,2050 @@
+1. FULL Found The Venue ---  The Venue
+2. PARTIAL Found Student Union, Pegasus Ballroom --- Student Union
+1. FULL Found Student Union ---  Student Union
+2. PARTIAL Found UCF Student Union, Room 218B --- Student Union
+2. PARTIAL Found Student Union, Sand Key 220 --- Student Union
+3. ABBRE Found Office of Student Involvement | SU Room 208 --- SU (Student Union)
+2. PARTIAL Found Student Union Patio --- Student Union
+1. FULL Found Memory Mall ---  Memory Mall
+2. PARTIAL Found Student Union 218D --- Student Union
+2. PARTIAL Found Student Union Marketplace --- Student Union
+2. PARTIAL Found UCF Memory Mall --- Memory Mall
+2. PARTIAL Found Student Union 208 --- Student Union
+3. ABBRE Found RWC Leisure Pool Green --- RWC (Recreation and Wellness Center)
+3. ABBRE Found RWC Leisure Pool  --- RWC (Recreation and Wellness Center)
+3. ABBRE Found RWC Leisure Pool --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Pride Commons, Ferrell Commons --- Ferrell Commons
+2. PARTIAL Found Pride Commons (located in Ferrell Commons, room 171 (across from the Marketplace) --- Ferrell Commons
+2. PARTIAL Found 7-Eleven: Aloma & Tuskawilla --- 7-Eleven
+2. PARTIAL Found Student Union  --- Student Union
+2. PARTIAL Found UCF Student Union 218A --- Student Union
+2. PARTIAL Found Student Union Room 221 --- Student Union
+2. PARTIAL Found Student Union 218AB --- Student Union
+2. PARTIAL Found Key West Ballroom (student union room 218) --- Student Union
+2. PARTIAL Found Student Union Pegasus Ballroom --- Student Union
+2. PARTIAL Found Key West Ballroom, Student Union 218AB --- Student Union
+2. PARTIAL Found Student Union RM 221 --- Student Union
+2. PARTIAL Found Student Union - 316ABCD --- Student Union
+2. PARTIAL Found Memory Mall  --- Memory Mall
+3. ABBRE Found LEAD Lounge (SU 208) --- SU (Student Union)
+3. ABBRE Found Siesta Key SU rm225 --- SU (Student Union)
+2. PARTIAL Found Student Union 223 --- Student Union
+2. PARTIAL Found UCF, Student Union Room 222 --- Student Union
+2. PARTIAL Found Student Union at UCF --- Student Union
+2. PARTIAL Found Student Union, Second Floor Room 218AB --- Student Union
+2. PARTIAL Found Outside the Student Union --- Student Union
+2. PARTIAL Found Wakadoos in the Student Union --- Student Union
+2. PARTIAL Found Student Union Food Court --- Student Union
+3. ABBRE Found ENG2 102 --- ENG2 (Engineering Building II)
+2. PARTIAL Found Student Union Room 218CD --- Student Union
+2. PARTIAL Found Chick-Fil-A on University & Rouse --- Chick-fil-A
+2. PARTIAL Found Student Union Rm224 --- Student Union
+2. PARTIAL Found Student Union Room 220 --- Student Union
+2. PARTIAL Found UCF Student Union, Room 221 --- Student Union
+1. FULL Found Barbara Ying Center ---  Barbara Ying Center
+2. PARTIAL Found Student Union - Pegasus Ballroom, GH --- Student Union
+2. PARTIAL Found Siesta Key Board Room, Student Union Room 225 --- Student Union
+2. PARTIAL Found Office of Student Involvement, Student Union Room 208 --- Student Union
+2. PARTIAL Found UCF Teaching Academy --- Teaching Academy
+2. PARTIAL Found Visual Arts Building Room 113 --- Visual Arts Building
+2. PARTIAL Found UCF Student Union Room 316ABCD --- Student Union
+2. PARTIAL Found Student Union Cape Florida Ballroom --- Student Union
+2. PARTIAL Found Pegasus Ballroom, Student Union --- Student Union
+3. ABBRE Found Cedar Key (SU 223) --- SU (Student Union)
+3. ABBRE Found SU 223 --- SU (Student Union)
+2. PARTIAL Found Student Union 221 --- Student Union
+2. PARTIAL Found Student Union 222 --- Student Union
+2. PARTIAL Found UCF Student Union, 225 --- Student Union
+2. PARTIAL Found Student Union room 220 --- Student Union
+3. ABBRE Found BA1 room 122 --- BA1 (Business Administration I)
+3. ABBRE Found TA 202A --- TA (Teaching Academy)
+3. ABBRE Found In front of SU --- SU (Student Union)
+2. PARTIAL Found UCF Student Union Room 224 --- Student Union
+3. ABBRE Found Sand Key (SU 220) --- SU (Student Union)
+3. ABBRE Found SU221 --- SU (Student Union)
+3. ABBRE Found VAB 113 --- VAB (Visual Arts Building)
+1. FULL Found Knights Plaza ---  Knights Plaza
+2. PARTIAL Found UCF Student Union Patio --- Student Union
+3. ABBRE Found VAB 109 --- VAB (Visual Arts Building)
+3. ABBRE Found SU 222 --- SU (Student Union)
+2. PARTIAL Found UCF Student Union Key West Ballroom 218AB --- Student Union
+3. ABBRE Found Egmont Key (SU 224) --- SU (Student Union)
+2. PARTIAL Found Student Union Atrium --- Student Union
+2. PARTIAL Found Student union 224 --- Student Union
+2. PARTIAL Found Student Union Garden Key room 221 --- Student Union
+2. PARTIAL Found Barnes and Noble at Knights Plaza --- Knights Plaza
+3. ABBRE Found SU 218C --- SU (Student Union)
+3. ABBRE Found ED 190 --- ED (Education Complex and Gym)
+2. PARTIAL Found Student Union circle and Ferrell Auditorium --- Student Union
+2. PARTIAL Found Student Union 208R --- Student Union
+3. ABBRE Found BHC 128 --- BHC (Burnett Honors College)
+2. PARTIAL Found Ferrell Commons Auditorium --- Ferrell Commons
+2. PARTIAL Found UCF Student Union --- Student Union
+2. PARTIAL Found 4000 Central Florida Blvd. Orlando, FL 32816 (Student Union: Sand Key Room) --- Student Union
+2. PARTIAL Found Student Union, rm 224 --- Student Union
+1. FULL Found Recreation and Wellness Center ---  Recreation and Wellness Center
+3. ABBRE Found VAB 132 (Auditorium) --- VAB (Visual Arts Building)
+2. PARTIAL Found Student Union room 221 --- Student Union
+2. PARTIAL Found Student Union room 316AB --- Student Union
+2. PARTIAL Found College of Sciences Room 101 --- College of Sciences
+2. PARTIAL Found UCF Student Union Key West Ballroom, 218 AB --- Student Union
+2. PARTIAL Found Student Union, Key West Room 218D --- Student Union
+3. ABBRE Found ED Rm 190 --- ED (Education Complex and Gym)
+3. ABBRE Found SU 220 --- SU (Student Union)
+3. ABBRE Found BA1 220 --- BA1 (Business Administration I)
+2. PARTIAL Found Student Union rm. 218D --- Student Union
+3. ABBRE Found HEC 125 --- HEC (L3Harris Engineering Center)
+3. ABBRE Found VAB 109  --- VAB (Visual Arts Building)
+1. FULL Found Teaching Academy ---  Teaching Academy
+2. PARTIAL Found Memory Mall Flagpole --- Memory Mall
+2. PARTIAL Found Lake Claire pavilion --- Pavilion
+3. ABBRE Found VAB 132 --- VAB (Visual Arts Building)
+2. PARTIAL Found UCF Student Union Key West Ballroom, 218AB --- Student Union
+3. ABBRE Found ENG1 286 --- ENG1 (Engineering Building I)
+2. PARTIAL Found Student Union: Garden Key 221 --- Student Union
+2. PARTIAL Found Student Union Room 218c --- Student Union
+2. PARTIAL Found Student Union Patio & Skate Night --- Student Union
+3. ABBRE Found HEC TBA --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found Egmont Key (Student Union Room 224) --- Student Union
+3. ABBRE Found SU 220 -- 4000 Central Florida Blvd. Orlando, FL, 32817 --- SU (Student Union)
+3. ABBRE Found TA 204 --- TA (Teaching Academy)
+2. PARTIAL Found The Venue at UCF (Located behind the UCF Arena) --- The Venue
+3. ABBRE Found SU Room 221 --- SU (Student Union)
+2. PARTIAL Found Memory Mall, UCF  --- Memory Mall
+3. ABBRE Found SU 221 --- SU (Student Union)
+2. PARTIAL Found Student Union Room 218C --- Student Union
+3. ABBRE Found SU 218 AB --- SU (Student Union)
+3. ABBRE Found BA1 Room 206 --- BA1 (Business Administration I)
+2. PARTIAL Found Student Union South Patio --- Student Union
+2. PARTIAL Found Garden Theatre --- Theatre
+3. ABBRE Found SU Cape Florida Ballroom --- SU (Student Union)
+2. PARTIAL Found Barbara Ying Center  --- Barbara Ying Center
+3. ABBRE Found Carpool at VAB @ 5:30 PM --- VAB (Visual Arts Building)
+3. ABBRE Found VAB Rm 109 --- VAB (Visual Arts Building)
+2. PARTIAL Found Student Union: Rm 218D --- Student Union
+2. PARTIAL Found UCF College of Sciences Building, room 101 --- College of Sciences
+2. PARTIAL Found Memory Mall (look for latin organizaiton's tents) --- Memory Mall
+2. PARTIAL Found 3rd Floor of Student Union --- Student Union
+2. PARTIAL Found Key West Ballroom - Student Union Room 218AB --- Student Union
+3. ABBRE Found MSB 360 --- MSB (Mathematical Sciences)
+2. PARTIAL Found Wackadoo's (Student Union) --- Student Union
+2. PARTIAL Found Student Union Patio at UCF Orlando Campus --- Student Union
+2. PARTIAL Found Cedar Key (Student Union Room 223) --- Student Union
+3. ABBRE Found HEC 101 --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found Green Grass Area Next to the Leisure Pool --- Leisure Pool
+2. PARTIAL Found UCF Fairwinds Alumni Center --- Fairwinds Alumni Center
+2. PARTIAL Found Technology Commons 1, 102c --- Technology Commons
+3. ABBRE Found ENG1 286! --- ENG1 (Engineering Building I)
+3. ABBRE Found BA1 122 --- BA1 (Business Administration I)
+2. PARTIAL Found Student Union Room 218D (Key West Ballroom) --- Student Union
+2. PARTIAL Found UCF Teaching Academy Building Room 117 --- Teaching Academy
+2. PARTIAL Found Around the Student Union --- Student Union
+2. PARTIAL Found VUCF cubicle, OSI Room 208, 2nd Floor of the Student Union --- Student Union
+3. ABBRE Found Volunteer UCF Office (SU 208) --- SU (Student Union)
+2. PARTIAL Found Outside Student Union --- Student Union
+2. PARTIAL Found Room 222 Student Union --- Student Union
+3. ABBRE Found SU 316CD --- SU (Student Union)
+2. PARTIAL Found Large Pavilion at Lake Clair --- Pavilion
+2. PARTIAL Found Siesta Key rm 225, Student Union --- Student Union
+2. PARTIAL Found Student Union Rm 222 --- Student Union
+3. ABBRE Found RWC Gym --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found UCF Barbara Ying Center --- Barbara Ying Center
+2. PARTIAL Found Student Union; Rm 218 AB --- Student Union
+2. PARTIAL Found UCF Arena (Dunkin Donuts side) --- Dunkin Donuts
+2. PARTIAL Found Student Union Cape Florida 316ABCD --- Student Union
+2. PARTIAL Found Toppers Creamery --- Topper's Creamery
+2. PARTIAL Found UCF Student Union - 316ABCD --- Student Union
+3. ABBRE Found SU Atrium --- SU (Student Union)
+3. ABBRE Found BA2  #207 --- BA2 (Business Administration II)
+2. PARTIAL Found UCF Student Union, Room 222 --- Student Union
+2. PARTIAL Found Student union --- Student Union
+2. PARTIAL Found Student Union 220 --- Student Union
+2. PARTIAL Found Egmont Key Student Union room 224  --- Student Union
+2. PARTIAL Found UCF Student Union, Room 316CD --- Student Union
+2. PARTIAL Found Student Union, Room 224 --- Student Union
+3. ABBRE Found SU 218D --- SU (Student Union)
+2. PARTIAL Found Student Union, Rm 222 --- Student Union
+2. PARTIAL Found UCF Student Union - Pegasus Ballroom ABC --- Student Union
+2. PARTIAL Found Student Union: Rm 218AB --- Student Union
+3. ABBRE Found BHC Reading Room --- BHC (Burnett Honors College)
+2. PARTIAL Found UCF Arena (Dunkin Donuts side)  --- Dunkin Donuts
+3. ABBRE Found SU 218CD --- SU (Student Union)
+2. PARTIAL Found UCF Student Union Cape Florida Ballroom 316 --- Student Union
+2. PARTIAL Found Burnett Honors college room 129 --- Burnett Honors College
+2. PARTIAL Found Student Union Room 222  --- Student Union
+3. ABBRE Found BA2 #207 --- BA2 (Business Administration II)
+2. PARTIAL Found Student Union Room 218D --- Student Union
+2. PARTIAL Found Student Union, Room 222 --- Student Union
+2. PARTIAL Found Student Union Rm 220 --- Student Union
+3. ABBRE Found ENG2 302 --- ENG2 (Engineering Building II)
+2. PARTIAL Found Student Union, 221 --- Student Union
+2. PARTIAL Found Student Union Room 222 --- Student Union
+2. PARTIAL Found Teaching Academy Room 130 --- Teaching Academy
+2. PARTIAL Found Student Union Room 223 --- Student Union
+3. ABBRE Found ENG1 Rm 427 --- ENG1 (Engineering Building I)
+3. ABBRE Found ENG1 227 --- ENG1 (Engineering Building I)
+2. PARTIAL Found Student Union room 223 --- Student Union
+2. PARTIAL Found Student Union Garden Key, Room 221 --- Student Union
+1. FULL Found Rehearsal Hall ---  Rehearsal Hall
+3. ABBRE Found SU 224 --- SU (Student Union)
+3. ABBRE Found The UCF Creative School next to the RWC --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found UCF Main Campus, Pensacola Board Room (Student Union 222) --- Student Union
+2. PARTIAL Found 	Student Union: Cape Florida 316AB --- Student Union
+2. PARTIAL Found Student Union Sand Key Room 220 --- Student Union
+2. PARTIAL Found Memory Mall UCF --- Memory Mall
+3. ABBRE Found RWC Challenge Course (behind Intramural Fields) --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Student Union: Cedar Key 223 --- Student Union
+2. PARTIAL Found UCF Creative School for Children (on the UCF main campus) --- Creative School for Children
+2. PARTIAL Found Student Union Rm 218AB --- Student Union
+2. PARTIAL Found Student Union, Room 223 --- Student Union
+2. PARTIAL Found The Venue at UCF Arena --- The Venue
+2. PARTIAL Found Howard Phillips Hall room 406 I --- Howard Phillips Hall
+2. PARTIAL Found Howard Phillips Hall Room 216 --- Howard Phillips Hall
+2. PARTIAL Found Student Union, room 222 --- Student Union
+2. PARTIAL Found Student Union Room 218AB --- Student Union
+2. PARTIAL Found Pegasus Ballroom (Student Union) --- Student Union
+2. PARTIAL Found Memory Mall, UCF Main Campus --- Memory Mall
+2. PARTIAL Found Office of Student Involvement, Student Union 208 --- Student Union
+2. PARTIAL Found UCF Main Campus, Egmont Key Meeting Room (Student Union 224) --- Student Union
+3. ABBRE Found 109 VAB --- VAB (Visual Arts Building)
+2. PARTIAL Found Lake Claire Recreation Area --- Lake Claire Recreation
+2. PARTIAL Found The Venue at UCF --- The Venue
+2. PARTIAL Found Student Union 3rd Floor Cape Florida Ballroom  --- Student Union
+2. PARTIAL Found Visual Arts Breezeway --- Breezeway
+2. PARTIAL Found Student Union 218 AB --- Student Union
+2. PARTIAL Found UCF Student Union Room 221 (Garden Key) --- Student Union
+3. ABBRE Found UCF RH room 116 --- RH (Rehearsal Hall)
+2. PARTIAL Found Student union room 218a --- Student Union
+1. FULL Found Reflecting Pond ---  Reflecting Pond
+2. PARTIAL Found Student Union Key West Ballroom Room 218 --- Student Union
+2. PARTIAL Found University of Central Florida Student Union --- Student Union
+3. ABBRE Found RWC --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Recreation and Wellness Center Room 206 and IM Turf --- Recreation and Wellness Center
+4. ALIAS Found 7-11 Gas Station --- 711 (7-Eleven)
+2. PARTIAL Found Student Union Pegasus Ballroom ABC --- Student Union
+2. PARTIAL Found Student Union: Egmont key 224 --- Student Union
+2. PARTIAL Found Memory Mall Flag Pole --- Memory Mall
+2. PARTIAL Found Student Union, RM: 222 --- Student Union
+2. PARTIAL Found Student Union 218C --- Student Union
+2. PARTIAL Found Student Union Rm 218 --- Student Union
+2. PARTIAL Found UCF Technology Commons, Room 117E --- Technology Commons
+2. PARTIAL Found Student Union Cedar Key Room 223 --- Student Union
+2. PARTIAL Found Student Union room 225 --- Student Union
+2. PARTIAL Found Student Union room 218D --- Student Union
+2. PARTIAL Found Student Union Garden Key Room 221 --- Student Union
+2. PARTIAL Found Student Union 224 --- Student Union
+2. PARTIAL Found UCF Teaching Academy Room 130 --- Teaching Academy
+2. PARTIAL Found Nature Pavilion, behind Garage C. See attachement.  --- Nature Pavilion
+2. PARTIAL Found Memory Mall, UCF --- Memory Mall
+2. PARTIAL Found UCF Student Union Room 218AB (Key West Ballroom) --- Student Union
+2. PARTIAL Found Student Union 316AB --- Student Union
+2. PARTIAL Found UCF Teaching Academy Lobby --- Teaching Academy
+2. PARTIAL Found Student Union - Key West Ballroom A/B --- Student Union
+3. ABBRE Found MSB 336 --- MSB (Mathematical Sciences)
+3. ABBRE Found TA 117 --- TA (Teaching Academy)
+2. PARTIAL Found Wackadoos - Student Union --- Student Union
+2. PARTIAL Found Nature Pavilion (behind Garage C crossing Gemini Blvd) --- Nature Pavilion
+2. PARTIAL Found Student Union Room 224 --- Student Union
+3. ABBRE Found BHC  --- BHC (Burnett Honors College)
+2. PARTIAL Found Siesta Key Boardroom - Student Union - Room 225 --- Student Union
+3. ABBRE Found BHC Room 127 --- BHC (Burnett Honors College)
+2. PARTIAL Found Student Union 218CD --- Student Union
+2. PARTIAL Found Orlando Shakespeare Theatre --- Theatre
+2. PARTIAL Found UCF Student Union - Cape Florida Ballroom (316) --- Student Union
+2. PARTIAL Found Visual Arts Building Conference Room (Room 117) --- Visual Arts Building
+2. PARTIAL Found Student Union RM: 224 --- Student Union
+2. PARTIAL Found UCF Student Union - Key West Ballroom (218) --- Student Union
+2. PARTIAL Found Millican Hall, fountain side --- Millican Hall
+2. PARTIAL Found UCF - Student Union - College of Sciences Building 101  --- College of Sciences
+2. PARTIAL Found Student Union Patio  --- Student Union
+2. PARTIAL Found Biological Sciences Bldg Rm 212 --- Biological Sciences
+2. PARTIAL Found Student Union 218A --- Student Union
+3. ABBRE Found SU 316 A & B --- SU (Student Union)
+2. PARTIAL Found Toppers Creamery at UCF (in the Student Union) --- Student Union
+2. PARTIAL Found UCF Student Union - Pegasus Ballroom --- Student Union
+3. ABBRE Found UCF Classroom Building 2 (ROTC Building) - Room 204 --- ROTC (ROTC Center)
+2. PARTIAL Found UCF Student Union Room 218D --- Student Union
+2. PARTIAL Found Morgridge International Reading Center --- Reading Center
+2. PARTIAL Found Student Union - Room 207  --- Student Union
+2. PARTIAL Found UCF Bookstore Barnes and Noble by Breezeway --- Breezeway
+3. ABBRE Found UCF Recreation and Wellness Center, Court 1 & RWC @ Knights Plaza Mind & Body Studio --- RWC (Recreation and Wellness Center)
+3. ABBRE Found BHC 102 --- BHC (Burnett Honors College)
+3. ABBRE Found HEC 117 --- HEC (L3Harris Engineering Center)
+3. ABBRE Found ENG2 Room 102 --- ENG2 (Engineering Building II)
+2. PARTIAL Found Toppers in the UCF Student Union --- Student Union
+2. PARTIAL Found UCF Student Union: Cape Florida Ballroom 316AB --- Student Union
+2. PARTIAL Found UCF Howard Phillips HAll --- Howard Phillips Hall
+3. ABBRE Found SU Room 218AB --- SU (Student Union)
+1. FULL Found Topper's Creamery ---  Topper's Creamery
+2. PARTIAL Found UCF Student Union, rm:222 --- Student Union
+2. PARTIAL Found UCF Teaching Academy Room 301 --- Teaching Academy
+2. PARTIAL Found Student Union, Siesta Key 225 --- Student Union
+2. PARTIAL Found Student Union Garden Key (Room 221) --- Student Union
+2. PARTIAL Found Student Union Sand Key Room 220  --- Student Union
+2. PARTIAL Found LEAD Lounge, Student Union 207 --- Student Union
+2. PARTIAL Found In front of UCF Teaching Academy (by hand sculpture) --- Teaching Academy
+2. PARTIAL Found Student Union Rm.316 --- Student Union
+3. ABBRE Found TA 322 --- TA (Teaching Academy)
+2. PARTIAL Found Ferrell Commons outside 63 South --- Ferrell Commons
+2. PARTIAL Found Meet at Nature Pavilion (CleanUp in Nature Trails) --- Nature Pavilion
+2. PARTIAL Found Student Union Room 224, Egmont Key --- Student Union
+2. PARTIAL Found Ferrell Commons Green --- Ferrell Commons
+4. ALIAS Found 7-11 Parking Lot --- 711 (7-Eleven)
+3. ABBRE Found UCF RWC  Room 206 --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found UCF Student Union Room 218AB --- Student Union
+2. PARTIAL Found UCF Student Union Atrium --- Student Union
+2. PARTIAL Found Student Union Room 316 --- Student Union
+2. PARTIAL Found Student Union Room 225 --- Student Union
+3. ABBRE Found RWC Park --- RWC (Recreation and Wellness Center)
+3. ABBRE Found BA2 210 --- BA2 (Business Administration II)
+2. PARTIAL Found UCF Student Union OSI Room 207  --- Student Union
+2. PARTIAL Found Student Union - The Atrium --- Student Union
+2. PARTIAL Found Chick-Fil-A on University and Rouse --- Chick-fil-A
+3. ABBRE Found UCF Arboretum (behind HEC) --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found UCF Student Union Pegasus Ballroom --- Student Union
+2. PARTIAL Found UCF Student Union Rm 218D --- Student Union
+2. PARTIAL Found Student Union rm 224 --- Student Union
+2. PARTIAL Found Student Union room 218C --- Student Union
+2. PARTIAL Found UCF Student Union Room 221 --- Student Union
+1. FULL Found Burnett Honors College ---  Burnett Honors College
+2. PARTIAL Found UCF Teaching Academy Room 102 --- Teaching Academy
+2. PARTIAL Found Knights Pantry- UCF main campus --- Knights Pantry
+2. PARTIAL Found VUCF Cubicle located on the second story of Student Union --- Student Union
+2. PARTIAL Found Student Union 316 --- Student Union
+2. PARTIAL Found UCF Student Union, Pegasus Ballroom  --- Student Union
+2. PARTIAL Found Pegasus Ball Room in the Student Union --- Student Union
+2. PARTIAL Found Student Union Pegasus Registration Desk --- Student Union
+2. PARTIAL Found Student Union Room 224  --- Student Union
+2. PARTIAL Found HPA Starbucks --- Starbucks
+2. PARTIAL Found 2nd Floor of the Student Union --- Student Union
+3. ABBRE Found RWC Leisure Green --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Second story of Student Union outside OSI office --- Student Union
+2. PARTIAL Found Nature Pavilion behind Garage C (See Map) --- Nature Pavilion
+2. PARTIAL Found Student Union Room 218 --- Student Union
+2. PARTIAL Found UCF Student Union, Room 218C --- Student Union
+3. ABBRE Found S.U Peg. Ballroom Hallway --- SU (Student Union)
+2. PARTIAL Found Health Center & Pharmacy: 2nd Floor Conference Room --- Health Center
+2. PARTIAL Found FAIRWINDS Alumni Center --- Fairwinds Alumni Center
+3. ABBRE Found Vab 132 --- VAB (Visual Arts Building)
+3. ABBRE Found ENG1 427 --- ENG1 (Engineering Building I)
+3. ABBRE Found SU Peg Ballroom --- SU (Student Union)
+3. ABBRE Found Key West Ballroom (STUN 218) --- STUN (Student Union)
+2. PARTIAL Found Pegasus Ball Room, Student Union, University of Central Florida  --- Student Union
+2. PARTIAL Found Student Union- Room 224 --- Student Union
+1. FULL Found Chemistry Building ---  Chemistry Building
+2. PARTIAL Found Lead Lounge located on the second story of Student Union in the Office of Student Involvement --- Student Union
+2. PARTIAL Found Arboretum Nature Pavilion (behind Garage C) --- Nature Pavilion
+2. PARTIAL Found Engineering Building I (ENG 1) room 383 --- Engineering Building I
+2. PARTIAL Found Student Union (By Dominos) --- Student Union
+2. PARTIAL Found Student Union room 224 --- Student Union
+3. ABBRE Found SU, Cape Florida Ballroom316 --- SU (Student Union)
+2. PARTIAL Found Cape Florida Ballroom Student Union 316CD --- Student Union
+3. ABBRE Found BA1 - 115 --- BA1 (Business Administration I)
+3. ABBRE Found ENG1 383 --- ENG1 (Engineering Building I)
+4. ALIAS Found Biology Field Research Center (Building #92) --- Biology (Biological Sciences)
+3. ABBRE Found ENG2 203 --- ENG2 (Engineering Building II)
+2. PARTIAL Found student Union Patio --- Student Union
+2. PARTIAL Found UCF Student Union Room 207  --- Student Union
+2. PARTIAL Found Lake Claire and Memory Mall --- Memory Mall
+2. PARTIAL Found UCF FAIRWINDS Alumni Center --- Fairwinds Alumni Center
+2. PARTIAL Found UCF Career Services --- Career Services
+3. ABBRE Found UCF RWC NEAR THE ARENA --- RWC (Recreation and Wellness Center)
+3. ABBRE Found HEC 118 --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found UCF Teaching Academy 110   --- Teaching Academy
+3. ABBRE Found ucf RWC --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Lake Claire Rec Area and Memory Mall --- Memory Mall
+3. ABBRE Found MSB 406 --- MSB (Mathematical Sciences)
+2. PARTIAL Found Cape Florida 316 AB, Student Union --- Student Union
+2. PARTIAL Found Student Union patio --- Student Union
+2. PARTIAL Found Nike Community Center --- Nike Community
+3. ABBRE Found Cedar Key SU Room 223 --- SU (Student Union)
+2. PARTIAL Found Student Union 316ABCD --- Student Union
+2. PARTIAL Found Academic Village - Nike Community  --- Nike Community
+2. PARTIAL Found Key West Ballroom in the Student Union 218D --- Student Union
+3. ABBRE Found BA1, Room 206 --- BA1 (Business Administration I)
+2. PARTIAL Found student Union room 220 --- Student Union
+2. PARTIAL Found Pegasus Ballroom, UCF Student Union --- Student Union
+3. ABBRE Found University of Central Florida- Visual Arts Building (VAB) Room 111 --- VAB (Visual Arts Building)
+2. PARTIAL Found In front of the Student Union (South Side) --- Student Union
+3. ABBRE Found Burnett Honors College (BHC 0128), Main Campus --- BHC (Burnett Honors College)
+3. ABBRE Found University of Central Florida- MATHEMATICAL SCIENCES BUILDING (MSB) Room 360 --- MSB (Mathematical Sciences)
+3. ABBRE Found Chem 203 --- CHEM (Chemistry Building)
+2. PARTIAL Found UCF main campus: College of Sciences Building Room 101 --- College of Sciences
+2. PARTIAL Found Student Union Key West Room 218C --- Student Union
+2. PARTIAL Found Teaching Academy 116 --- Teaching Academy
+2. PARTIAL Found Front of Millican Hall --- Millican Hall
+2. PARTIAL Found UCF Memory Mall Flag Pole --- Memory Mall
+2. PARTIAL Found UCF Student Union Room 225 --- Student Union
+2. PARTIAL Found UCF's Memory Mall --- Memory Mall
+2. PARTIAL Found 7-Eleven 7405 Red Bug Rd. Oviedo, FL 32765 (corner of Slavia) --- 7-Eleven
+2. PARTIAL Found Live Oak Event Center (in Ferrell Commons) --- Ferrell Commons
+3. ABBRE Found Chi Epsilon Office (ENG1 - 189A) --- ENG1 (Engineering Building I)
+2. PARTIAL Found Mathematical Sciences Building, Room 407 --- Mathematical Sciences
+2. PARTIAL Found UCF Ferrell Commons Auditorium --- Ferrell Commons
+2. PARTIAL Found Outside UCF Student Union Before Chick-Fil-A --- Chick-fil-A
+2. PARTIAL Found Ferrell Commons 165 --- Ferrell Commons
+3. ABBRE Found SU224 --- SU (Student Union)
+2. PARTIAL Found 7-ELEVEN --- 7-Eleven
+3. ABBRE Found RWC  multipurpose room --- RWC (Recreation and Wellness Center)
+3. ABBRE Found SU223 --- SU (Student Union)
+3. ABBRE Found RWC multipurpose room --- RWC (Recreation and Wellness Center)
+3. ABBRE Found RWC Leisure Pool Lawn --- RWC (Recreation and Wellness Center)
+3. ABBRE Found RWC @ KNIGHTS PLAZA Mind and Body Studio --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Student Union, Egmont Key 224 --- Student Union
+2. PARTIAL Found Teaching Academy Rm. 110 --- Teaching Academy
+2. PARTIAL Found Office of Fraternity and Sorority Life --- Fraternity and Sorority Life
+2. PARTIAL Found Student Union Key West Ballroom 218 ABCD --- Student Union
+3. ABBRE Found SU Egmont Key 224 --- SU (Student Union)
+2. PARTIAL Found Student Union Cedar Key #223 --- Student Union
+2. PARTIAL Found Toppers Creamery- Student Union --- Student Union
+2. PARTIAL Found Key West Ballroom, Student Union --- Student Union
+2. PARTIAL Found Pegasus Ballroom - UCF Student Union --- Student Union
+2. PARTIAL Found Student Union - Second Floor --- Student Union
+2. PARTIAL Found UCF Student Union Room Second Floor 218AB (Key West Ballroom) --- Student Union
+2. PARTIAL Found Room 224 Egmont Key ,inside the Student Union --- Student Union
+3. ABBRE Found SU Cedar Key 223 --- SU (Student Union)
+3. ABBRE Found UCF- CEL 135 BA1 --- BA1 (Business Administration I)
+2. PARTIAL Found UCF Nature Pavilion --- Nature Pavilion
+2. PARTIAL Found John C. Hitt Library, Room 433 --- John C. Hitt Library
+2. PARTIAL Found UCF Student Union Room 221  --- Student Union
+2. PARTIAL Found College of Sciences Building Room 101 --- College of Sciences
+2. PARTIAL Found Student Union room 218 A-B --- Student Union
+2. PARTIAL Found Memory Mall - Lot Space Row A, Seat 79 --- Memory Mall
+2. PARTIAL Found UCF Student Union Room 223 --- Student Union
+2. PARTIAL Found UCF Student Union 316CD --- Student Union
+2. PARTIAL Found Student Union, Room 218C (second floor) --- Student Union
+2. PARTIAL Found Burnett Honors College, Room 126 --- Burnett Honors College
+3. ABBRE Found PSY (room TBA) --- PSY (Psychology Building)
+2. PARTIAL Found Student Union Key West Ballroom (rm 218) --- Student Union
+2. PARTIAL Found Career Services and Experiential Learning --- Career Services
+2. PARTIAL Found Student Union Room220 --- Student Union
+3. ABBRE Found BA1 135 --- BA1 (Business Administration I)
+3. ABBRE Found UCF MSB (Mathematical Sciences Building) --- MSB (Mathematical Sciences)
+2. PARTIAL Found Engineering Building I (ENG 1) room 327 --- Engineering Building I
+3. ABBRE Found HEC 103 --- HEC (L3Harris Engineering Center)
+3. ABBRE Found BA1 214 --- BA1 (Business Administration I)
+2. PARTIAL Found Student Union:  Room. 220 --- Student Union
+2. PARTIAL Found Student Union Room 221  --- Student Union
+2. PARTIAL Found Visual Arts Building 132 --- Visual Arts Building
+2. PARTIAL Found Burnett Honors College  --- Burnett Honors College
+3. ABBRE Found SU room 221 --- SU (Student Union)
+4. ALIAS Found Biology Field Research Center --- Biology (Biological Sciences)
+2. PARTIAL Found UCF Student Union, Room 223 --- Student Union
+3. ABBRE Found MSB 260  --- MSB (Mathematical Sciences)
+3. ABBRE Found ENG1 224 --- ENG1 (Engineering Building I)
+2. PARTIAL Found The University of Central Florida, Psychology Building, room 301Q --- Psychology Building
+3. ABBRE Found HEC119 --- HEC (L3Harris Engineering Center)
+3. ABBRE Found Mind and Body Studio at RWC KNIGHTS PLAZA --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found UCF Pegasus Ballroom at Student Union --- Student Union
+2. PARTIAL Found Teaching Academy 222 --- Teaching Academy
+2. PARTIAL Found Student Union, Rm 154 --- Student Union
+2. PARTIAL Found Student Union 218 D --- Student Union
+2. PARTIAL Found Student Union, Room 218C --- Student Union
+2. PARTIAL Found Rm.221 Student Union --- Student Union
+2. PARTIAL Found University of Central Florida, Student Union --- Student Union
+2. PARTIAL Found Key West, Room 218 (second floor of the Student Union) --- Student Union
+2. PARTIAL Found UCF Student Union room 220 --- Student Union
+2. PARTIAL Found Libra Community Center --- Libra Community
+2. PARTIAL Found student union --- Student Union
+3. ABBRE Found MSB 260 --- MSB (Mathematical Sciences)
+2. PARTIAL Found College of Sciences 101 --- College of Sciences
+3. ABBRE Found SU, Egmont Key 224 --- SU (Student Union)
+2. PARTIAL Found Student Union (Egmont Key, Room 224) --- Student Union
+3. ABBRE Found BA1 CEL 135 --- BA1 (Business Administration I)
+3. ABBRE Found UCF Teaching Academy room TA301 --- TA (Teaching Academy)
+3. ABBRE Found UCF HEC Building, Room 103 --- HEC (L3Harris Engineering Center)
+3. ABBRE Found HEC 119 --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found Cape Florida Ballroom Student Union --- Student Union
+2. PARTIAL Found Pegasus Ballroom (Student Union)  --- Student Union
+3. ABBRE Found SU 218 D --- SU (Student Union)
+2. PARTIAL Found Psychology Building 301Q --- Psychology Building
+3. ABBRE Found SU Egmont Key 224  --- SU (Student Union)
+2. PARTIAL Found UCF Student Union 218D --- Student Union
+2. PARTIAL Found Health and Public Affairs Starbucks.  --- Starbucks
+3. ABBRE Found SU Key West Ballroom - room 218 --- SU (Student Union)
+2. PARTIAL Found Student Union, Garden Key room 221  --- Student Union
+2. PARTIAL Found UCF College of Sciences Building, Room 101 --- College of Sciences
+2. PARTIAL Found Student Union, Garden Key, Room 221 --- Student Union
+2. PARTIAL Found UCF student union, Egmont key room 214 --- Student Union
+3. ABBRE Found Mind and Body Studio located at the RWC at Knight’s Plaza --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Room. 221 (Student Union) --- Student Union
+2. PARTIAL Found Student Union 224, Egmont Key --- Student Union
+1. FULL Found Starbucks ---  Starbucks
+1. FULL Found Psychology Building ---  Psychology Building
+2. PARTIAL Found UCF Student Union Room 220 --- Student Union
+2. PARTIAL Found Student Union Key West Ballroom - Room 218 --- Student Union
+2. PARTIAL Found UCF Student Union Room 218C --- Student Union
+3. ABBRE Found HEC Building, Room 103 --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found Memory Mall - GSA Tent --- Memory Mall
+3. ABBRE Found SU 218AB --- SU (Student Union)
+2. PARTIAL Found UCF Student Union, Room 220 --- Student Union
+2. PARTIAL Found Student Union Key West, Room 218AB --- Student Union
+2. PARTIAL Found Mind and Body Studio in Knights Plaza (Recreational and Wellness Center next to arena) --- Knights Plaza
+2. PARTIAL Found Student Union Cedar Ballroom 233 --- Student Union
+2. PARTIAL Found Student Union Cedar key room 223 --- Student Union
+2. PARTIAL Found Topper's Creamery UCF --- Topper's Creamery
+2. PARTIAL Found Lake Claire Pavilion --- Pavilion
+2. PARTIAL Found UCF Physical Sciences Bldg --- Physical Sciences
+2. PARTIAL Found Business Administration II Room 208 --- Business Administration II
+2. PARTIAL Found First Year Experience, Howard Phillips Hall 216 --- Howard Phillips Hall
+2. PARTIAL Found Student Union Egmont Key Room 224 --- Student Union
+2. PARTIAL Found Engineering Building I (ENG 1) room 327  --- Engineering Building I
+3. ABBRE Found SU Pegasus ABC  --- SU (Student Union)
+2. PARTIAL Found UCF Physical Sciences Bldg Rm 160/161 --- Physical Sciences
+3. ABBRE Found Student Union patio; TA 117 --- TA (Teaching Academy)
+2. PARTIAL Found UCF Breezeway --- Breezeway
+2. PARTIAL Found UCF Recreation and Wellness Center  --- Recreation and Wellness Center
+2. PARTIAL Found Memory Mall Flag Pole  --- Memory Mall
+2. PARTIAL Found Technology Commons 1 room 107: computer lab --- Technology Commons
+2. PARTIAL Found Libra community center --- Libra Community
+2. PARTIAL Found Visual Arts Building Breezeway --- Breezeway
+2. PARTIAL Found UCF Student Union Sand Key Room 220 --- Student Union
+2. PARTIAL Found Student Union Egmont Key room 224 --- Student Union
+2. PARTIAL Found UCF Student Union RM 218C --- Student Union
+2. PARTIAL Found UCF Recreation and Wellness Center --- Recreation and Wellness Center
+2. PARTIAL Found Business Administration I, Room 115 --- Business Administration I
+3. ABBRE Found HEC 101 Side A --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found Student Union, Key West, Room 218A --- Student Union
+4. ALIAS Found 7/11 at the intersection of Dean and Colonial --- 711 (7-Eleven)
+2. PARTIAL Found Technology Commons Computer Lab --- Technology Commons
+2. PARTIAL Found Student Union 218AB  --- Student Union
+2. PARTIAL Found Room. 221 Student Union --- Student Union
+3. ABBRE Found MSB Room 336 --- MSB (Mathematical Sciences)
+2. PARTIAL Found Recreation and Wellness Center, Multipurpose Room (2nd floor) --- Recreation and Wellness Center
+3. ABBRE Found Counseling and Psychological Services (CAPS) --- CAPS (CAPS)
+2. PARTIAL Found Student Union near Smoothie King --- Smoothie King
+2. PARTIAL Found College Of Sciences Building  Rm.101 --- College of Sciences
+2. PARTIAL Found UCF Arboretum Nature Pavilion --- Nature Pavilion
+4. ALIAS Found 7/11 at the intersection of Rouse and Colonial --- 711 (7-Eleven)
+2. PARTIAL Found UCF Student Union: Cape Florida 316CD --- Student Union
+2. PARTIAL Found Psychology Building, 301Q --- Psychology Building
+2. PARTIAL Found Student Union: Pegasus ABC --- Student Union
+2. PARTIAL Found UCF Topper's Creamery --- Topper's Creamery
+2. PARTIAL Found Student Union Key West Room 218D --- Student Union
+2. PARTIAL Found Student Union Pegasus Ballroom  --- Student Union
+3. ABBRE Found SU Pegasus ABC --- SU (Student Union)
+3. ABBRE Found SU 218AB & Topper's Creamery --- SU (Student Union)
+2. PARTIAL Found Topper's Creamery UCF  --- Topper's Creamery
+2. PARTIAL Found Virtual Race --- Virtual
+3. ABBRE Found TA 301 --- TA (Teaching Academy)
+2. PARTIAL Found Free Speech Lawn (Located between the Library and Millican Hall) --- Millican Hall
+3. ABBRE Found Mind and Body Studio at Knights Plaza RWC --- RWC (Recreation and Wellness Center)
+1. FULL Found Knights Pantry ---  Knights Pantry
+2. PARTIAL Found Room 220 Student Union --- Student Union
+3. ABBRE Found RWC Challenge Course --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found UCF  Student Union --- Student Union
+2. PARTIAL Found Student Union Cape Florida Ballroom (Room 316) --- Student Union
+3. ABBRE Found Siesta Key Boardroom SU 225 --- SU (Student Union)
+2. PARTIAL Found Student Union, room 218C --- Student Union
+3. ABBRE Found Small Gym RWC at Knights Plaza  --- RWC (Recreation and Wellness Center)
+1. FULL Found UCF Tower 3 ---  UCF Tower 3
+3. ABBRE Found UCF SU 223 --- SU (Student Union)
+2. PARTIAL Found UCF Student Union Room 222 --- Student Union
+2. PARTIAL Found Physical Sciences Bldg Rm 160 --- Physical Sciences
+2. PARTIAL Found Neptune Community  --- Neptune Community
+2. PARTIAL Found Room 224 Student Union --- Student Union
+2. PARTIAL Found Student Union: Room 220 --- Student Union
+2. PARTIAL Found Student Union Building Room 225 --- Student Union
+2. PARTIAL Found UCF Student Union - 316C (Cape Florida Ballroom) --- Student Union
+3. ABBRE Found SU 225 --- SU (Student Union)
+2. PARTIAL Found In front of the of Psychology building --- Psychology Building
+2. PARTIAL Found Memory Mall – UCF --- Memory Mall
+2. PARTIAL Found UCF Student Union  --- Student Union
+2. PARTIAL Found UCF's Teaching Academy - Room 117  --- Teaching Academy
+2. PARTIAL Found Student Union Patio area  --- Student Union
+2. PARTIAL Found UCF Reflection Pond (Located between Library and Millican Hall) --- Millican Hall
+2. PARTIAL Found Student Union Room 316AB --- Student Union
+1. FULL Found Howard Phillips Hall ---  Howard Phillips Hall
+2. PARTIAL Found UCF Teaching Academy Room 130  --- Teaching Academy
+3. ABBRE Found HEC 104 --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found Student Union - Ceder Key Room 223 (Second Floor) --- Student Union
+2. PARTIAL Found UCF Student Union Key West Ballroom --- Student Union
+3. ABBRE Found MSB FREE SPEECH LAWN  --- MSB (Mathematical Sciences)
+2. PARTIAL Found Outside the Student Union  --- Student Union
+2. PARTIAL Found Student Union Rm 225 --- Student Union
+2. PARTIAL Found Student Union rm 221 --- Student Union
+2. PARTIAL Found Student Union - Room 220 --- Student Union
+3. ABBRE Found UCF SU218 --- SU (Student Union)
+2. PARTIAL Found UCF Reflection Pond (located between Library and Millican Hall) --- Millican Hall
+2. PARTIAL Found Visual Arts Building 217 --- Visual Arts Building
+2. PARTIAL Found HPA Room 126 (HPA building connected to Starbucks at memory mall) --- Memory Mall
+3. ABBRE Found MSB 260 (Math and Science Building) --- MSB (Mathematical Sciences)
+2. PARTIAL Found The Hub in the Student Union --- Student Union
+3. ABBRE Found UCF RWC Sand Volleyball Courts  --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found UCF Student Union 3rd Floor Cape Florida Ballroom --- Student Union
+3. ABBRE Found HEC117 --- HEC (L3Harris Engineering Center)
+3. ABBRE Found UCF Mathematical Sciences Building (MSB), Room 336 --- MSB (Mathematical Sciences)
+3. ABBRE Found Conference Room (BHC 130) --- BHC (Burnett Honors College)
+2. PARTIAL Found UCF Student Union, Pensacola Board Room, Room 222 --- Student Union
+3. ABBRE Found BA1, Room 207 --- BA1 (Business Administration I)
+3. ABBRE Found VAB 111 --- VAB (Visual Arts Building)
+2. PARTIAL Found Pavilion by the Intramural Fields  --- Pavilion
+3. ABBRE Found Visual Arts Building (VAB) Room 111 --- VAB (Visual Arts Building)
+2. PARTIAL Found UCF Reflection Pond (Located between Library and Millican Hall)  --- Millican Hall
+2. PARTIAL Found UCF Student Union, Room 316 --- Student Union
+2. PARTIAL Found UCF Mathematical Sciences Building, Room 336 --- Mathematical Sciences
+2. PARTIAL Found Visual Arts Building  --- Visual Arts Building
+3. ABBRE Found Teaching Academy TA204 --- TA (Teaching Academy)
+3. ABBRE Found TA 117  --- TA (Teaching Academy)
+2. PARTIAL Found Lake Claire and Student Union --- Student Union
+3. ABBRE Found RWC Multipurpose Room --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Student Union Pegasus Ballroom and Cape Florida Ballroom --- Student Union
+2. PARTIAL Found Rehearsal Hall, Auditorium (116) --- Rehearsal Hall
+2. PARTIAL Found Teaching Academy - Room 204 --- Teaching Academy
+3. ABBRE Found HEC Room 110 --- HEC (L3Harris Engineering Center)
+3. ABBRE Found University of Central Florida ENG1 227 --- ENG1 (Engineering Building I)
+2. PARTIAL Found Cape Florida Ball Room 316 inside the Student Union --- Student Union
+3. ABBRE Found BHC Lobby --- BHC (Burnett Honors College)
+2. PARTIAL Found Teaching Academy 117 --- Teaching Academy
+2. PARTIAL Found Student Union Student Union 316C --- Student Union
+3. ABBRE Found VAB 217 --- VAB (Visual Arts Building)
+1. FULL Found Robinson Observatory ---  Robinson Observatory
+2. PARTIAL Found Student Union Student Union 316A --- Student Union
+2. PARTIAL Found Memory Mall: In front of the Psychology Building  --- Memory Mall
+2. PARTIAL Found UCF Memory Mall  --- Memory Mall
+2. PARTIAL Found Student Union rm.225 --- Student Union
+3. ABBRE Found BHC Reading Room  --- BHC (Burnett Honors College)
+3. ABBRE Found UCF CAPS --- CAPS (CAPS)
+2. PARTIAL Found Outside the UCF Recreation and Wellness Center --- Recreation and Wellness Center
+3. ABBRE Found VAB room 132 --- VAB (Visual Arts Building)
+2. PARTIAL Found UCF Student Union Room 316CD --- Student Union
+3. ABBRE Found BA1 rm110 --- BA1 (Business Administration I)
+3. ABBRE Found Neptune Community 4th Floor Common Room --- TH (Theatre)
+3. ABBRE Found In front of the SU --- SU (Student Union)
+2. PARTIAL Found UCF Psychology Building (Rm 108)  --- Psychology Building
+3. ABBRE Found BA1 116 --- BA1 (Business Administration I)
+3. ABBRE Found HEC Engineering Bldg --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found Student Union - Egmont Key (224) --- Student Union
+2. PARTIAL Found The Hub - Student Union --- Student Union
+3. ABBRE Found PSY 108 --- PSY (Psychology Building)
+3. ABBRE Found BA1 110 --- BA1 (Business Administration I)
+3. ABBRE Found BA1 119 --- BA1 (Business Administration I)
+3. ABBRE Found BA1 213 --- BA1 (Business Administration I)
+3. ABBRE Found BHC 130 --- BHC (Burnett Honors College)
+3. ABBRE Found MSB 359 --- MSB (Mathematical Sciences)
+3. ABBRE Found MSB 405 --- MSB (Mathematical Sciences)
+2. PARTIAL Found Recreation and Wellness Center, Group Exercise Studio --- Recreation and Wellness Center
+2. PARTIAL Found Barnes & Noble @ Knight's Plaza --- Barnes & Noble
+3. ABBRE Found BA1 CEL 135  --- BA1 (Business Administration I)
+2. PARTIAL Found Student Union Cedar Key Room 223  --- Student Union
+2. PARTIAL Found Student Union- Cape Florida Ballroom  --- Student Union
+2. PARTIAL Found Student Union 225 --- Student Union
+3. ABBRE Found RWC at Knights Plaza --- RWC (Recreation and Wellness Center)
+3. ABBRE Found Psychology Building (PSY 108) --- PSY (Psychology Building)
+3. ABBRE Found BA1 room 110 --- BA1 (Business Administration I)
+2. PARTIAL Found Visual Arts Building, Room 109 --- Visual Arts Building
+3. ABBRE Found BA1 115 --- BA1 (Business Administration I)
+2. PARTIAL Found Visual Arts Building room 217 --- Visual Arts Building
+2. PARTIAL Found HPA Starbucks  --- Starbucks
+3. ABBRE Found HEC 101 (Harris Engineering Corporation) --- HEC (L3Harris Engineering Center)
+3. ABBRE Found CB1 - rm101 --- CB1 (Classroom Building I)
+2. PARTIAL Found UCF Student Union patio & Memory Mall; OneBlood truck  --- Memory Mall
+2. PARTIAL Found The Hub (Student Union, First Floor)  --- Student Union
+2. PARTIAL Found John C. Hitt Library Room 373 --- John C. Hitt Library
+2. PARTIAL Found Cape Florida Ballroom UCF Student Union --- Student Union
+3. ABBRE Found UCF RWC Sand Volleyball Courts --- RWC (Recreation and Wellness Center)
+3. ABBRE Found BHC room 106 --- BHC (Burnett Honors College)
+2. PARTIAL Found Student Union Pensacola Room 222 --- Student Union
+3. ABBRE Found The EXCHANGE - BA1 Rm 148 --- BA1 (Business Administration I)
+2. PARTIAL Found The Hub- Student Union, first floor --- Student Union
+2. PARTIAL Found The Hub- Student Union, First Floor --- Student Union
+4. ALIAS Found 7/11 --- 711 (7-Eleven)
+2. PARTIAL Found UCF Leisure Pool --- Leisure Pool
+2. PARTIAL Found UCF Student Union Courtyard Plaza (between the Student Union and the Breezeway) --- Breezeway
+2. PARTIAL Found Orlando Repertory Theatre --- Theatre
+2. PARTIAL Found Key West Ballroom UCF Student Union --- Student Union
+1. FULL Found The Pop Parlour ---  The Pop Parlour
+2. PARTIAL Found Burger U at Knights Plaza  --- Knights Plaza
+2. PARTIAL Found Student Union Pegasus ABC --- Student Union
+2. PARTIAL Found Pegasus Ballroom Student Union --- Student Union
+3. ABBRE Found HEC  --- HEC (L3Harris Engineering Center)
+3. ABBRE Found RWC at Ferrell Commons --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found student Union room 221 --- Student Union
+2. PARTIAL Found Smoothie King  --- Smoothie King
+1. FULL Found Lake Claire Recreation ---  Lake Claire Recreation
+2. PARTIAL Found Teaching Academy  Room: TBA --- Teaching Academy
+2. PARTIAL Found John T. Washington Breezeway --- Breezeway
+2. PARTIAL Found Student Union - Pegasus Ballroom --- Student Union
+2. PARTIAL Found Student Union - Key West Room 218C --- Student Union
+2. PARTIAL Found Business Administration I Room 135  --- Business Administration I
+3. ABBRE Found SU Room 218D --- SU (Student Union)
+2. PARTIAL Found Student Union Rm 225  --- Student Union
+2. PARTIAL Found Student Union: The Hub --- Student Union
+2. PARTIAL Found Main Campus - Student Union Room 218D --- Student Union
+2. PARTIAL Found Keywest Ballroom (UCF Student Union Room 218) --- Student Union
+3. ABBRE Found BA1 207  --- BA1 (Business Administration I)
+2. PARTIAL Found Pegasus Ballroom at the UCF Student Union  --- Student Union
+2. PARTIAL Found UCF Fairwinds Alumni Center, SGA Board Room --- Fairwinds Alumni Center
+2. PARTIAL Found UCF Student Union room 224 --- Student Union
+3. ABBRE Found HEC-125 --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found UCF Student Union Rm. 224 --- Student Union
+2. PARTIAL Found Meet at the John C. Hitt Library Water Fountain --- John C. Hitt Library
+2. PARTIAL Found Memory Mall section B spot 114 --- Memory Mall
+2. PARTIAL Found ferrell commons --- Ferrell Commons
+2. PARTIAL Found Student Union, 218A --- Student Union
+2. PARTIAL Found STUDENT UNION THIRD FLOOR LOUNGE --- Student Union
+2. PARTIAL Found Biological Sciences Building Room 105 --- Biological Sciences
+3. ABBRE Found MSB-260 --- MSB (Mathematical Sciences)
+2. PARTIAL Found CSB (College of Sciences) 101 --- College of Sciences
+2. PARTIAL Found Biological Sciences Building (BIO), Room 209 --- Biological Sciences
+2. PARTIAL Found Student Union Room 218D - Main Campus --- Student Union
+3. ABBRE Found MSB - Rm 306 --- MSB (Mathematical Sciences)
+3. ABBRE Found HEC Building; UCF --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found Mathematical Sciences Building room 260 --- Mathematical Sciences
+2. PARTIAL Found UCF Student Union RM 223 --- Student Union
+3. ABBRE Found UCF BA1 room 135 --- BA1 (Business Administration I)
+3. ABBRE Found Business Administration 1 (BA1) --- BA1 (Business Administration I)
+2. PARTIAL Found Pegasus Ballroom GHI in Student Union --- Student Union
+2. PARTIAL Found Student Union: Cape Florida Ballroom  (316CD)  --- Student Union
+2. PARTIAL Found Student Union, 223 --- Student Union
+2. PARTIAL Found Garage Services in Parking garage B --- Parking Garage B
+3. ABBRE Found Ed Yarborough Nature Center --- ED (Education Complex and Gym)
+1. FULL Found 7-Eleven ---  7-Eleven
+2. PARTIAL Found Physical Sciences Building 160 --- Physical Sciences
+2. PARTIAL Found UCF Student Union, 218C --- Student Union
+3. ABBRE Found MSB-406 --- MSB (Mathematical Sciences)
+3. ABBRE Found MSB 359 (Mathematical Sciences Building) --- MSB (Mathematical Sciences)
+3. ABBRE Found HEC room 119 --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found Visual Arts Building 109 --- Visual Arts Building
+2. PARTIAL Found Student Union Cafeteria --- Student Union
+2. PARTIAL Found Career Services 121 --- Career Services
+3. ABBRE Found Mathematical Sciences Bulding Room 336  (MSB 336) --- MSB (Mathematical Sciences)
+2. PARTIAL Found Student Union Key West Ballroom A/B --- Student Union
+2. PARTIAL Found UCF Student Union, Pegasus Ballroom (GHI) --- Student Union
+3. ABBRE Found Cedar key SU room 223 --- SU (Student Union)
+2. PARTIAL Found UCF Memory Mall, Section B Spot 139 --- Memory Mall
+2. PARTIAL Found UCF Rehearsal Hall, Auditorium (116) --- Rehearsal Hall
+2. PARTIAL Found Student Union #223 --- Student Union
+3. ABBRE Found Day 1: RWC Multipurpose room --- RWC (Recreation and Wellness Center)
+3. ABBRE Found Su Patio --- SU (Student Union)
+3. ABBRE Found Free Speech Area between MSB and the Reflection Pond --- MSB (Mathematical Sciences)
+2. PARTIAL Found Biological Sciences Building Room 104 --- Biological Sciences
+2. PARTIAL Found Burnett Honors College Reading Room  --- Burnett Honors College
+2. PARTIAL Found Student Union Key West room 218AB --- Student Union
+2. PARTIAL Found Student Union, room 218D --- Student Union
+2. PARTIAL Found University Of Central Florida Student Union room 218AB --- Student Union
+3. ABBRE Found We will be meeting in front of the RWC (big UCF gym) --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Psychology Building Room 301Q --- Psychology Building
+3. ABBRE Found TA 130 --- TA (Teaching Academy)
+3. ABBRE Found Harris Corporation Engineering Center (HEC 118) --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found Student Union: Cedar Key Meeting Room (Room 223) --- Student Union
+1. FULL Found Leisure Pool ---  Leisure Pool
+3. ABBRE Found UCF BA1 - The EXCHANGE --- BA1 (Business Administration I)
+3. ABBRE Found BA1 RM122 --- BA1 (Business Administration I)
+2. PARTIAL Found Student Union: Key West Ballroom (Room 218)  --- Student Union
+3. ABBRE Found BA1 - The EXCHANGE --- BA1 (Business Administration I)
+2. PARTIAL Found Ferrell Commons - G --- Ferrell Commons
+3. ABBRE Found SU 218 --- SU (Student Union)
+3. ABBRE Found Harrison Engineering Center (HEC) Room 119 --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found HPA1 Starbucks --- Starbucks
+2. PARTIAL Found UCF Student Union 316A --- Student Union
+2. PARTIAL Found Student Union, Room 220 --- Student Union
+3. ABBRE Found BA1 - 121 --- BA1 (Business Administration I)
+2. PARTIAL Found Teaching Academy Lobby  --- Teaching Academy
+2. PARTIAL Found Student Union: Cape Florida Ballroom (Room 316) --- Student Union
+2. PARTIAL Found Gazebo outside breezeway --- Breezeway
+2. PARTIAL Found Honors Congress Office in Burnett Honors College --- Burnett Honors College
+2. PARTIAL Found John C. Hitt Library (Room 432) --- John C. Hitt Library
+2. PARTIAL Found Visual Arts Building room 113 --- Visual Arts Building
+3. ABBRE Found Tower 3, 6th Floor Study Lounge --- TH (Theatre)
+1. FULL Found Visual Arts Building ---  Visual Arts Building
+3. ABBRE Found RWC Room MPR (2nd floor) --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found PAC: Theatre Building Studio II --- Theatre
+2. PARTIAL Found Global UCF Room 101A (at memory mall) --- Memory Mall
+2. PARTIAL Found Ferrell Commons: Live Oak Event Center --- Ferrell Commons
+2. PARTIAL Found UCF Natural Pavilion --- Pavilion
+2. PARTIAL Found UCF Student Union Room 316 --- Student Union
+2. PARTIAL Found Student Union Room 218D Key West --- Student Union
+2. PARTIAL Found Student Union: Front Patio --- Student Union
+2. PARTIAL Found UCF Student Union Plaza --- Student Union
+2. PARTIAL Found Student Union, Room 225 --- Student Union
+3. ABBRE Found Visual Arts Building Room 109 (VAB 109) --- VAB (Visual Arts Building)
+2. PARTIAL Found In front of the Student Union --- Student Union
+2. PARTIAL Found UCF Breezeway Gazebo --- Breezeway
+2. PARTIAL Found Student Union Key West Ballroom Room 218 AB --- Student Union
+2. PARTIAL Found Student Union: Pegasus Ballroom --- Student Union
+2. PARTIAL Found UCF Technology Commons --- Technology Commons
+2. PARTIAL Found At the Student Union, Egmont Key Room 224 --- Student Union
+3. ABBRE Found HEC-101 --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found UCF Reflecting Pond --- Reflecting Pond
+2. PARTIAL Found Meet at Barbara Ying Center --- Barbara Ying Center
+2. PARTIAL Found Memory Mall C70 --- Memory Mall
+4. ALIAS Found 7-11 (Across the Street from UCF) --- 711 (7-Eleven)
+2. PARTIAL Found Student Union Rm.218C --- Student Union
+2. PARTIAL Found Student Union, Cape Florida Ballroom, Room 316CD  --- Student Union
+3. ABBRE Found Free Speech Area- Between MSB and the Reflecting Pond --- MSB (Mathematical Sciences)
+2. PARTIAL Found UCF Student Union, Cape Florida Ballroom --- Student Union
+2. PARTIAL Found UCF, VISUAL ARTS BUILDING, ROOM 132 --- Visual Arts Building
+2. PARTIAL Found Student Union Cape Florida 316 CD --- Student Union
+3. ABBRE Found SU Room 220 --- SU (Student Union)
+3. ABBRE Found Engineering Building 2, Room 205 (ENG2 205) --- ENG2 (Engineering Building II)
+2. PARTIAL Found Biological Sciences Building Room 212 --- Biological Sciences
+2. PARTIAL Found Knights Plaza, CFE Arena --- Knights Plaza
+2. PARTIAL Found Psychology Building Room 301Q  --- Psychology Building
+2. PARTIAL Found UCF Visual Arts Building Room 113 --- Visual Arts Building
+2. PARTIAL Found Memory Mall Starbucks --- Memory Mall
+2. PARTIAL Found Biological Sciences Bldg Rm 209 --- Biological Sciences
+3. ABBRE Found UCF RWC Soccer Fields --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Visual Arts Building Room 132 --- Visual Arts Building
+3. ABBRE Found UCF arb trailer --- ARB (Arboretum Portable)
+3. ABBRE Found RWC Main: 206 --- RWC (Recreation and Wellness Center)
+3. ABBRE Found Harrison Engineering Center (HEC 119) --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found Business Administration I Room 135 --- Business Administration I
+2. PARTIAL Found UCF Lake Claire Recreation Area --- Lake Claire Recreation
+3. ABBRE Found PSY Building, Room 106. --- PSY (Psychology Building)
+2. PARTIAL Found Physical Sciences Building --- Physical Sciences
+3. ABBRE Found UCF SU Patio --- SU (Student Union)
+2. PARTIAL Found Cape Florida Ballroom, Student Union --- Student Union
+3. ABBRE Found UCF - Building ENG-2 Room 205 --- ENG2 (Engineering Building II)
+2. PARTIAL Found student union room 223 --- Student Union
+2. PARTIAL Found UCF Live Oak Event Center (Near Garage B) --- Live Oak Event Center
+3. ABBRE Found PSY 106 --- PSY (Psychology Building)
+2. PARTIAL Found Knights Plaza Basketball Courts --- Knights Plaza
+2. PARTIAL Found Student Union Key West Ballroom --- Student Union
+2. PARTIAL Found Fraternity and Sorority Life Building --- Fraternity and Sorority Life
+2. PARTIAL Found The Orlando Repertory Theatre --- Theatre
+2. PARTIAL Found Psychology Building Room 106 --- Psychology Building
+2. PARTIAL Found The hub in the student Union (first floor) --- Student Union
+2. PARTIAL Found UCF Student Union Cape Florida Ballroom --- Student Union
+2. PARTIAL Found Student Union 316CD --- Student Union
+2. PARTIAL Found Student Union Key West Ballroom Room 218 A/B --- Student Union
+1. FULL Found Chick-fil-A ---  Chick-fil-A
+2. PARTIAL Found Student Union, room 220 --- Student Union
+2. PARTIAL Found UCF Student Union Egmont Key, Room 224 --- Student Union
+3. ABBRE Found Volleyball Courts by the RWC --- RWC (Recreation and Wellness Center)
+3. ABBRE Found Leisure Pool at the RWC --- RWC (Recreation and Wellness Center)
+3. ABBRE Found UCF MSB room 260 --- MSB (Mathematical Sciences)
+3. ABBRE Found RWC Basketball Courts --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Psychology Building, Room 106 --- Psychology Building
+3. ABBRE Found HEC Room 111 --- HEC (L3Harris Engineering Center)
+3. ABBRE Found RWC Fields --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Memory Mall, Tent #246 --- Memory Mall
+2. PARTIAL Found Student Union, Cape Florida 316D --- Student Union
+2. PARTIAL Found Student Union Rm 224 --- Student Union
+2. PARTIAL Found UCF Student Union, Room 224 --- Student Union
+2. PARTIAL Found UCF Robinson Observatory --- Robinson Observatory
+2. PARTIAL Found UCF Visual Arts Building Room 132 --- Visual Arts Building
+2. PARTIAL Found The Burnett Honors College --- Burnett Honors College
+2. PARTIAL Found The Garden Theatre --- Theatre
+3. ABBRE Found Chi Epsilon Office in ENG1 Room 189-A --- ENG1 (Engineering Building I)
+2. PARTIAL Found UCF Student Union (location TBA) --- Student Union
+3. ABBRE Found Tower 4 5th Floor Common Area --- TH (Theatre)
+2. PARTIAL Found UCF Student Union, 2nd Floor --- Student Union
+3. ABBRE Found MSB - Rm 360  --- MSB (Mathematical Sciences)
+2. PARTIAL Found UCF Student Union room 223 --- Student Union
+2. PARTIAL Found Student Union: Sand Key: Room 220 --- Student Union
+2. PARTIAL Found Student Union: 316A --- Student Union
+2. PARTIAL Found UCF Student Union, Garden Key, Room 221 --- Student Union
+2. PARTIAL Found The Hub (Student Union) --- Student Union
+3. ABBRE Found Starter Space BA1 135 --- BA1 (Business Administration I)
+3. ABBRE Found HEC 110 --- HEC (L3Harris Engineering Center)
+3. ABBRE Found SU Study Area 3rd floor --- SU (Student Union)
+3. ABBRE Found PSY 108  --- PSY (Psychology Building)
+2. PARTIAL Found Student Union Key West Ball Room 218 A/B --- Student Union
+2. PARTIAL Found Student Union - Key West Ballroom D --- Student Union
+2. PARTIAL Found Pop Parlous: Knights Plaza --- Knights Plaza
+2. PARTIAL Found Psychology Building Rm 105 --- Psychology Building
+2. PARTIAL Found Psychology Building Rm 103 --- Psychology Building
+2. PARTIAL Found Student Union Room 218A --- Student Union
+3. ABBRE Found BA1 126 --- BA1 (Business Administration I)
+2. PARTIAL Found Morgridge International Reading Center: Global Communications Room --- Reading Center
+3. ABBRE Found Between CB1 & 2 --- CB1 (Classroom Building I)
+1. FULL Found Live Oak Event Center ---  Live Oak Event Center
+2. PARTIAL Found Student Union room 221  --- Student Union
+2. PARTIAL Found Student Union: 218 --- Student Union
+3. ABBRE Found StarterSpace, BA1 --- BA1 (Business Administration I)
+2. PARTIAL Found Student Union Room 220  --- Student Union
+2. PARTIAL Found UCF Student Union Siesta Key Board Room 225 --- Student Union
+2. PARTIAL Found Outside of the Burnett Honors College --- Burnett Honors College
+2. PARTIAL Found Memory Mall C --- Memory Mall
+2. PARTIAL Found UCF Student Union, Room No. 220 --- Student Union
+2. PARTIAL Found UCF Student Union, Room no. 220 --- Student Union
+2. PARTIAL Found the hub, first floor student union --- Student Union
+3. ABBRE Found BA1 212 --- BA1 (Business Administration I)
+3. ABBRE Found BA1 Room 234 --- BA1 (Business Administration I)
+2. PARTIAL Found Biological Sciences Room 104 --- Biological Sciences
+2. PARTIAL Found Student Union Key West Ballroom 218 a/b --- Student Union
+2. PARTIAL Found Student Union 316 CD --- Student Union
+3. ABBRE Found UCF SU Cape Florida Room 316AB --- SU (Student Union)
+2. PARTIAL Found UCF Student Union Patio Stage --- Student Union
+2. PARTIAL Found Gazebo outside Colbourn Hall and the breezeway --- Breezeway
+2. PARTIAL Found Student Union, Sand Key (Room 220) --- Student Union
+2. PARTIAL Found Student Union Room No. 220 --- Student Union
+2. PARTIAL Found UCF Career Services and Experiential Learning --- Career Services
+2. PARTIAL Found Student Union, Pegasus Ballroom - ABC --- Student Union
+2. PARTIAL Found Technology Commons II - Room 222 --- Technology Commons
+2. PARTIAL Found UCF Teaching Academy  --- Teaching Academy
+3. ABBRE Found SU Pegasus Ballroom ABC --- SU (Student Union)
+2. PARTIAL Found UCF Student Union, Cape Florida Ballroom 316 CD --- Student Union
+2. PARTIAL Found Student Union Pegasus Ballroom ABCD --- Student Union
+3. ABBRE Found TA 321 --- TA (Teaching Academy)
+3. ABBRE Found SU Pegasus Ballroom DEF --- SU (Student Union)
+3. ABBRE Found BA2 Building. Room 207 --- BA2 (Business Administration II)
+2. PARTIAL Found Student Union room 316ABCD --- Student Union
+2. PARTIAL Found UCF Student Union Keywest Ballroom --- Student Union
+3. ABBRE Found BA1 - Room 115 --- BA1 (Business Administration I)
+2. PARTIAL Found UCF Student Union Siesta Key room 225 --- Student Union
+2. PARTIAL Found Student Union Key West Ballroom  --- Student Union
+2. PARTIAL Found Student Union Room 316 C/D --- Student Union
+3. ABBRE Found ENG1 - Room 327 --- ENG1 (Engineering Building I)
+2. PARTIAL Found Career Services Room 121  --- Career Services
+2. PARTIAL Found Physical Sciences Building 158 --- Physical Sciences
+3. ABBRE Found PSY - 111 --- PSY (Psychology Building)
+2. PARTIAL Found UCF's Barbara Ying Center (close to the intramural soccer fields) --- Barbara Ying Center
+2. PARTIAL Found UCF, Student Union Room 223 --- Student Union
+2. PARTIAL Found Neptune Community Classroom --- Neptune Community
+2. PARTIAL Found In front of the Barnes and Nobles in the breezeway --- Breezeway
+3. ABBRE Found BA1 rm 119 --- BA1 (Business Administration I)
+3. ABBRE Found PSY 111 --- PSY (Psychology Building)
+2. PARTIAL Found Knight's Plaza Outdoor Stage --- Knights Plaza
+3. ABBRE Found Egmont Key SU Room 224 --- SU (Student Union)
+2. PARTIAL Found UCF Howard Phillips Hall --- Howard Phillips Hall
+3. ABBRE Found PSY RM 105 --- PSY (Psychology Building)
+2. PARTIAL Found UCF Barnes and Nobles in the breezeway --- Breezeway
+2. PARTIAL Found UCF Student Union KEY WEST BALLROOM --- Student Union
+3. ABBRE Found CHEM RM 203 --- CHEM (Chemistry Building)
+2. PARTIAL Found Student Union Rm 223 --- Student Union
+2. PARTIAL Found UCF STARBUCKS  --- Starbucks
+2. PARTIAL Found Student Union Patio Stage --- Student Union
+2. PARTIAL Found UCF Teaching Academy & Education Complex --- Teaching Academy
+2. PARTIAL Found Memory Mall closest to the Student Union --- Memory Mall
+2. PARTIAL Found Technology Commons II Room 222 --- Technology Commons
+3. ABBRE Found MSB Room 360 at UCF --- MSB (Mathematical Sciences)
+2. PARTIAL Found Student Union Tabling --- Student Union
+3. ABBRE Found UCF RWC --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found UCF Visual Arts Building 132 --- Visual Arts Building
+2. PARTIAL Found Memory Mall @ UCF --- Memory Mall
+2. PARTIAL Found UCF Barnes and Nobles Cafe by the Breezeway --- Breezeway
+2. PARTIAL Found The HUB (Student Union 1st floor, across from Ticket Center)  --- Student Union
+2. PARTIAL Found Student Union, Room 218D --- Student Union
+2. PARTIAL Found The Hub - Student Union  --- Student Union
+2. PARTIAL Found UCF Arboretum Portable 525 --- Arboretum Portable
+2. PARTIAL Found Meet at the Lake Claire Pavilion to carpool to the Dr. James R. Smith Neighborhood Center --- Pavilion
+2. PARTIAL Found UCF Engineering Building I --- Engineering Building I
+2. PARTIAL Found 7-Eleven on Alafaya Trail & McCulloch --- 7-Eleven
+2. PARTIAL Found Pride Commons @ Ferrell Commons Rm 171 --- Ferrell Commons
+2. PARTIAL Found UCF Student Union Room 218 --- Student Union
+2. PARTIAL Found UCF Rec & Wellness Center Leisure Pool --- Leisure Pool
+2. PARTIAL Found UCF Student Union- Pegasus Ballroom ABC --- Student Union
+2. PARTIAL Found Student Union, 2nd Floor, Room 220 --- Student Union
+2. PARTIAL Found UCF Memory Mall (Area by CFE Arena) --- Memory Mall
+2. PARTIAL Found Ferrell Commons Auditorium, UCF --- Ferrell Commons
+2. PARTIAL Found Student Union Rm 316C --- Student Union
+3. ABBRE Found CB1 Room 117 --- CB1 (Classroom Building I)
+3. ABBRE Found BA2 - 301 --- BA2 (Business Administration II)
+2. PARTIAL Found Student Union Key West Ballroom 218AB --- Student Union
+2. PARTIAL Found Student Union- Pegasus Ballroom ABC --- Student Union
+2. PARTIAL Found Student Union Key West Ballroom 218D --- Student Union
+3. ABBRE Found CEL Starter Space BA1 --- BA1 (Business Administration I)
+2. PARTIAL Found Student Union Room Room 223 --- Student Union
+2. PARTIAL Found Memory Mall (exact location in upcoming email) --- Memory Mall
+2. PARTIAL Found Mathematical Sciences Building --- Mathematical Sciences
+3. ABBRE Found Sport Club Grass, RWC Park --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Cedar Key Room 223 Student Union --- Student Union
+2. PARTIAL Found UCF Student Union, room 220 --- Student Union
+2. PARTIAL Found Student Union 207 --- Student Union
+3. ABBRE Found BA1 206 --- BA1 (Business Administration I)
+3. ABBRE Found UCF Main campus room TA 221 --- TA (Teaching Academy)
+3. ABBRE Found Cedar Key Ballroom SU 223 --- SU (Student Union)
+3. ABBRE Found Multipurpose Room at UCF RWC --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Student Union Room 316C --- Student Union
+2. PARTIAL Found Student Union (meet at the Arboretum trailer) --- Student Union
+2. PARTIAL Found Ferrell Commons 171 --- Ferrell Commons
+2. PARTIAL Found Teaching Academy Room 201 --- Teaching Academy
+2. PARTIAL Found Lake Claire Pavilion  --- Pavilion
+3. ABBRE Found HEC 118 (UCF Main Campus)  --- HEC (L3Harris Engineering Center)
+3. ABBRE Found BA1 221 --- BA1 (Business Administration I)
+2. PARTIAL Found Teaching Academy Room 117 --- Teaching Academy
+2. PARTIAL Found Student Union Rm 221 --- Student Union
+2. PARTIAL Found Student Union Cape Florida Ballroom 316AB --- Student Union
+2. PARTIAL Found Student Union Cape Florida Ballroom Room 316AB --- Student Union
+2. PARTIAL Found Cape Florida Ballroom CD in the Student Union --- Student Union
+3. ABBRE Found PSY 301Q --- PSY (Psychology Building)
+2. PARTIAL Found Visual Arts Building room 109 --- Visual Arts Building
+2. PARTIAL Found Psychology Building, Room 105 --- Psychology Building
+2. PARTIAL Found Student Union RM 220 --- Student Union
+3. ABBRE Found BA2 Room 301 --- BA2 (Business Administration II)
+2. PARTIAL Found Visual Arts Building, Room 132 --- Visual Arts Building
+2. PARTIAL Found Student Union Room 316B --- Student Union
+2. PARTIAL Found Psychology building room 204 --- Psychology Building
+3. ABBRE Found UCF HEC 104 --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found UCF Student Union Cape Florida Room 316A --- Student Union
+1. FULL Found John C. Hitt Library ---  John C. Hitt Library
+2. PARTIAL Found College of Sciences (CSB) Room 101 --- College of Sciences
+2. PARTIAL Found Student Union: Key West Ballroom 218C --- Student Union
+2. PARTIAL Found Student Union - Room 222 --- Student Union
+2. PARTIAL Found Psychology building Room 204 --- Psychology Building
+2. PARTIAL Found Student Union Cape Ballroom 316 AB --- Student Union
+2. PARTIAL Found Engineering Building I 383 --- Engineering Building I
+2. PARTIAL Found UCF Barbara Ying Center  --- Barbara Ying Center
+2. PARTIAL Found Mathematical Sciences Building Room 260 --- Mathematical Sciences
+2. PARTIAL Found Psychology Building- PSY301Q --- Psychology Building
+2. PARTIAL Found Career Services and Experiential Learning: 115  --- Career Services
+2. PARTIAL Found Career Services and Experiential Learning: 121 --- Career Services
+2. PARTIAL Found UCF Student Union, Sand Key (RM 220) --- Student Union
+2. PARTIAL Found Student Union- Cedar Key, Room 223 --- Student Union
+2. PARTIAL Found Ferrell Commons 165-LEAD Scholars Academy --- Ferrell Commons
+4. ALIAS Found Counseling and Psychological Services: Group room --- Counseling and Psychological Services (CAPS)
+2. PARTIAL Found Student Union: Egmont Key Meeting Room (Room 224) --- Student Union
+2. PARTIAL Found Student Union: Cape Florida Ballroom (Room 316CD --- Student Union
+2. PARTIAL Found Psychology Building room 105 --- Psychology Building
+3. ABBRE Found Outside BHC --- BHC (Burnett Honors College)
+3. ABBRE Found UCF RWC at Knight's Plaza --- RWC (Recreation and Wellness Center)
+3. ABBRE Found PSY 105 --- PSY (Psychology Building)
+2. PARTIAL Found Career Services 115 --- Career Services
+2. PARTIAL Found Student Union room 222 --- Student Union
+2. PARTIAL Found Between the Burnett Honors College and the Visual Arts Building  --- Burnett Honors College
+2. PARTIAL Found Between the Burnett Honors College and the Visual Arts building  --- Burnett Honors College
+2. PARTIAL Found UCF John C. Hitt Library Room 194 --- John C. Hitt Library
+3. ABBRE Found Student Union (SU)  --- SU (Student Union)
+2. PARTIAL Found UCF Student Union, Pegasus Ballroom --- Student Union
+2. PARTIAL Found Student Union Sand Key 220 --- Student Union
+2. PARTIAL Found Recreation and Wellness center --- Recreation and Wellness Center
+2. PARTIAL Found UCF Visual Arts Building Auditorium --- Visual Arts Building
+2. PARTIAL Found Market Place (Area In front of the Student Union) --- Student Union
+2. PARTIAL Found Student Union Pegasus BallRoom --- Student Union
+3. ABBRE Found HEC Room 104 --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found The Hub, Student Union --- Student Union
+2. PARTIAL Found Memory Mall Flagpole (UCF Main Campus) --- Memory Mall
+2. PARTIAL Found Morgridge International Reading Center (MIRC) --- Reading Center
+2. PARTIAL Found Ferrell Commons || LEAD Lounge  --- Ferrell Commons
+2. PARTIAL Found Market Place (Area in front of the Student Union) --- Student Union
+2. PARTIAL Found UCF student union --- Student Union
+3. ABBRE Found SU Patio Stage --- SU (Student Union)
+2. PARTIAL Found Student Union room 316 --- Student Union
+3. ABBRE Found UCF Arboretum Portable (behind the CREOL Building next to Garage C) --- CREOL (CREOL)
+3. ABBRE Found SU Pegasus Ballroom --- SU (Student Union)
+2. PARTIAL Found Student Union, Second Floor, Room 220 --- Student Union
+2. PARTIAL Found UCF Student Union Room 223 Cedar Key --- Student Union
+3. ABBRE Found Market Place (Area in front of the SU) --- SU (Student Union)
+3. ABBRE Found BA1 207 --- BA1 (Business Administration I)
+2. PARTIAL Found Business Administration I Room 207 --- Business Administration I
+3. ABBRE Found MSB 108 --- MSB (Mathematical Sciences)
+2. PARTIAL Found UCF STUDENT UNION! --- Student Union
+2. PARTIAL Found Recreation and Wellness Center Room 206 --- Recreation and Wellness Center
+3. ABBRE Found BA1 - 110 --- BA1 (Business Administration I)
+3. ABBRE Found HEC 111 --- HEC (L3Harris Engineering Center)
+3. ABBRE Found UCF's HEC Room 118 --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found The Hub - First Floor, Student Union --- Student Union
+2. PARTIAL Found UCF's Teaching Academy Room 202B --- Teaching Academy
+2. PARTIAL Found Topper's Creamery UCF 4000 Central Florida Blvd, Orlando, Florida 32816 --- Topper's Creamery
+2. PARTIAL Found Blackstone LaunchPad (inside the student union) --- Student Union
+3. ABBRE Found Engineering Building II (ENG2) Room 205 --- ENG2 (Engineering Building II)
+2. PARTIAL Found UCF STUDENT UNION --- Student Union
+2. PARTIAL Found Student Union (Meet at the Arboretum Trailer) --- Student Union
+3. ABBRE Found BHC 127 --- BHC (Burnett Honors College)
+3. ABBRE Found Harris Corporation Engineering Center (HEC) Room 104 --- HEC (L3Harris Engineering Center)
+3. ABBRE Found CS 101  --- CS (Career Services)
+2. PARTIAL Found Student Union 3rd Floor, Cape Florida 316A --- Student Union
+2. PARTIAL Found Reading Room, Burnett Honors College --- Burnett Honors College
+2. PARTIAL Found Student Union room 316A --- Student Union
+2. PARTIAL Found In front of the Student Union near the Chik-Fil-A patio. --- Student Union
+3. ABBRE Found MSB260 --- MSB (Mathematical Sciences)
+2. PARTIAL Found Egmont Key Meeting Room Student Union 224 --- Student Union
+2. PARTIAL Found 7-Eleven  --- 7-Eleven
+2. PARTIAL Found Career Services and Experiential Learning 115 --- Career Services
+2. PARTIAL Found Student Union: Garden Key Rm. 221 --- Student Union
+3. ABBRE Found UCF RWC Multipurpose Room --- RWC (Recreation and Wellness Center)
+3. ABBRE Found CS 101 --- CS (Career Services)
+3. ABBRE Found RWC Park- Intramural Turf Fields --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Student Union: Cape Florida Ballroom 316 --- Student Union
+3. ABBRE Found SU Cedar Key, Room 223 --- SU (Student Union)
+2. PARTIAL Found Hub (Student Union) --- Student Union
+3. ABBRE Found SU 316A --- SU (Student Union)
+2. PARTIAL Found Burnett Honors College Reading Room --- Burnett Honors College
+2. PARTIAL Found Student Union Courtyard --- Student Union
+2. PARTIAL Found UCF STUDENT UNION KEY WEST BALLROOM  --- Student Union
+2. PARTIAL Found UCF STUDENT UNION PEGASUS BALLROOM --- Student Union
+3. ABBRE Found ENG1 140 --- ENG1 (Engineering Building I)
+2. PARTIAL Found UCF Pegasus Ballroom (in the Student Union) --- Student Union
+2. PARTIAL Found Burnett Honors College Room 129 --- Burnett Honors College
+3. ABBRE Found BHC Meditation Garden --- BHC (Burnett Honors College)
+3. ABBRE Found Recreation and Wellness Center (RWC) --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Student Union- Eggmont Key (224) --- Student Union
+2. PARTIAL Found Student Union, Pegasus Ballroom  --- Student Union
+3. ABBRE Found HEC450 --- HEC (L3Harris Engineering Center)
+3. ABBRE Found Outside of ENG1 & BA1 --- BA1 (Business Administration I)
+2. PARTIAL Found UCF Fairwinds Alumni Center  --- Fairwinds Alumni Center
+3. ABBRE Found Free Assembly Lawn between MSB and Toppers --- MSB (Mathematical Sciences)
+2. PARTIAL Found Burnett Honors College room 129 --- Burnett Honors College
+2. PARTIAL Found Student Union- Pegasus Ballroom ABC   --- Student Union
+2. PARTIAL Found Chemistry Building Room 203 --- Chemistry Building
+2. PARTIAL Found Student Union 218 --- Student Union
+2. PARTIAL Found Student Union Pensacola Boardroom 222 --- Student Union
+2. PARTIAL Found John C. Hitt Library - Rm 407 --- John C. Hitt Library
+2. PARTIAL Found Pegasus Ballroom, UCF Student Union  --- Student Union
+2. PARTIAL Found Student Union Pensacola 222 --- Student Union
+2. PARTIAL Found Lake Claire Pavilion 3 --- Pavilion
+2. PARTIAL Found Student Union Egmont Key 224 --- Student Union
+2. PARTIAL Found Student Union Cape Florida Ballroom  --- Student Union
+2. PARTIAL Found Student Union, Key West Ballroom 218CD --- Student Union
+2. PARTIAL Found Student Union Patio Table 41 --- Student Union
+3. ABBRE Found RWC Volleyball Courts --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Pegasus Ballroom Table E2, Student Union --- Student Union
+2. PARTIAL Found Memory Mall @UCF --- Memory Mall
+2. PARTIAL Found ucf memory mall --- Memory Mall
+2. PARTIAL Found Pegasus Ballroom - Student Union --- Student Union
+2. PARTIAL Found Student Union Room 221: Garden Key --- Student Union
+2. PARTIAL Found Student Union - The Hub (1st Floor) --- Student Union
+2. PARTIAL Found UCF Student Union, Key West Ballroom (218AB) --- Student Union
+3. ABBRE Found BA1 (Business Administration 1) Room 135 --- BA1 (Business Administration I)
+3. ABBRE Found UCF SU 218 --- SU (Student Union)
+3. ABBRE Found UCF VAB Room 111 --- VAB (Visual Arts Building)
+2. PARTIAL Found Student Union: Sand Key Room 220 --- Student Union
+2. PARTIAL Found UCF Student Union Room 316AB --- Student Union
+2. PARTIAL Found Visual Arts Building Parking Lot --- Visual Arts Building
+3. ABBRE Found PSY 226 --- PSY (Psychology Building)
+2. PARTIAL Found Student Union Key West 218D --- Student Union
+2. PARTIAL Found Cape Florida Ballroom, Student Union 316 --- Student Union
+2. PARTIAL Found UCF STUDENT UNION  --- Student Union
+3. ABBRE Found ENG2 room 302 --- ENG2 (Engineering Building II)
+2. PARTIAL Found Lake Claire Pavilion 3  --- Pavilion
+3. ABBRE Found UCF SU 316 --- SU (Student Union)
+2. PARTIAL Found John C. Hitt Library Room 425 --- John C. Hitt Library
+2. PARTIAL Found Morgridge International Reading Center (MIRC) at UCF --- Reading Center
+2. PARTIAL Found Technology Commons II Computer Lab Room 117C  --- Technology Commons
+2. PARTIAL Found Mathematical Sciences Building Room 407  --- Mathematical Sciences
+2. PARTIAL Found Student Union (Room 225) --- Student Union
+2. PARTIAL Found Biological Sciences Building - Room 212 --- Biological Sciences
+2. PARTIAL Found Student Union Garden Key Meeting Room 221 --- Student Union
+3. ABBRE Found UCF VAB Parking lot  --- VAB (Visual Arts Building)
+2. PARTIAL Found UCF Student Union - Front Patio --- Student Union
+2. PARTIAL Found Reflection Pond (11:30 am ) Memory Mall (12:15- 2 pm) --- Memory Mall
+2. PARTIAL Found Student Union Garden Key Room 221  --- Student Union
+2. PARTIAL Found Technology Commons II Computer Lab --- Technology Commons
+2. PARTIAL Found Student Union- Key West Ballroom (2nd Floor) Room 218 A/B --- Student Union
+2. PARTIAL Found Student Union, Key West 218C --- Student Union
+3. ABBRE Found StarterSpace (BA1) --- BA1 (Business Administration I)
+2. PARTIAL Found UCF Student Union - GardenKey, Room 221 --- Student Union
+3. ABBRE Found BA1 Room 126 --- BA1 (Business Administration I)
+3. ABBRE Found UCF RWC Leisure Pool --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found UCF Student Union, Key West Ballroom --- Student Union
+2. PARTIAL Found Visual Arts Building: 132 --- Visual Arts Building
+2. PARTIAL Found Student Union Key West Ballroom (2nd Floor) Room 218 A/B --- Student Union
+2. PARTIAL Found Student Union, Cape Florida Ballroom Rm 316B --- Student Union
+3. ABBRE Found su 221 --- SU (Student Union)
+2. PARTIAL Found Starbucks on Memory Mall --- Memory Mall
+2. PARTIAL Found College of Sciences Building 101 --- College of Sciences
+3. ABBRE Found UCF VAB Room 109 --- VAB (Visual Arts Building)
+2. PARTIAL Found Student Union - Key West Ballroom (2nd Floor) Room 218 A/B --- Student Union
+3. ABBRE Found BA1 225 --- BA1 (Business Administration I)
+1. FULL Found Nicholson School of Communication and Media ---  Nicholson School of Communication and Media
+2. PARTIAL Found Key West Room A&B on the second floor of the Student Union --- Student Union
+2. PARTIAL Found UCF Student Union (222) --- Student Union
+2. PARTIAL Found UCF Student Union, Cedar Key (223) --- Student Union
+2. PARTIAL Found The Venue  --- The Venue
+2. PARTIAL Found Student Union Room 316CD --- Student Union
+1. FULL Found Ferrell Commons ---  Ferrell Commons
+2. PARTIAL Found Memory Mall Tent #172 --- Memory Mall
+2. PARTIAL Found Student Union Cape Florida Ballroom 316B --- Student Union
+2. PARTIAL Found Student Union, Cape Florida 316C --- Student Union
+3. ABBRE Found BA1 R 116 --- BA1 (Business Administration I)
+3. ABBRE Found Trevor Colbourn Hall Rm 320B (4th Cubicle down) --- TH (Theatre)
+2. PARTIAL Found Cape Florida Ballroom (3rd Floor Student Union) --- Student Union
+2. PARTIAL Found Student Union, Egmont Key, Room 224 --- Student Union
+2. PARTIAL Found Student Union, Pensacola Boardroom 222 --- Student Union
+2. PARTIAL Found Business Administration I, Room 122 --- Business Administration I
+2. PARTIAL Found Student Union Rooms 316ABCD and 218ABCD --- Student Union
+2. PARTIAL Found UCF Teaching Academy - Room 221 --- Teaching Academy
+3. ABBRE Found SU Room 225 --- SU (Student Union)
+2. PARTIAL Found Front of the Student Union --- Student Union
+3. ABBRE Found BA1 209  --- BA1 (Business Administration I)
+3. ABBRE Found ENG1 327 --- ENG1 (Engineering Building I)
+2. PARTIAL Found Business Administration I Room 122 --- Business Administration I
+2. PARTIAL Found Student Union, Pensacola Room 222 --- Student Union
+2. PARTIAL Found Suwannee Pavilion @ Lake Claire --- Pavilion
+2. PARTIAL Found Visual Arts Building Room 132  --- Visual Arts Building
+2. PARTIAL Found Physical Sciences Building 451 --- Physical Sciences
+2. PARTIAL Found Physical Sciences Building 453 --- Physical Sciences
+2. PARTIAL Found UCF Student Union – Pegasus Ballroom, Section D --- Student Union
+2. PARTIAL Found UCF Recreation and Wellness Center (Multipurpose room) --- Recreation and Wellness Center
+3. ABBRE Found BHC Garden --- BHC (Burnett Honors College)
+2. PARTIAL Found Student Union, Cape Florida Ballroom (Room 316) --- Student Union
+3. ABBRE Found RWC Group Exercise Room  --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Psychology Building- 301Q --- Psychology Building
+3. ABBRE Found VAB 107 --- VAB (Visual Arts Building)
+2. PARTIAL Found Meet at Student Union @ 4:30pm --- Student Union
+2. PARTIAL Found Student Union Cape Florida 316CD --- Student Union
+2. PARTIAL Found Student Union, Cedar Key Room 223 --- Student Union
+3. ABBRE Found University of Central Florida RWC Park Turf Field 6  --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found UCF Teaching Academy, Room 203 --- Teaching Academy
+2. PARTIAL Found Inbetween the Breezway and the Student Union --- Student Union
+3. ABBRE Found RWC @ Knight's Plaza --- RWC (Recreation and Wellness Center)
+3. ABBRE Found Engineering 2 (ENG2) 102 --- ENG2 (Engineering Building II)
+3. ABBRE Found TA 110 --- TA (Teaching Academy)
+3. ABBRE Found UCF RWC - room 206 --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Veteran's Commemorative Site (Flagpole between Memory Mall and the Student Union) --- Memory Mall
+3. ABBRE Found RWC Group Exercise Room --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found SGA Office 2nd Floor Student Union --- Student Union
+3. ABBRE Found Psychology Building (PSY) Room 105 --- PSY (Psychology Building)
+3. ABBRE Found Visual Arts Building (VAB) Room 132 --- VAB (Visual Arts Building)
+2. PARTIAL Found Free Speech Area between the Student Union and the Breezeway --- Breezeway
+2. PARTIAL Found Student Union, Room 214 A/B --- Student Union
+3. ABBRE Found TCH 151 --- TCH (Trevor Coulburn Hall)
+3. ABBRE Found Starterspace (BA1, Room 135) --- BA1 (Business Administration I)
+3. ABBRE Found VAB 213 --- VAB (Visual Arts Building)
+2. PARTIAL Found STUDENT UNION 220 --- Student Union
+2. PARTIAL Found Lake Claire Pavilion 4 --- Pavilion
+2. PARTIAL Found Student Union 3rd Floor Study Area (behind Cape Florida Ballroom 316) --- Student Union
+2. PARTIAL Found Student Union- Garden Key Room 221  --- Student Union
+2. PARTIAL Found Student Union Cape Florida Ballroom B --- Student Union
+2. PARTIAL Found UCF Student Union Cape FL Ballroom 316A (3rd floor) --- Student Union
+2. PARTIAL Found UCF Student Union - Sand Key Room 220 --- Student Union
+2. PARTIAL Found Chemistry Building 203 --- Chemistry Building
+3. ABBRE Found SU220 --- SU (Student Union)
+2. PARTIAL Found Mathematical Sciences Building, Room 360 --- Mathematical Sciences
+3. ABBRE Found UCF - HEC 111 --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found Student Union Key West Ballroom 218CD --- Student Union
+3. ABBRE Found BA1 218 --- BA1 (Business Administration I)
+3. ABBRE Found MATHEMATICAL SCIENCES BUILDING (MSB) 108 --- MSB (Mathematical Sciences)
+2. PARTIAL Found Student Union- Pegasus Ballroom --- Student Union
+2. PARTIAL Found Pegasus Ballroom, Student Union (first floor) --- Student Union
+2. PARTIAL Found Teaching Academy, Suite 203 --- Teaching Academy
+3. ABBRE Found Mathematical Sciences Building (MSB), Room 359 --- MSB (Mathematical Sciences)
+3. ABBRE Found MSB 109 --- MSB (Mathematical Sciences)
+2. PARTIAL Found 218C of Student Union --- Student Union
+3. ABBRE Found TCH 238 --- TCH (Trevor Coulburn Hall)
+2. PARTIAL Found Student Union- Key West Ballroom --- Student Union
+2. PARTIAL Found Mathematical Sciences Building Room 109  --- Mathematical Sciences
+2. PARTIAL Found UCF Student Union - Room 218C --- Student Union
+3. ABBRE Found UCF- HEC 111 --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found In front of the Smoothie king nearby the Student Union entrance  --- Smoothie King
+2. PARTIAL Found Visual Arts Building  111 --- Visual Arts Building
+3. ABBRE Found Student Union Sand Key (SU 220) --- SU (Student Union)
+3. ABBRE Found TCH 102 --- TCH (Trevor Coulburn Hall)
+3. ABBRE Found HEC 104  --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found UCF Arboretum Greenhouse --- Arboretum Greenhouse
+2. PARTIAL Found Barbara Ying Center Room 140 --- Barbara Ying Center
+3. ABBRE Found BA1 147 --- BA1 (Business Administration I)
+2. PARTIAL Found ORLANDO REPORTORY THEATRE   --- Theatre
+3. ABBRE Found Visual Arts Building (VAB) 111 --- VAB (Visual Arts Building)
+3. ABBRE Found TCH 211 --- TCH (Trevor Coulburn Hall)
+2. PARTIAL Found Student Union Room 218C  --- Student Union
+3. ABBRE Found Trevor Colbourn Hall (TCH) Room: 201 --- TCH (Trevor Coulburn Hall)
+3. ABBRE Found Free Speech Lawn by MSB --- MSB (Mathematical Sciences)
+3. ABBRE Found HEC BUILDING --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found Visual Arts Building 213 --- Visual Arts Building
+3. ABBRE Found MSB 405  --- MSB (Mathematical Sciences)
+2. PARTIAL Found UCF Student Union, next to Fleet Farming beds --- Student Union
+2. PARTIAL Found UCF Flag Pole (Memory Mall) --- Memory Mall
+2. PARTIAL Found Office of Fraternity and Sorority Life Multipurpose Room --- Fraternity and Sorority Life
+2. PARTIAL Found Career Services and Experiential Learning (CSEL) --- Career Services
+2. PARTIAL Found Student Union Cape Florida Ballroom 316 --- Student Union
+2. PARTIAL Found Visual Arts Building Room 107 --- Visual Arts Building
+2. PARTIAL Found Student Union (Pegasus Ballroom) --- Student Union
+2. PARTIAL Found UCF Engineering Building I Room 286 --- Engineering Building I
+2. PARTIAL Found Knight's Plaza Gym --- Knights Plaza
+2. PARTIAL Found Student Union (see schedule for specific locations --- Student Union
+2. PARTIAL Found Teaching Academy, Room 203 --- Teaching Academy
+3. ABBRE Found UCF Student Union Key West Ballroom (SU 218AB) --- SU (Student Union)
+2. PARTIAL Found Student Union - Room 225 --- Student Union
+3. ABBRE Found MSB room 360 --- MSB (Mathematical Sciences)
+3. ABBRE Found HEC Room 117 --- HEC (L3Harris Engineering Center)
+3. ABBRE Found UCF - HEC BUILDING  --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found Mathematical Sciences Building room 109  --- Mathematical Sciences
+3. ABBRE Found Student Union Egmont Key (SU 224) --- SU (Student Union)
+3. ABBRE Found BA1 Room 209 --- BA1 (Business Administration I)
+2. PARTIAL Found UCF Biological Sciences Building - 3rd Floor --- Biological Sciences
+2. PARTIAL Found Visual Arts building room 107 at UCF --- Visual Arts Building
+3. ABBRE Found TCH 201 (Trevor Colbourn Hall) --- TCH (Trevor Coulburn Hall)
+2. PARTIAL Found The Hub at the Student Union --- Student Union
+2. PARTIAL Found Student Union- Key West Ballroom "C" --- Student Union
+3. ABBRE Found TCH 201 --- TCH (Trevor Coulburn Hall)
+2. PARTIAL Found UCF Student Union Key West Ballroom (218AB) --- Student Union
+2. PARTIAL Found Barbara Ying Center room 140 --- Barbara Ying Center
+2. PARTIAL Found Knights Plaza Mind Body Studio (by CFE Arena) --- Knights Plaza
+3. ABBRE Found PSY 204 --- PSY (Psychology Building)
+2. PARTIAL Found Visual Arts Building room 104 --- Visual Arts Building
+3. ABBRE Found BA1 ROOM 126 --- BA1 (Business Administration I)
+3. ABBRE Found RWC Knights Plaza Mind Body and Soul Room --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Memory Mall at UCF --- Memory Mall
+2. PARTIAL Found Student Union Room 316A --- Student Union
+2. PARTIAL Found UCF Student Union - room 225 --- Student Union
+2. PARTIAL Found Student Union Key West Ballroom "C" --- Student Union
+2. PARTIAL Found Psychology Building  --- Psychology Building
+2. PARTIAL Found Mathematical Sciences Building room 109 --- Mathematical Sciences
+3. ABBRE Found ENG2 105 --- ENG2 (Engineering Building II)
+2. PARTIAL Found Burnett Honors College Lobby --- Burnett Honors College
+2. PARTIAL Found Chick-Fil-A --- Chick-fil-A
+2. PARTIAL Found Nicholson School of Communication and Media Room 113 --- Nicholson School of Communication and Media
+3. ABBRE Found (Trevor Coulbourn Hall) TCH201 --- TCH (Trevor Coulburn Hall)
+2. PARTIAL Found UCF Student Union - Room 220 --- Student Union
+2. PARTIAL Found Student Union, UCF --- Student Union
+4. ALIAS Found UCF Biology Research Center --- Biology (Biological Sciences)
+3. ABBRE Found RWC Leisure pool --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Student Union Garden Beds --- Student Union
+2. PARTIAL Found UCF Flagpole (Memory Mall) --- Memory Mall
+2. PARTIAL Found Mathematical Sciences Building Room 204 --- Mathematical Sciences
+2. PARTIAL Found UCF Creative School for Children --- Creative School for Children
+2. PARTIAL Found Psychology Building Room 111 --- Psychology Building
+2. PARTIAL Found UCF Nicholson School of Communication and Media, Room 113 --- Nicholson School of Communication and Media
+3. ABBRE Found SU Garden Key 221 --- SU (Student Union)
+2. PARTIAL Found Student Union room 218AB --- Student Union
+2. PARTIAL Found Addition Financial Arena  --- Addition Financial Arena
+2. PARTIAL Found Student Union - Garden Key 221 --- Student Union
+2. PARTIAL Found UCF Performing Arts Center Theatre Building --- Theatre
+2. PARTIAL Found Breezeway by Chick-Fil-A --- Breezeway
+2. PARTIAL Found UCF Student Union Pegasus Ballroom ABC --- Student Union
+2. PARTIAL Found Key West Ballroom (Student Union 218CD) --- Student Union
+2. PARTIAL Found Outdoor Pavilion between Reflection Pond & Trevor Colbourn Hall --- Pavilion
+2. PARTIAL Found Starbucks @ Memory Mall --- Memory Mall
+2. PARTIAL Found Starbucks at Memory Mall --- Memory Mall
+3. ABBRE Found HPH 409A --- HPH (Howard Phillips Hall)
+2. PARTIAL Found Student Union , Garden Key Room 221 --- Student Union
+2. PARTIAL Found UCF, Student Union, Garden Key room 221 --- Student Union
+2. PARTIAL Found Student Union, Room 218AB --- Student Union
+2. PARTIAL Found Key West Ballroom 218C - 2nd floor of the Student Union --- Student Union
+3. ABBRE Found RWC 206 --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found UCF Student Union - Room 218AB --- Student Union
+2. PARTIAL Found Student Union Cape Florida Ballroom (316AB) --- Student Union
+2. PARTIAL Found UCF Student Union patio --- Student Union
+2. PARTIAL Found UCF Student Union Outdoor Patio --- Student Union
+2. PARTIAL Found Psychology Building Rm. 301Q --- Psychology Building
+3. ABBRE Found Mathematical Science Building  (MSB) 359 --- MSB (Mathematical Sciences)
+2. PARTIAL Found Cape Florida Ballroom, 3rd Floor of Student Union --- Student Union
+2. PARTIAL Found NSC 113 (Nicholson School of Communication and Media - Near the Student Union) --- Nicholson School of Communication and Media
+2. PARTIAL Found '63 South (in Ferrell Commons) --- Ferrell Commons
+2. PARTIAL Found Room 220 of UCF Student Union --- Student Union
+2. PARTIAL Found Student Union - Cedar Key - rm 223 --- Student Union
+2. PARTIAL Found Cape Florida Ballroom at UCF Student Union (3rd Floor) --- Student Union
+3. ABBRE Found CB1- Pavilion --- CB1 (Classroom Building I)
+2. PARTIAL Found UCF Student Union Cape Florida Ballroom ABC --- Student Union
+2. PARTIAL Found Student Union - The Hub (next to the ticket center) --- Student Union
+4. ALIAS Found Biology 104 --- Biology (Biological Sciences)
+2. PARTIAL Found UCF, Student Union, Sand Key 220 --- Student Union
+2. PARTIAL Found Student Union -  The Hub (located in front of the Reflection room and next to the Ticketing Center_ --- Student Union
+3. ABBRE Found UCF Lawn by MSB --- MSB (Mathematical Sciences)
+2. PARTIAL Found Student Union, rooms 220 and 221 --- Student Union
+3. ABBRE Found UCF Mathematical Science Building (MSB), Room 204 --- MSB (Mathematical Sciences)
+3. ABBRE Found Harrison Corporation Engineering Center (HEC) Room 125  --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found UCF Visual Arts Building - ROOM 109 --- Visual Arts Building
+2. PARTIAL Found Timothy R. Newman Nature Pavilion  --- Nature Pavilion
+3. ABBRE Found Harrison Corporation Engineering Center (HEC) room 118 --- HEC (L3Harris Engineering Center)
+3. ABBRE Found PSY Room 105 --- PSY (Psychology Building)
+3. ABBRE Found BA2 208 --- BA2 (Business Administration II)
+1. FULL Found Parking Garage A ---  Parking Garage A
+3. ABBRE Found HonCon Cubicle, BHC Computer Lab --- BHC (Burnett Honors College)
+2. PARTIAL Found Student Union 316B --- Student Union
+3. ABBRE Found ENG1 RM 227 --- ENG1 (Engineering Building I)
+2. PARTIAL Found UCF Creative School For Children --- Creative School for Children
+2. PARTIAL Found Pegasus Ballroom - Student Union  --- Student Union
+3. ABBRE Found UCF, Visual Arts Building (VAB). Room 215. --- VAB (Visual Arts Building)
+1. FULL Found Addition Financial Arena ---  Addition Financial Arena
+2. PARTIAL Found Key West Ballroom 218C - 2nd floor of the Student Union   --- Student Union
+2. PARTIAL Found Student Union: Cape Florida 316 --- Student Union
+2. PARTIAL Found Psychology Building, Room 301Q --- Psychology Building
+3. ABBRE Found UCF RWC at Knights Plaza --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Psychology Building Room 105 --- Psychology Building
+2. PARTIAL Found Student Union Egmont Key, Room 224 --- Student Union
+2. PARTIAL Found UCF Student Union Room 316A --- Student Union
+2. PARTIAL Found In front of the student union --- Student Union
+3. ABBRE Found MSB room 204 --- MSB (Mathematical Sciences)
+2. PARTIAL Found UCF - Visual Arts Building, Room 112 --- Visual Arts Building
+2. PARTIAL Found Starbucks on Campus --- Starbucks
+2. PARTIAL Found Veterans' Memorial, Memory Mall, UCF --- Memory Mall
+2. PARTIAL Found Outdoor Pavilion - The Shack --- Pavilion
+2. PARTIAL Found Student Union Egmont Key Meeting Room 224 --- Student Union
+2. PARTIAL Found UCF Global Room 101A --- UCF Global
+3. ABBRE Found BA1 205 --- BA1 (Business Administration I)
+3. ABBRE Found CB1 320 --- CB1 (Classroom Building I)
+2. PARTIAL Found Student Union 316D --- Student Union
+2. PARTIAL Found Cape Florida- Ballroom 316AB (inside the Student Union) --- Student Union
+2. PARTIAL Found Visual Arts Building room 109  --- Visual Arts Building
+3. ABBRE Found Teaching Academy (TA) Room 304 --- TA (Teaching Academy)
+2. PARTIAL Found Mathematical Sciences Building Room 306 --- Mathematical Sciences
+2. PARTIAL Found Pegasus Ballroom in the Student Union --- Student Union
+3. ABBRE Found ENG2 Atrium at main campus  --- ENG2 (Engineering Building II)
+1. FULL Found UCF Global ---  UCF Global
+2. PARTIAL Found UCF, Visual Arts Building Auditorium --- Visual Arts Building
+2. PARTIAL Found IES at Ferrell Commons --- Ferrell Commons
+3. ABBRE Found Business Administration 1 (BA1) - Room 122 --- BA1 (Business Administration I)
+3. ABBRE Found RWC  --- RWC (Recreation and Wellness Center)
+3. ABBRE Found MSB room 306 --- MSB (Mathematical Sciences)
+3. ABBRE Found All Knight Study FC --- FC (Ferrell Commons)
+2. PARTIAL Found Student Union - The Hub (first floor, across from the Reflection room and the Ticketing Center) --- Student Union
+2. PARTIAL Found Burnett Honors College: Honors Congress Cubicle --- Burnett Honors College
+2. PARTIAL Found John C. Hitt Library: main floor --- John C. Hitt Library
+1. FULL Found Nicholson Fieldhouse ---  Nicholson Fieldhouse
+1. FULL Found CAPS ---  CAPS
+3. ABBRE Found ENG1 Room 227 --- ENG1 (Engineering Building I)
+3. ABBRE Found RWC at Knights Plaza  --- RWC (Recreation and Wellness Center)
+3. ABBRE Found MSB 306 --- MSB (Mathematical Sciences)
+2. PARTIAL Found Student Union room 223 (Cedar Key) --- Student Union
+2. PARTIAL Found Student Union - 224 --- Student Union
+2. PARTIAL Found Visual Arts Building, Room 113 --- Visual Arts Building
+3. ABBRE Found RWC Court 1 --- RWC (Recreation and Wellness Center)
+3. ABBRE Found RWC Ferrell Commons --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Breezeway UCF --- Breezeway
+3. ABBRE Found BA2 207 --- BA2 (Business Administration II)
+3. ABBRE Found Mathematical Sciences Building (MSB) Room 121 --- MSB (Mathematical Sciences)
+3. ABBRE Found BHC Computer Lab - Honors Congress Cubicle --- BHC (Burnett Honors College)
+3. ABBRE Found BHC --- BHC (Burnett Honors College)
+3. ABBRE Found RWC Park: Disc Golf Course --- RWC (Recreation and Wellness Center)
+3. ABBRE Found UCF RWC basketball courts --- RWC (Recreation and Wellness Center)
+3. ABBRE Found RWC Main Group Ex room --- RWC (Recreation and Wellness Center)
+3. ABBRE Found VAB 0132 --- VAB (Visual Arts Building)
+2. PARTIAL Found Student Union 218C  --- Student Union
+3. ABBRE Found BA1 121 --- BA1 (Business Administration I)
+3. ABBRE Found MSB (Mathematical Sciences Building) Room 360 --- MSB (Mathematical Sciences)
+2. PARTIAL Found Mathematical Sciences Building Room 360 --- Mathematical Sciences
+2. PARTIAL Found UCF Visual Arts Building: Room 109 --- Visual Arts Building
+3. ABBRE Found RWC Courts 5 and 6 --- RWC (Recreation and Wellness Center)
+3. ABBRE Found RWC Baseball IM Field --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Psychology Building room 204 --- Psychology Building
+2. PARTIAL Found Recreation and Wellness Center (Tennis Courts) --- Recreation and Wellness Center
+2. PARTIAL Found Student Union Key West Ballroom AB --- Student Union
+2. PARTIAL Found Student Union Room 223 - Cedar Key --- Student Union
+2. PARTIAL Found Student Union - Cape Florida Ballroom Room 316 --- Student Union
+2. PARTIAL Found UCF Creative School for Children  --- Creative School for Children
+3. ABBRE Found Garden Key Room in SU --- SU (Student Union)
+2. PARTIAL Found Research Pavilion --- Pavilion
+2. PARTIAL Found Psychology Building, room 301Q --- Psychology Building
+2. PARTIAL Found Student Union, Room 218 AB --- Student Union
+2. PARTIAL Found Keywest Ballroom (Student Union 218 AB) Second Floor --- Student Union
+2. PARTIAL Found Social Justice & Advocacy Lounge (2nd Floor Student Union) --- Student Union
+2. PARTIAL Found Memory Mall Flag Post --- Memory Mall
+2. PARTIAL Found Student Union Garden Key Meeting Room (Room 221) --- Student Union
+3. ABBRE Found UCF, VAB 215 --- VAB (Visual Arts Building)
+2. PARTIAL Found Key West Ballroom (Student Union) --- Student Union
+3. ABBRE Found RWC Knights Plaza  --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Virtual Arts Building 107 --- Virtual
+2. PARTIAL Found Student Union Cape Florida Ballroom (Room 316CD) --- Student Union
+1. FULL Found Neptune Community ---  Neptune Community
+2. PARTIAL Found Memory mall  --- Memory Mall
+2. PARTIAL Found UCF Visual Arts Building, Breezeway --- Breezeway
+3. ABBRE Found TCH 358B --- TCH (Trevor Coulburn Hall)
+3. ABBRE Found UCF Business Administration 1 (BA1) 210.  --- BA1 (Business Administration I)
+3. ABBRE Found CB1 --- CB1 (Classroom Building I)
+3. ABBRE Found PSY108 --- PSY (Psychology Building)
+3. ABBRE Found Free Speech Lawn by CB1 --- CB1 (Classroom Building I)
+3. ABBRE Found SU 224 Egmont Key --- SU (Student Union)
+2. PARTIAL Found UCF Global Building room 101 --- UCF Global
+3. ABBRE Found PSY Room 111 --- PSY (Psychology Building)
+2. PARTIAL Found Nike Community Room --- Nike Community
+3. ABBRE Found RWC Courts 1, 2, 5, and 6 --- RWC (Recreation and Wellness Center)
+3. ABBRE Found UCF Business Administration 1 (BA1) 210. --- BA1 (Business Administration I)
+2. PARTIAL Found Student Union- Garden Key, Room 221 --- Student Union
+3. ABBRE Found SU Sand Key Room 220 --- SU (Student Union)
+3. ABBRE Found RWC Park: Turf Fields 1-4 --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found UCF Morgridge Reading Center (MIRC)  --- Reading Center
+2. PARTIAL Found UCF Visual Arts Building, room 217 --- Visual Arts Building
+2. PARTIAL Found Teaching Academy Room 116 --- Teaching Academy
+2. PARTIAL Found Psychology building, room 301Q --- Psychology Building
+3. ABBRE Found RWC Group Ex Studio --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Student Union, Room 223 (Cedar Key) --- Student Union
+3. ABBRE Found UCF Global Room GB-122 --- GB (UCF Global)
+2. PARTIAL Found Student Union Sand Key, Room 220 --- Student Union
+3. ABBRE Found Chem Building Room 203 --- CHEM (Chemistry Building)
+2. PARTIAL Found Garden Key, Room 221 (Student Union) --- Student Union
+2. PARTIAL Found Student Union: Sand Key Ballroom (room 220) --- Student Union
+3. ABBRE Found RWC Soccer Fields (field #1) --- RWC (Recreation and Wellness Center)
+3. ABBRE Found Recreation & Wellness Center (RWC) Courts --- RWC (Recreation and Wellness Center)
+3. ABBRE Found Engineering 2 (ENG2) Room 102 --- ENG2 (Engineering Building II)
+2. PARTIAL Found UCF Student Union: Pegasus Ballroom --- Student Union
+3. ABBRE Found TCH 351 --- TCH (Trevor Coulburn Hall)
+3. ABBRE Found BA1 Room 146 --- BA1 (Business Administration I)
+4. ALIAS Found Addition Arena --- Addition Arena (Addition Financial Arena)
+2. PARTIAL Found Student Union - Cape Florida Room 316 --- Student Union
+3. ABBRE Found TCH351 --- TCH (Trevor Coulburn Hall)
+2. PARTIAL Found Memory Mall - University of Central Florida --- Memory Mall
+2. PARTIAL Found UCF Global  --- UCF Global
+2. PARTIAL Found Knight's Plaza --- Knights Plaza
+3. ABBRE Found ED190, HPA1 272 --- ED (Education Complex and Gym)
+1. FULL Found Virtual ---  Virtual
+2. PARTIAL Found virtual --- Virtual
+2. PARTIAL Found Student Union 2nd Floor Food Court by Starbucks --- Starbucks
+2. PARTIAL Found Student Union Starbucks  --- Starbucks
+2. PARTIAL Found Student Union Starbucks --- Starbucks
+2. PARTIAL Found Knights Plaza (Front of Additions Arena) --- Knights Plaza
+2. PARTIAL Found Student Union - 2nd Floor Floor Starbucks Area --- Starbucks
+2. PARTIAL Found MEMORY MALL --- Memory Mall
+2. PARTIAL Found The Student Union Starbucks --- Starbucks
+3. ABBRE Found SU 218 Key West --- SU (Student Union)
+4. ALIAS Found The Bounce House (UCF Football Stdaium) --- Bounce House (FBC Mortgage Stadium)
+2. PARTIAL Found Arboretum Nature Pavilion  --- Nature Pavilion
+2. PARTIAL Found Pegasus Ballroom, Student Union  --- Student Union
+2. PARTIAL Found UCF Recreation and Wellness Center Tennis Courts --- Recreation and Wellness Center
+2. PARTIAL Found UCF Recreation and Wellness Center, Outside Front Entrance --- Recreation and Wellness Center
+2. PARTIAL Found KeyWest Ballroom- Student Union --- Student Union
+2. PARTIAL Found Lake Claire Pavilion 2 --- Pavilion
+2. PARTIAL Found UCF Memory mall --- Memory Mall
+2. PARTIAL Found Key West Ballroom - Student Union --- Student Union
+2. PARTIAL Found Keywest Ballroom (2nd floor in the Student Union) --- Student Union
+2. PARTIAL Found UCF Student Union Boardwalks --- Student Union
+4. ALIAS Found Northview 7/11 --- 711 (7-Eleven)
+3. ABBRE Found Garden Key SU 221 --- SU (Student Union)
+2. PARTIAL Found Starbucks on the second floor of the UCF Student Union --- Starbucks
+2. PARTIAL Found Student union Starbucks --- Starbucks
+2. PARTIAL Found Burnett Honors College Lawn & Garden 12778 Aquarius Agora Dr, Orlando, FL 32816 --- Burnett Honors College
+2. PARTIAL Found Student Union (Next to Pegasus Seal)  --- Student Union
+1. FULL Found Arboretum Greenhouse ---  Arboretum Greenhouse
+2. PARTIAL Found UCF Student Union / Virtual --- Student Union
+2. PARTIAL Found Reflecting Pond  --- Reflecting Pond
+2. PARTIAL Found Mathematical Sciences Building (Room TBD) --- Mathematical Sciences
+2. PARTIAL Found Mathematical Sciences Building  --- Mathematical Sciences
+2. PARTIAL Found UCF Student Union Key West Ballroom  --- Student Union
+2. PARTIAL Found Timothy R. Newman Nature Pavilion Gemini Blvd Across from Garage C --- Nature Pavilion
+3. ABBRE Found Visual Arts Building 132 (VAB 132)  --- VAB (Visual Arts Building)
+2. PARTIAL Found Starbucks Area on the second floor of the Student Union --- Starbucks
+2. PARTIAL Found Front left area of Addition Financial Arena  --- Addition Financial Arena
+2. PARTIAL Found Libra Community - Outside of Brevard Hall --- Libra Community
+3. ABBRE Found UCF, CB2 Room 101 --- CB2 (Classroom Building II)
+2. PARTIAL Found Memory Mall A --- Memory Mall
+2. PARTIAL Found The Celeste Hotel  --- The Celeste Hotel
+2. PARTIAL Found memory mall --- Memory Mall
+3. ABBRE Found Key west Ballroom (SU 218) --- SU (Student Union)
+4. ALIAS Found Addition Arena Outdoor Stage  --- Addition Arena (Addition Financial Arena)
+2. PARTIAL Found Student Union Starbucks(2nd Floor) --- Student Union
+2. PARTIAL Found Key West Ballroom - UCF Student Union  --- Student Union
+2. PARTIAL Found Student Union and Reflecting Pond --- Reflecting Pond
+2. PARTIAL Found Student Union Garden Key 221 --- Student Union
+2. PARTIAL Found Student Union Room 220 (Sand Key) --- Student Union
+2. PARTIAL Found Student Union, Garden Key room 221 --- Student Union
+2. PARTIAL Found Student Union, Garden Key Room 221 --- Student Union
+2. PARTIAL Found Student Union (Starbucks, 2nd Floor) --- Starbucks
+4. ALIAS Found UCF Stadium Bounce House --- Bounce House (FBC Mortgage Stadium)
+4. ALIAS Found Addition Arena  --- Addition Arena (Addition Financial Arena)
+2. PARTIAL Found Starbucks in the Student Union --- Starbucks
+3. ABBRE Found RWC Sand Volleyball Courts --- RWC (Recreation and Wellness Center)
+3. ABBRE Found Cedar Key Student Union (SU223) --- SU (Student Union)
+2. PARTIAL Found On Memory Mall by Starbucks --- Memory Mall
+2. PARTIAL Found Sand Key Meeting Room (Student Union 220) --- Student Union
+2. PARTIAL Found Meet at Memory Mall flagpole --- Memory Mall
+3. ABBRE Found Cedar Key Meeting Room (SU 223) --- SU (Student Union)
+2. PARTIAL Found John C Hitt Library Room 432 --- John C. Hitt Library
+2. PARTIAL Found Student Union Key West Ballroom Section D --- Student Union
+2. PARTIAL Found UCF Theatre Building --- Theatre
+2. PARTIAL Found Visual Arts Building, Room 215  --- Visual Arts Building
+3. ABBRE Found Health Sciences 1 (HS1)  Room 126 --- HS1 (Health Sciences I)
+2. PARTIAL Found Memory Mall Flagpole  --- Memory Mall
+2. PARTIAL Found UCF Student Union, Rm 219 --- Student Union
+3. ABBRE Found SU Room 224 --- SU (Student Union)
+2. PARTIAL Found Room 218C of the Student Union --- Student Union
+3. ABBRE Found Library 4th Floor Study Room --- TH (Theatre)
+2. PARTIAL Found Pavilion near Foxtail between John T. Washington Center & Howard Phillips Hall --- Howard Phillips Hall
+1. FULL Found Parking Garage H ---  Parking Garage H
+2. PARTIAL Found Meet at the Memory Mall flagpole --- Memory Mall
+4. ALIAS Found Gringos Locos Tacos --- Gringos (Gringos Locos UCF)
+2. PARTIAL Found Teaching Academy 201 --- Teaching Academy
+2. PARTIAL Found Biological Sciences Building Room 415 --- Biological Sciences
+3. ABBRE Found VAB Room 109 --- VAB (Visual Arts Building)
+2. PARTIAL Found Business Administration I (Room #207) --- Business Administration I
+2. PARTIAL Found Knights Pantry, 4133 Pyxis Ln, Orlando, Fl 32816 --- Knights Pantry
+2. PARTIAL Found Domino's Pizza (Breezeway) --- Breezeway
+2. PARTIAL Found Psychology Building 106 --- Psychology Building
+2. PARTIAL Found Teaching Academy  --- Teaching Academy
+2. PARTIAL Found Cape Florida Ballroom- Student Union 3rd Floor --- Student Union
+2. PARTIAL Found Memory Mall UCF  --- Memory Mall
+3. ABBRE Found RWC Sand Courts --- RWC (Recreation and Wellness Center)
+3. ABBRE Found Student Union, Cape Florida Ballroom - SU 316 --- SU (Student Union)
+3. ABBRE Found Memory Mall in front of the ROTC building --- ROTC (ROTC Center)
+1. FULL Found Career Services ---  Career Services
+2. PARTIAL Found Business Administration I #207 --- Business Administration I
+3. ABBRE Found On Campus - MSB Building, Room 260 --- MSB (Mathematical Sciences)
+2. PARTIAL Found Student Union - Room 224 --- Student Union
+2. PARTIAL Found Student Union - Pegasus Ballroom ABC --- Student Union
+2. PARTIAL Found Volunteerism and Community Engagement, UCF Student Union --- Student Union
+2. PARTIAL Found UCF Nicholson School of Communication and Media Room 115 --- Nicholson School of Communication and Media
+3. ABBRE Found BA-1 220 --- BA1 (Business Administration I)
+3. ABBRE Found Cedar Key Room SU 223 --- SU (Student Union)
+2. PARTIAL Found Burnett Honors College Garden & Lawn Area --- Burnett Honors College
+3. ABBRE Found ENG1 Rm 327 or Zoom --- ENG1 (Engineering Building I)
+2. PARTIAL Found CSB (College of Sciences Building) 101 --- College of Sciences
+2. PARTIAL Found Visual Arts Building Room #107 --- Visual Arts Building
+3. ABBRE Found UCF HEC 101 --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found Student Union 218D, Key West Ballroom --- Student Union
+2. PARTIAL Found Student Union Room 220 (Sand Key Meeting Room) --- Student Union
+2. PARTIAL Found UCF Ferrell Commons --- Ferrell Commons
+3. ABBRE Found BA1 (Buisness Administration One) Room 213 --- BA1 (Business Administration I)
+3. ABBRE Found MSB (Mathematical Sciences Building) Room 204 --- MSB (Mathematical Sciences)
+3. ABBRE Found ENG2 205 --- ENG2 (Engineering Building II)
+3. ABBRE Found Memory Mall across the ROTC building --- ROTC (ROTC Center)
+3. ABBRE Found RWC Tennis Courts --- RWC (Recreation and Wellness Center)
+3. ABBRE Found Memory Mall across from the ROTC building --- ROTC (ROTC Center)
+2. PARTIAL Found Cape Florida Ballroom, Student Union 3rd Floor --- Student Union
+2. PARTIAL Found Between Math and Chemistry Building --- Chemistry Building
+2. PARTIAL Found Student Union 316CD, Cape Florida Ballroom --- Student Union
+2. PARTIAL Found ENGII 181 (Engineering Building II, Room 181, behing the TI lab and next to the Civil Lab) --- Engineering Building II
+2. PARTIAL Found Teaching Academy First floor Room 0110 --- Teaching Academy
+3. ABBRE Found HS1 Room 110 --- HS1 (Health Sciences I)
+2. PARTIAL Found Nicholson School of Communication and Media Room 115 --- Nicholson School of Communication and Media
+3. ABBRE Found HS1 116 --- HS1 (Health Sciences I)
+3. ABBRE Found RWC Park Field 2 --- RWC (Recreation and Wellness Center)
+3. ABBRE Found HS1 Room 246 --- HS1 (Health Sciences I)
+2. PARTIAL Found UCF Global 101 --- UCF Global
+3. ABBRE Found HS1 246 --- HS1 (Health Sciences I)
+3. ABBRE Found Classroom- MSB 360 --- MSB (Mathematical Sciences)
+3. ABBRE Found Outdoor Adventure Center: RWC 154 --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Memory Mall, behind Starbucks and HPA --- Memory Mall
+4. ALIAS Found Spectrum Stadium Bounce House --- Bounce House (FBC Mortgage Stadium)
+2. PARTIAL Found Outside of the Student Union --- Student Union
+3. ABBRE Found UCF Main Library, 4th floor in room 402 --- TH (Theatre)
+3. ABBRE Found CB1 309 --- CB1 (Classroom Building I)
+3. ABBRE Found Business Administration 1 - 214 (BA1 214)  --- BA1 (Business Administration I)
+2. PARTIAL Found On Memory Mall by the Starbucks --- Memory Mall
+3. ABBRE Found ENG1 Room 435 --- ENG1 (Engineering Building I)
+2. PARTIAL Found Topper's Creamery  --- Topper's Creamery
+3. ABBRE Found 358B TCH --- TCH (Trevor Coulburn Hall)
+3. ABBRE Found HS1 Room 117 --- HS1 (Health Sciences I)
+3. ABBRE Found UCF Mathematical Sciences Building (MSB) 359 --- MSB (Mathematical Sciences)
+2. PARTIAL Found Between Math and Chemistry building --- Chemistry Building
+2. PARTIAL Found UCF Theatre Building 6 --- Theatre
+2. PARTIAL Found Between Math and Chemistry building  --- Chemistry Building
+3. ABBRE Found Student Union Sand Key Meeting Room SU 220 --- SU (Student Union)
+3. ABBRE Found Garden Key SU Room 221 --- SU (Student Union)
+3. ABBRE Found HS1 Room 207 --- HS1 (Health Sciences I)
+2. PARTIAL Found reflecting pond North side --- Reflecting Pond
+3. ABBRE Found TA 204 (Teaching Academy near the reflection pond) --- TA (Teaching Academy)
+3. ABBRE Found MSB, Room 359 --- MSB (Mathematical Sciences)
+3. ABBRE Found MSB Room 359  --- MSB (Mathematical Sciences)
+2. PARTIAL Found Cedar Key, Room 223 in Student Union --- Student Union
+3. ABBRE Found Health Sciences Building Rm 246 (HS1 246) --- HS1 (Health Sciences I)
+2. PARTIAL Found Student Union Sand Key Meeting Room  --- Student Union
+2. PARTIAL Found Live Oak Ballroom at Ferrell Commons --- Ferrell Commons
+2. PARTIAL Found On Memory Mall (near the Starbucks) --- Memory Mall
+3. ABBRE Found Business Administration 1 Room 126 (BA1 126)  --- BA1 (Business Administration I)
+4. ALIAS Found In front of Addition Arena --- Addition Arena (Addition Financial Arena)
+3. ABBRE Found RWC Park 4 --- RWC (Recreation and Wellness Center)
+3. ABBRE Found  TA 322 --- TA (Teaching Academy)
+3. ABBRE Found HS1 Room 119 --- HS1 (Health Sciences I)
+3. ABBRE Found HS1 Room 116 --- HS1 (Health Sciences I)
+3. ABBRE Found BHC Conference Room 130/131 --- BHC (Burnett Honors College)
+3. ABBRE Found ENG1 435 --- ENG1 (Engineering Building I)
+3. ABBRE Found HS1 106 --- HS1 (Health Sciences I)
+3. ABBRE Found BA1 room 119 --- BA1 (Business Administration I)
+3. ABBRE Found HS1 117 --- HS1 (Health Sciences I)
+2. PARTIAL Found Student Union Sand Key Meeting Room --- Student Union
+3. ABBRE Found BHC Lawn --- BHC (Burnett Honors College)
+3. ABBRE Found On Memory Mall by the ROTC building --- ROTC (ROTC Center)
+3. ABBRE Found HS1 207 --- HS1 (Health Sciences I)
+2. PARTIAL Found UCF Global Building, Room 101 --- UCF Global
+3. ABBRE Found BHC Room 130-131 --- BHC (Burnett Honors College)
+2. PARTIAL Found Timothy R. Newman Pavilion (Arboretum area) --- Pavilion
+3. ABBRE Found SU 208 --- SU (Student Union)
+3. ABBRE Found RWC Group Exercise Studio --- RWC (Recreation and Wellness Center)
+3. ABBRE Found RWC Knights Plaza --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Memory Mall; UCF Main Campus --- Memory Mall
+2. PARTIAL Found reflecting pond north side --- Reflecting Pond
+2. PARTIAL Found Reflecting Pond North Side --- Reflecting Pond
+2. PARTIAL Found Arboretum Pavilion (Timothy R. Newman Nature Pavilion) --- Nature Pavilion
+3. ABBRE Found SU Room 220, Also on Zoom --- SU (Student Union)
+3. ABBRE Found MSB Room 359 --- MSB (Mathematical Sciences)
+3. ABBRE Found ENG2 Room 205 --- ENG2 (Engineering Building II)
+2. PARTIAL Found Burnett Honors College Room #131 --- Burnett Honors College
+4. ALIAS Found (On UCF campus) Parking is along Ara Drive/Neptune Drive past the Observation Tower and Biology Greenhouse in a temporary parking area under the East Parcel Powerlines --- Biology (Biological Sciences)
+2. PARTIAL Found UCF Student Union cypress dome --- Student Union
+3. ABBRE Found ED 190 (Education Complex) --- ED (Education Complex and Gym)
+2. PARTIAL Found Reflecting Pond North side --- Reflecting Pond
+2. PARTIAL Found Knights Pantry  --- Knights Pantry
+3. ABBRE Found PSY Room 111  --- PSY (Psychology Building)
+2. PARTIAL Found John C. Hitt Library, Room 434 --- John C. Hitt Library
+3. ABBRE Found Barbara Ying Center (BYC) --- BYC (Barbara Ying Center)
+3. ABBRE Found ENG2 181 (Engineering Building 2, Room 181, behind the TI Lab and next to the Civil Lab) --- ENG2 (Engineering Building II)
+3. ABBRE Found HS1 107 --- HS1 (Health Sciences I)
+3. ABBRE Found HEC Building on Campus! --- HEC (L3Harris Engineering Center)
+3. ABBRE Found Lake Claire RWC --- RWC (Recreation and Wellness Center)
+3. ABBRE Found SU 224 - Egmont Key  --- SU (Student Union)
+2. PARTIAL Found John C. Hitt Library - Room 434 --- John C. Hitt Library
+3. ABBRE Found UCF Main Campus, PSY 108 --- PSY (Psychology Building)
+3. ABBRE Found UCF's Memory Mall - find us on a big blanket in front of the ROTC building (or in the SU if it's raining) --- ROTC (ROTC Center)
+2. PARTIAL Found Meet at the Pavilion in between Phillips Hall and the John T. Washington Center --- Pavilion
+2. PARTIAL Found John C. Hitt Library Room 170 --- John C. Hitt Library
+2. PARTIAL Found Visual Arts Building Room 111 --- Visual Arts Building
+3. ABBRE Found Key West Ballroom Section C (SU 218C)  --- SU (Student Union)
+3. ABBRE Found BHC130 --- BHC (Burnett Honors College)
+3. ABBRE Found HS1 Room 106 --- HS1 (Health Sciences I)
+2. PARTIAL Found Nicholson School of Communication and Media 115 --- Nicholson School of Communication and Media
+3. ABBRE Found On Memory Mall by ROTC --- ROTC (ROTC Center)
+3. ABBRE Found L3Harris Corporation Engineering Center (HEC) Room 103 --- HEC (L3Harris Engineering Center)
+3. ABBRE Found BA2 Rm. 207 --- BA2 (Business Administration II)
+2. PARTIAL Found Nicholson School of Communication and Media 101 --- Nicholson School of Communication and Media
+2. PARTIAL Found College of Sciences Room 201 --- College of Sciences
+2. PARTIAL Found Timothy R. Newman Nature Pavilion --- Nature Pavilion
+3. ABBRE Found Reflection Pond near Library (Backup rain location: TA 110) --- TA (Teaching Academy)
+3. ABBRE Found UCF Main Campus, VAB 111 --- VAB (Visual Arts Building)
+3. ABBRE Found Main -  Recreation and Wellness Center (RWC) --- RWC (Recreation and Wellness Center)
+3. ABBRE Found Memory Mall - find us on a big blanket in front of the ROTC building (Rain backup location: SU Starbucks)) --- ROTC (ROTC Center)
+3. ABBRE Found HS1 Room 112 --- HS1 (Health Sciences I)
+2. PARTIAL Found Health Sciences II Room 116 --- Health Sciences II
+2. PARTIAL Found Virtual Arts Building Room 107 --- Virtual
+3. ABBRE Found UCF Main Campus VAB 111 --- VAB (Visual Arts Building)
+2. PARTIAL Found Meet us OUTSIDE of the OSI Cube, on the second floor of the Student Union (Room 208) --- Student Union
+3. ABBRE Found ENG1 327  --- ENG1 (Engineering Building I)
+3. ABBRE Found BA1 bldg., room 214 --- BA1 (Business Administration I)
+4. ALIAS Found UCF Addition Arena --- Addition Arena (Addition Financial Arena)
+2. PARTIAL Found Oval Theatre in the Marshall Student Center at USF --- Theatre
+2. PARTIAL Found Meet us at the AMSA OSI Cube, on the second floor of the Student Union (Room 208)!  --- Student Union
+3. ABBRE Found Barbara Ying Center (BYC 140) --- BYC (Barbara Ying Center)
+3. ABBRE Found Key West Ballroom Section C (SU 218C) --- SU (Student Union)
+2. PARTIAL Found Teaching Academy Room 110 --- Teaching Academy
+3. ABBRE Found TA 116 --- TA (Teaching Academy)
+3. ABBRE Found HS1 Room 107 --- HS1 (Health Sciences I)
+3. ABBRE Found Building TA, Room 116 --- TA (Teaching Academy)
+3. ABBRE Found SU Cape Florida --- SU (Student Union)
+2. PARTIAL Found Psychology Building | Room 106 --- Psychology Building
+3. ABBRE Found BA1 Room 121 --- BA1 (Business Administration I)
+2. PARTIAL Found Knights Helping Knights Pantry --- Knights Pantry
+3. ABBRE Found ENG1 Room 224 --- ENG1 (Engineering Building I)
+3. ABBRE Found Arboretum Trailer (Behind HEC Building) --- HEC (L3Harris Engineering Center)
+3. ABBRE Found HS1 Room 125 --- HS1 (Health Sciences I)
+2. PARTIAL Found Health Sciences I Room 116 --- Health Sciences I
+3. ABBRE Found BA1 Rm 207 --- BA1 (Business Administration I)
+3. ABBRE Found PSY111 --- PSY (Psychology Building)
+2. PARTIAL Found  Meet us at the AMSA OSI Cube, on the second floor of the Student Union (Room 208)!  --- Student Union
+3. ABBRE Found MSB Room 260 --- MSB (Mathematical Sciences)
+3. ABBRE Found UCF Main Campus , VAB 111 --- VAB (Visual Arts Building)
+3. ABBRE Found UCF RWC Nike Sand Volleyball Courts --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Student Union - Room 223 --- Student Union
+3. ABBRE Found BHC Lawn  --- BHC (Burnett Honors College)
+3. ABBRE Found BA1 Room 110 --- BA1 (Business Administration I)
+3. ABBRE Found UCF RWC Outdoor Adventure Challenge Course --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Under the palm trees by the Memory Mall Flagpole --- Memory Mall
+2. PARTIAL Found Garden Key, Room 221 in the Student Union --- Student Union
+2. PARTIAL Found Health Sciences I, Room 106 --- Health Sciences I
+2. PARTIAL Found UCF - Memory Mall --- Memory Mall
+3. ABBRE Found BHC Entrance near TCH and VAB --- BHC (Burnett Honors College)
+3. ABBRE Found BHC Conference Room (130/131) --- BHC (Burnett Honors College)
+3. ABBRE Found BA1 Room 116 --- BA1 (Business Administration I)
+3. ABBRE Found MSB --- MSB (Mathematical Sciences)
+3. ABBRE Found HS1 Room 126 --- HS1 (Health Sciences I)
+2. PARTIAL Found UCF - Lake Claire Pavilion --- Pavilion
+2. PARTIAL Found Student union first floor --- Student Union
+2. PARTIAL Found Student Union Information Desk --- Student Union
+2. PARTIAL Found UCF Main Campus, Memory Mall --- Memory Mall
+2. PARTIAL Found Lake Claire Recreational Area (Pavilion) --- Pavilion
+1. FULL Found L3Harris Engineering Center ---  L3Harris Engineering Center
+3. ABBRE Found UCF, MSB 306 --- MSB (Mathematical Sciences)
+3. ABBRE Found HS1 213 --- HS1 (Health Sciences I)
+2. PARTIAL Found Timothy R. Newman Pavilion --- Pavilion
+2. PARTIAL Found Key West Ballroom, Student Union  --- Student Union
+2. PARTIAL Found student union first floor --- Student Union
+2. PARTIAL Found Meet on UCF Main Campus @ Memory Mall --- Memory Mall
+3. ABBRE Found BA1 114 --- BA1 (Business Administration I)
+3. ABBRE Found ENG1 Room 224  --- ENG1 (Engineering Building I)
+3. ABBRE Found BHC Conference Room --- BHC (Burnett Honors College)
+2. PARTIAL Found Timothy R Newman Nature Pavilion --- Nature Pavilion
+2. PARTIAL Found Student union first floor  --- Student Union
+3. ABBRE Found Outside of CAPS --- CAPS (CAPS)
+3. ABBRE Found HEC (Harris Corporation Engineering Center) Building Room 118 --- HEC (L3Harris Engineering Center)
+3. ABBRE Found Mind and Body Studio at RWC Knights Plaza --- RWC (Recreation and Wellness Center)
+3. ABBRE Found BYC 140 --- BYC (Barbara Ying Center)
+2. PARTIAL Found Flagpole on Memory Mall --- Memory Mall
+2. PARTIAL Found Creative School For Children --- Creative School for Children
+2. PARTIAL Found Boathouse Pavilion @ Lake Claire --- Pavilion
+4. ALIAS Found Biology Field Research Building --- Biology (Biological Sciences)
+2. PARTIAL Found Health Sciences I Room 246 --- Health Sciences I
+2. PARTIAL Found Nicholson School of Communication and Media (NSC) --- Nicholson School of Communication and Media
+2. PARTIAL Found Nicholson School of Communication and Media (Room 110) --- Nicholson School of Communication and Media
+2. PARTIAL Found Lake Claire Recreational Area, Suwannee Pavilion --- Pavilion
+1. FULL Found Recreation Service Pavilion ---  Recreation Service Pavilion
+3. ABBRE Found RWC Leisure  Pool --- RWC (Recreation and Wellness Center)
+3. ABBRE Found Leisure Pools at RWC --- RWC (Recreation and Wellness Center)
+4. ALIAS Found The Bounce House (FBC Mortgage Stadium) --- Bounce House (FBC Mortgage Stadium)
+4. ALIAS Found Bounce House --- Bounce House (FBC Mortgage Stadium)
+2. PARTIAL Found student union 218 --- Student Union
+2. PARTIAL Found The Reflecting Pond --- Reflecting Pond
+2. PARTIAL Found The Addition Financial Arena --- Addition Financial Arena
+1. FULL Found Fairwinds Alumni Center ---  Fairwinds Alumni Center
+2. PARTIAL Found Student Union Suite 207 --- Student Union
+3. ABBRE Found The RWC Group Exercise Studio --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found UCF Technology Commons II (TC2) - Room 222 --- Technology Commons
+3. ABBRE Found RWC WHPS Entrance --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Student Union Key West Ballroom (218ABCD) --- Student Union
+2. PARTIAL Found Student Union room 218 AB  --- Student Union
+2. PARTIAL Found 3rd Floor of the Student Union (Game Area) --- Student Union
+2. PARTIAL Found Student Union Room 219 --- Student Union
+2. PARTIAL Found Key West Ballroom 218C (Student Union) --- Student Union
+2. PARTIAL Found Student Union Floor 2 --- Student Union
+2. PARTIAL Found Student Union First Floor --- Student Union
+2. PARTIAL Found Memory Mall (By the flag pole) --- Memory Mall
+3. ABBRE Found By the Memory Mall Flagpole (rain back up location: SU Starbucks) --- SU (Student Union)
+3. ABBRE Found BHC Garden/Lawn --- BHC (Burnett Honors College)
+3. ABBRE Found RWC Park - Turf Field 6 --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Dining Area of the Student Union --- Student Union
+3. ABBRE Found Entrance to BHC (near VAB) --- BHC (Burnett Honors College)
+3. ABBRE Found Barbara Ying Center (BYC)  --- BYC (Barbara Ying Center)
+2. PARTIAL Found Mathematical Sciences Building (Room 359) --- Mathematical Sciences
+2. PARTIAL Found Student Union (Room 222) --- Student Union
+2. PARTIAL Found UCF Global Room 101 --- UCF Global
+2. PARTIAL Found Lake Claire Recreation area --- Lake Claire Recreation
+2. PARTIAL Found Business Administration I - Room 205 --- Business Administration I
+2. PARTIAL Found Student Union Room 224 (Egmont Key) --- Student Union
+3. ABBRE Found VAB --- VAB (Visual Arts Building)
+2. PARTIAL Found Student Union Key West Ballroom 218C --- Student Union
+2. PARTIAL Found Student Union: Cape Florida 316CD --- Student Union
+4. ALIAS Found Gringos Locos --- Gringos (Gringos Locos UCF)
+2. PARTIAL Found Recreation and Wellness Center at Knights Plaza --- Knights Plaza
+3. ABBRE Found RWC @ Knights plaza --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Pensacola Boardroom 222, Student Union  --- Student Union
+3. ABBRE Found PSY 108, Main Campus --- PSY (Psychology Building)
+2. PARTIAL Found Student Union: Room 218 CD --- Student Union
+2. PARTIAL Found Student Union room 218 AB --- Student Union
+3. ABBRE Found UCF ENG2 Room 102 --- ENG2 (Engineering Building II)
+2. PARTIAL Found UCF Global 112 --- UCF Global
+4. ALIAS Found In Front of Addition Arena --- Addition Arena (Addition Financial Arena)
+3. ABBRE Found MSB ROOM 306 --- MSB (Mathematical Sciences)
+2. PARTIAL Found Mathematical Sciences Building Main Campus Room 204 --- Mathematical Sciences
+3. ABBRE Found CB2 101 --- CB2 (Classroom Building II)
+2. PARTIAL Found Health Sciences II, Room 345 --- Health Sciences II
+1. FULL Found Creative School for Children ---  Creative School for Children
+3. ABBRE Found HEC 125 -- UCF's campus --- HEC (L3Harris Engineering Center)
+3. ABBRE Found SU 218A --- SU (Student Union)
+2. PARTIAL Found Student Union room 218c --- Student Union
+2. PARTIAL Found Business Administration I Room 115 --- Business Administration I
+3. ABBRE Found Room 249 at the RWC --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Student Union, Siesta Key Board Room 225 --- Student Union
+3. ABBRE Found TA Building, Room 322 --- TA (Teaching Academy)
+2. PARTIAL Found Biological Sciences Building  --- Biological Sciences
+3. ABBRE Found CB2 --- CB2 (Classroom Building II)
+2. PARTIAL Found Sand Key, Room 220 of UCF Student Union --- Student Union
+3. ABBRE Found Barbara Ying Center Training Room (BYC 140) --- BYC (Barbara Ying Center)
+3. ABBRE Found RWC park -- UCF campus --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found UCF Nicholson School of Communication and Media (NSC) --- Nicholson School of Communication and Media
+2. PARTIAL Found Student Union, Room 316AB (Cape Florida Ballroom) --- Student Union
+2. PARTIAL Found Student Union: Room 221 (Garden Key Ballroom) --- Student Union
+3. ABBRE Found SU 3rd Floor --- SU (Student Union)
+3. ABBRE Found (Visual Arts Building) VAB Rm213A --- VAB (Visual Arts Building)
+2. PARTIAL Found Health Sciences I room 106 --- Health Sciences I
+3. ABBRE Found BA1 Room 225 --- BA1 (Business Administration I)
+2. PARTIAL Found Memory Mall B --- Memory Mall
+2. PARTIAL Found 3rd Floor of Career Services and Experiential Learning Building --- Career Services
+3. ABBRE Found BHC 130/131 --- BHC (Burnett Honors College)
+3. ABBRE Found Multicultural Student Center (SU) --- SU (Student Union)
+3. ABBRE Found RWC MAC Gym Courts  --- RWC (Recreation and Wellness Center)
+4. ALIAS Found 7/11 Gas Station --- 711 (7-Eleven)
+3. ABBRE Found MSB Room 306 --- MSB (Mathematical Sciences)
+3. ABBRE Found MSB 204 --- MSB (Mathematical Sciences)
+3. ABBRE Found BHC Room 130/131  --- BHC (Burnett Honors College)
+2. PARTIAL Found Student Union: Room 218 ABCD --- Student Union
+2. PARTIAL Found University of Central Florida Memory Mall --- Memory Mall
+2. PARTIAL Found Foxtail - UCF Breezeway --- Breezeway
+3. ABBRE Found BA1 Room 107 --- BA1 (Business Administration I)
+2. PARTIAL Found UCF Morgridge International Reading Center --- Reading Center
+3. ABBRE Found HS1 room 106 --- HS1 (Health Sciences I)
+2. PARTIAL Found Reflection Pond (Near the Library and Welcome Center, where Spirit Splash takes place) --- Welcome Center
+3. ABBRE Found VAB Room 107 --- VAB (Visual Arts Building)
+2. PARTIAL Found John C Hitt Library Room 406 --- John C. Hitt Library
+2. PARTIAL Found MASS Lounge (Student Union) --- Student Union
+3. ABBRE Found MSB 204  --- MSB (Mathematical Sciences)
+3. ABBRE Found BHC Entrance (near the VAB) --- BHC (Burnett Honors College)
+3. ABBRE Found Outside the Visual Arts Building (VAB) --- VAB (Visual Arts Building)
+3. ABBRE Found VAB Room 217 --- VAB (Visual Arts Building)
+3. ABBRE Found Student Union Room SU 222 --- SU (Student Union)
+3. ABBRE Found SU 2nd Floor (tables by Starbucks) --- SU (Student Union)
+2. PARTIAL Found PAC Theatre Rehearsal Room 2  --- Theatre
+3. ABBRE Found HEC O103 --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found PAC theatre building rehearsal room 2  --- Theatre
+3. ABBRE Found SU RM 222 --- SU (Student Union)
+3. ABBRE Found SU 222 - Pensacola Ballroom - Student Union --- SU (Student Union)
+3. ABBRE Found Teaching Academy TA-203 --- TA (Teaching Academy)
+2. PARTIAL Found Hercules Community Center --- Hercules Community
+2. PARTIAL Found Psychology Building 108 --- Psychology Building
+2. PARTIAL Found PAC Theatre Building Rehearsal Room 2  --- Theatre
+2. PARTIAL Found Visual Arts Building Classroom 0217 --- Visual Arts Building
+2. PARTIAL Found PAC Rehearsal Room 2 (THEATRE BUILDING SIDE) --- Theatre
+2. PARTIAL Found Memory Mall Spot next to Starbucks --- Memory Mall
+3. ABBRE Found BA1 Room 207 --- BA1 (Business Administration I)
+3. ABBRE Found Cape Florida Ballroom, 3rd Floor SU --- SU (Student Union)
+2. PARTIAL Found Pegasus ballroom- Student union  --- Student Union
+2. PARTIAL Found Recreation and Wellness Center - ROOM 206 --- Recreation and Wellness Center
+3. ABBRE Found SU Patio --- SU (Student Union)
+3. ABBRE Found Barbra Ying Center (BYC)  --- BYC (Barbara Ying Center)
+2. PARTIAL Found Timothy R. Newman Pavilion @ Arboretum Natural Lands --- Pavilion
+3. ABBRE Found RWC Disc Golf Course --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Starbucks @ Student Union --- Starbucks
+3. ABBRE Found BA1 0119 --- BA1 (Business Administration I)
+3. ABBRE Found Memory Mall - find us on a big blanket by the Flagpole (Rain backup location: SU Starbucks) --- SU (Student Union)
+3. ABBRE Found HS1 112 --- HS1 (Health Sciences I)
+3. ABBRE Found Barbra Ying Center (BYC) --- BYC (Barbara Ying Center)
+3. ABBRE Found ED 0190 --- ED (Education Complex and Gym)
+3. ABBRE Found ENG2 Atrium --- ENG2 (Engineering Building II)
+2. PARTIAL Found Student Union | ROOM 223 --- Student Union
+1. FULL Found Gringos Locos UCF ---  Gringos Locos UCF
+3. ABBRE Found HEC 0111 --- HEC (L3Harris Engineering Center)
+2. PARTIAL Found Biological Sciences Room 209 --- Biological Sciences
+2. PARTIAL Found VISUAL ARTS BUILDING RM 111 --- Visual Arts Building
+3. ABBRE Found Barbra Ying Center (BYC) 140 --- BYC (Barbara Ying Center)
+3. ABBRE Found  HS1 Room 112 --- HS1 (Health Sciences I)
+2. PARTIAL Found Main Floor of the Student Union --- Student Union
+2. PARTIAL Found Visual Arts Building - Room 113 --- Visual Arts Building
+3. ABBRE Found Honors Congress Office (in the BHC Computer Lab) and Tower 3 Lobby --- BHC (Burnett Honors College)
+3. ABBRE Found VAB 0113 --- VAB (Visual Arts Building)
+2. PARTIAL Found Creative School for Children  Back of the school by the Libra Garage --- Creative School for Children
+2. PARTIAL Found Health Sciences I Room 117 --- Health Sciences I
+3. ABBRE Found HS-1, Room 112 --- HS1 (Health Sciences I)
+3. ABBRE Found MSB336 --- MSB (Mathematical Sciences)
+3. ABBRE Found UCF Teaching Academy (TA) 204 --- TA (Teaching Academy)
+3. ABBRE Found RWC Room 206 --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Outside the Visual Arts Building --- Visual Arts Building
+2. PARTIAL Found UCF Student Union Third Floor  --- Student Union
+3. ABBRE Found Teaching Academy (TA) 204 --- TA (Teaching Academy)
+2. PARTIAL Found Biological Sciences Building - Room 209 --- Biological Sciences
+2. PARTIAL Found Health Sciences I room 272 --- Health Sciences I
+3. ABBRE Found Student Union (SU) 223 --- SU (Student Union)
+3. ABBRE Found HS1 363 --- HS1 (Health Sciences I)
+3. ABBRE Found Memory Mall flagpole (Rain back up: SU 1st floor) --- SU (Student Union)
+2. PARTIAL Found Teaching Academy Room 130  --- Teaching Academy
+3. ABBRE Found Bussiness Admin 1 (4th Floor Fishbowl) --- TH (Theatre)
+3. ABBRE Found Gemini Blvd South (Meet at garage B near RWC) --- RWC (Recreation and Wellness Center)
+3. ABBRE Found TA221 --- TA (Teaching Academy)
+3. ABBRE Found Garden Key Room (Room 221) at SU --- SU (Student Union)
+3. ABBRE Found HS1 Room117 --- HS1 (Health Sciences I)
+3. ABBRE Found Visual arts building (VAB) room 113 --- VAB (Visual Arts Building)
+1. FULL Found Health Sciences I ---  Health Sciences I
+2. PARTIAL Found John C. Hitt Library, Room 170 --- John C. Hitt Library
+2. PARTIAL Found Sanibel Board Room 219, Student Union --- Student Union
+3. ABBRE Found Sanibel Board Room 219, SU --- SU (Student Union)
+3. ABBRE Found ENG2 Room 203 --- ENG2 (Engineering Building II)
+3. ABBRE Found Teaching Academy (TA) Room 203 --- TA (Teaching Academy)
+2. PARTIAL Found Student Union 1st Floor --- Student Union
+2. PARTIAL Found Garden Key Meeting Room 221 (Student Union)  --- Student Union
+2. PARTIAL Found Barbara Ying Center 101 --- Barbara Ying Center
+3. ABBRE Found Burnett Honors College (BHC-130) --- BHC (Burnett Honors College)
+3. ABBRE Found VAB132 --- VAB (Visual Arts Building)
+2. PARTIAL Found Lake Claire Recreation Area (LKCR) --- Lake Claire Recreation
+3. ABBRE Found Student Union (SU-222) --- SU (Student Union)
+3. ABBRE Found Psychology Building (PSY-105) --- PSY (Psychology Building)
+3. ABBRE Found Teaching Acaemy, TA 204 --- TA (Teaching Academy)
+2. PARTIAL Found Pegasus Grand Ballroom UCF Student Union --- Student Union
+3. ABBRE Found Visual arts building (VAB) room 109 --- VAB (Visual Arts Building)
+3. ABBRE Found VAB0113 --- VAB (Visual Arts Building)
+2. PARTIAL Found Knights Plaza Mind and Body Studio --- Knights Plaza
+2. PARTIAL Found College of Sciences Building --- College of Sciences
+2. PARTIAL Found UCF Breezeway Foxtail --- Breezeway
+2. PARTIAL Found UCF Starbucks --- Starbucks
+3. ABBRE Found MSB360 --- MSB (Mathematical Sciences)
+3. ABBRE Found Front of BHC --- BHC (Burnett Honors College)
+2. PARTIAL Found 7-Eleven @ 7405 Red Bug Lake Rd. --- 7-Eleven
+4. ALIAS Found Biology Research Building --- Biology (Biological Sciences)
+2. PARTIAL Found Business Administration I Room 119 --- Business Administration I
+3. ABBRE Found VAB Breezeway (Visual Arts Building --- VAB (Visual Arts Building)
+2. PARTIAL Found Nicholson School of Communication and Media- Room 145 --- Nicholson School of Communication and Media
+3. ABBRE Found Mathematical Sciences Building (MSB) 0359 --- MSB (Mathematical Sciences)
+2. PARTIAL Found University of Central Florida Student Union Cape Florida Ballroom  --- Student Union
+3. ABBRE Found Games will be played at various locations around the RWC.  We will meet on RWC Court to begin the day. --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Teaching Academy Room 221 --- Teaching Academy
+2. PARTIAL Found Topper's Creamery UCF by reflection pond --- Topper's Creamery
+2. PARTIAL Found burnett honors college --- Burnett Honors College
+3. ABBRE Found Mathematical Sciences Building- MSB 0109 --- MSB (Mathematical Sciences)
+2. PARTIAL Found Student Union Cape Florida Ballroom 316 CD --- Student Union
+3. ABBRE Found Teaching Academy TA-204 --- TA (Teaching Academy)
+2. PARTIAL Found Cape FL Ballroom, 3rd floor of the UCF Student Union --- Student Union
+2. PARTIAL Found Breezeway Foxtail Coffee --- Breezeway
+2. PARTIAL Found L3Harris Engineering Center, Room 111 --- L3Harris Engineering Center
+2. PARTIAL Found Visual Arts building: room 111 --- Visual Arts Building
+2. PARTIAL Found Student Union: Sand Key, Room 220 --- Student Union
+3. ABBRE Found TA203 --- TA (Teaching Academy)
+2. PARTIAL Found Engineering Building II, Room 102 --- Engineering Building II
+2. PARTIAL Found Health Sciences I O125 --- Health Sciences I
+3. ABBRE Found HS1- 106 --- HS1 (Health Sciences I)
+3. ABBRE Found GEX Studio at Main RWC --- RWC (Recreation and Wellness Center)
+2. PARTIAL Found Lead Scholars Academy - Ferrell Commons --- Ferrell Commons
+2. PARTIAL Found Lake Claire, Suwannee Pavilion --- Pavilion
+2. PARTIAL Found Breezeway Pavilion --- Breezeway
+3. ABBRE Found Mathematical Sciences Building (MSB) 260 --- MSB (Mathematical Sciences)
+2. PARTIAL Found John C Hitt Library --- John C. Hitt Library
+2. PARTIAL Found Business Administration I Building Room #122. --- Business Administration I
+3. ABBRE Found Key West Ballroom (SU 218AB) --- SU (Student Union)
+2. PARTIAL Found Flagpole at Memory Mall --- Memory Mall
+2. PARTIAL Found UCF Student Union, Second Floor Starbucks --- Starbucks
+2. PARTIAL Found Key West Ballroom [Student Union Room 218] --- Student Union
+1. FULL Found Parking Garage C ---  Parking Garage C
+1. FULL Found FBC Mortgage Stadium ---  FBC Mortgage Stadium
+2. PARTIAL Found FBC Mortgage Stadium  --- FBC Mortgage Stadium
+2. PARTIAL Found Live Oak Event Center AB --- Live Oak Event Center
+2. PARTIAL Found Student Union, 1st Floor --- Student Union
+2. PARTIAL Found 3rd floor of the Student Union, next to the Esports room --- Student Union
+3. ABBRE Found SU 224 (Room on 2nd Floor of Student Union) --- SU (Student Union)
+3. ABBRE Found UCF Main Campus PSY RM 106 --- PSY (Psychology Building)
+2. PARTIAL Found Chick-fil-a --- Chick-fil-A
+4. ALIAS Found Outside of Addition Arena --- Addition Arena (Addition Financial Arena)
+2. PARTIAL Found Nicholson School of Communication and Media (NSC), Room 0111 --- Nicholson School of Communication and Media
+3. ABBRE Found SU 3rd Floor Cape Florida Ballroom --- SU (Student Union)
+2. PARTIAL Found Student Union - Key West Ballroom  --- Student Union
+2. PARTIAL Found John T. Washington Center or Breezeway (right next to the Foxtail Cafe) --- Breezeway
+2. PARTIAL Found John C. Hitt Library, Room 402 --- John C. Hitt Library
+3. ABBRE Found BA1 0206 --- BA1 (Business Administration I)
+2. PARTIAL Found Mathematical Sciences Building, Orlando, FL 32816 --- Mathematical Sciences
+4. ALIAS Found Biology Field Research Center  --- Biology (Biological Sciences)
+2. PARTIAL Found L3Harris Engineering Center Room 119 --- L3Harris Engineering Center
+2. PARTIAL Found Student Union - Sand Key Room 220 --- Student Union
+2. PARTIAL Found Physical Sciences Building room 160 --- Physical Sciences
+2. PARTIAL Found Business Administration II Room 0208 --- Business Administration II
+1. FULL Found Business Administration II ---  Business Administration II
+3. ABBRE Found Turf Field #5 - UCF RWC --- RWC (Recreation and Wellness Center)
+3. ABBRE Found BA1 Room 119 --- BA1 (Business Administration I)
+3. ABBRE Found BA1 4th floor --- BA1 (Business Administration I)
+2. PARTIAL Found UCF Nicholson School of Communication and Media --- Nicholson School of Communication and Media
+2. PARTIAL Found UCF Arboretum Portable --- Arboretum Portable
+2. PARTIAL Found Student Union 316A --- Student Union
+3. ABBRE Found SU224 (Room on 2nd Floor of Student Union) --- SU (Student Union)
+2. PARTIAL Found University of Central Florida, Student Union Room 218C --- Student Union
+3. ABBRE Found TCH Building Room 226 --- TCH (Trevor Coulburn Hall)
+3. ABBRE Found Theatre Building Costume Shop (Room TH 0126) --- TH (Theatre)
+3. ABBRE Found MSB 0336 --- MSB (Mathematical Sciences)
+3. ABBRE Found Mathematical Science Building (MSB), room 306 --- MSB (Mathematical Sciences)
+3. ABBRE Found L3Harris Corporation Engineering Center (HEC) Room 101 --- HEC (L3Harris Engineering Center)
+3. ABBRE Found CB2 106 --- CB2 (Classroom Building II)
+2. PARTIAL Found Pensacola Board room in Student Union --- Student Union
+2. PARTIAL Found Psychology Building, Room 108 --- Psychology Building
+2. PARTIAL Found Classroom Building II Room 201 --- Classroom Building II
+2. PARTIAL Found Psychology Building, Room 0106 --- Psychology Building
+3. ABBRE Found Visual arts building VAB 0107 --- VAB (Visual Arts Building)
+2. PARTIAL Found Student union 220 --- Student Union
+2. PARTIAL Found Teaching Academy - Room 130  --- Teaching Academy
+3. ABBRE Found HS2 345 --- HS2 (Health Sciences II)
+3. ABBRE Found Visual Arts Building (VAB) 0217 --- VAB (Visual Arts Building)
+2. PARTIAL Found Visual Arts Building - Room 109  --- Visual Arts Building
+3. ABBRE Found Key West Ballroom (SU) --- SU (Student Union)
+2. PARTIAL Found Room 130/131 @ the Burnett Honors College --- Burnett Honors College
+3. ABBRE Found BA1 0209 --- BA1 (Business Administration I)
+3. ABBRE Found UCF Main Campus CB2 RM 106 --- CB2 (Classroom Building II)
+3. ABBRE Found UCF, ENG2 102 --- ENG2 (Engineering Building II)
+3. ABBRE Found Room TBD!! **switching from CB2 204 for more seats** --- CB2 (Classroom Building II)
+3. ABBRE Found BHC Front Lawn --- BHC (Burnett Honors College)
+2. PARTIAL Found Biological Sciences Building --- Biological Sciences
+3. ABBRE Found Teaching Academy (TA) 203-204 --- TA (Teaching Academy)
+2. PARTIAL Found UCF Global - Room 101 --- UCF Global
+2. PARTIAL Found Student Union Room 218C, UCF Main Campus --- Student Union
+3. ABBRE Found SU Starbucks --- SU (Student Union)
+2. PARTIAL Found Pensacola Board Room in Student Union  --- Student Union
+3. ABBRE Found CB2 106 UCF Main Campus --- CB2 (Classroom Building II)
+3. ABBRE Found Mathematical Science Building (MSB), room 204 --- MSB (Mathematical Sciences)
+1. FULL Found CREOL ---  CREOL
+3. ABBRE Found BA1 room 206 --- BA1 (Business Administration I)
+3. ABBRE Found BA1 0115 --- BA1 (Business Administration I)
+3. ABBRE Found CB2 204 --- CB2 (Classroom Building II)
+3. ABBRE Found HS1 119 --- HS1 (Health Sciences I)
+2. PARTIAL Found Student Union, Starbucks --- Starbucks
+3. ABBRE Found BA1 O213 --- BA1 (Business Administration I)
+2. PARTIAL Found John C. Hitt Library Room 434 --- John C. Hitt Library
+3. ABBRE Found HS1 O119 --- HS1 (Health Sciences I)
+3. ABBRE Found BHC Computer Lab and Tower 3 Lobby --- BHC (Burnett Honors College)
+3. ABBRE Found Teaching Academy (TA) 204 & 203 --- TA (Teaching Academy)
+2. PARTIAL Found Memory Mall Spot 352 --- Memory Mall
+2. PARTIAL Found Memory Mall, spot 425 --- Memory Mall
+3. ABBRE Found HS1 110 --- HS1 (Health Sciences I)
+3. ABBRE Found HS1 O116 --- HS1 (Health Sciences I)
+2. PARTIAL Found Orlando Emergency Operations Center --- Emergency Operations Center
+2. PARTIAL Found Student Union Atrium  --- Student Union
+3. ABBRE Found HS2 Room 345 --- HS2 (Health Sciences II)
+2. PARTIAL Found Health Sciences II Room 207 --- Health Sciences II
+2. PARTIAL Found Health Sciences I Rm. 119 --- Health Sciences I
+2. PARTIAL Found Business Administration II - Room 208 --- Business Administration II
+2. PARTIAL Found Student Union - Cedar Key Room 223 --- Student Union
+2. PARTIAL Found Business Administration I Room 225 --- Business Administration I
+3. ABBRE Found RWC Field --- RWC (Recreation and Wellness Center)
+3. ABBRE Found L3 Harris Engineering Center (HEC) --- HEC (L3Harris Engineering Center)
+3. ABBRE Found BA1 0121 --- BA1 (Business Administration I)
+2. PARTIAL Found John C. Hitt Library Room 176 --- John C. Hitt Library
+2. PARTIAL Found Pensacola Board Room in Student Union (room 222) --- Student Union
+3. ABBRE Found RWC Park Field 3 --- RWC (Recreation and Wellness Center)
+3. ABBRE Found RWC Patio --- RWC (Recreation and Wellness Center)
+3. ABBRE Found Garden Key Room SU --- SU (Student Union)
+3. ABBRE Found SU 221 Garden Key Meeting Room --- SU (Student Union)
+3. ABBRE Found HS1 Room 213 --- HS1 (Health Sciences I)
+2. PARTIAL Found Visual Arts Building room 0217 --- Visual Arts Building
+2. PARTIAL Found Memory Mall- University of Central Florida  --- Memory Mall
+3. ABBRE Found HS1 0213 --- HS1 (Health Sciences I)
+3. ABBRE Found HonCon Office (BHC Computer lab) --- BHC (Burnett Honors College)
+2. PARTIAL Found Biological Sciences Buildings --- Biological Sciences

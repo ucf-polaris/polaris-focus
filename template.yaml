@@ -9,7 +9,23 @@ Resources:
       Name: PolarisFocusAPI
       StageName: Testing
 
-    
+# --- STREAM FUNCTION ---
+  EventStreamReaderFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: stream_reader_sam
+      Handler: StreamReader
+      Runtime: go1.x
+      CodeUri: StreamReader/
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Buildings"
 # --- BUILDING FUNCTIONS ---
   BuildingAddFunction:
     Type: AWS::Serverless::Function

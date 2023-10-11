@@ -8,6 +8,24 @@ Resources:
       StageName: Testing
     Metadata:
       SamResourceId: TheBestApi
+  EventStreamReaderFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: stream_reader_sam
+      Handler: StreamReader
+      Runtime: go1.x
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/5534750ce01692ddf01c1f1f12c6e125
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: Buildings
+    Metadata:
+      SamResourceId: EventStreamReaderFunction
   BuildingAddFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -248,7 +266,7 @@ Resources:
       FunctionName: event_delete_sam
       Handler: EventDelete
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/6499b9f2be08a7365bae4d20998ec5fd
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/70c4748e2f7589864935cd4e0de6cc04
       MemorySize: 256
       Timeout: 10
       Policies:

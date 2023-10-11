@@ -23,8 +23,10 @@ type Building struct {
 	BuildingDesc         string   `json:"BuildingDesc"`
 	BuildingEvents       []string `json:"BuildingEvents,omitempty"`
 	BuildingName         string   `json:"BuildingName"`
-	BuildingAltitude     string   `json:"BuildingAltitude,omitempty"`
+	BuildingAltitude     float64  `json:"BuildingAltitude,omitempty"`
 	BuildingLocationType string   `json:"BuildingLocationType,omitempty"`
+	BuildingAbbreviation string   `json:"BuildingAbbreviation,omitempty"`
+	BuildingAllias 		 string   `json:"BuildingAllias,omitempty"`
 	BuildingAddress      string   `json:"BuildingAddress,omitempty"`
 	BuildingImage        string   `json:"BuildingImage,omitempty"`
 }

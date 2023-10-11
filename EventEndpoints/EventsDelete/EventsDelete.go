@@ -3,9 +3,9 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"net/http"
 	"fmt"
 	"log"
+	"net/http"
 	"polaris-api/pkg/Helpers"
 	"strings"
 
@@ -21,12 +21,15 @@ type EventLocation struct {
 	BuildingLat     float64    `json:"BuildingLat"`
 }
 type Event struct {
-	EventID         string          `json:"EventID"`
-	DateTime        string          `json:"dateTime"`
-	Description     string          `json:"description"`
-	Host            string          `json:"host"`
-	Location        EventLocation   `json:"location"`
-	Name            string          `json:"name"`
+	EventID     	string        `json:"EventID"`
+	DateTime    	string        `json:"dateTime"`
+	Description 	string        `json:"description"`
+	Host        	string        `json:"host"`
+	Location    	EventLocation `json:"location"`
+	ListedLocation 	string 		  `json:"listedLocation,omitempty"`
+	Image 			string 	      `json:"image,omitempty"`
+	EndsOn 			string        `json:"endsOn,omitempty"`
+	Name        	string        `json:"name"`
 }
 type Payload struct {
 	Name     string `json:"name"`

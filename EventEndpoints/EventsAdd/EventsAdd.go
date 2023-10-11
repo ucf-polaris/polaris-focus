@@ -35,7 +35,7 @@ func main() {
 
 // make a TTL
 func makeTTL(item map[string]types.AttributeValue, search map[string]interface{}, expire int) error {
-	date, _ := search["dateTime"].(string)
+	date, _ := search["endsOn"].(string)
 	thetime, err := time.Parse(time.RFC3339, date)
 	if err != nil {
 		return err
@@ -73,8 +73,10 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	//-----------------------------------------EXTRACT FIELDS-----------------------------------------
 	search := Helpers.UnpackRequest(request.Body)
 
+	log.Println(search)
+
 	item, _, _, errs := Helpers.ExtractFields(
-		[]string{"name", "host", "description", "dateTime", "location"},
+		[]string{"name", "host", "description", "dateTime", "location", "endsOn", "image", "listedLocation"},
 		search,
 		false,
 		false)
@@ -109,7 +111,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}
 
 	//-----------------------------------------MAKE TTL VALUE-----------------------------------------
-	expire := -2
+	expire := 1440
 	if val, ok := search["expires"].(float64); ok {
 		expire = int(val)
 	}

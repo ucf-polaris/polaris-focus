@@ -118,6 +118,7 @@ func CSVToMap(reader io.Reader) []map[string]string {
 func checkFullName(locations []map[string]string, e Event) string {
 	for _, ele := range locations {
 		if strings.ToLower(ele["Name"]) == strings.ToLower(e.ListedLocation) {
+			//log.Println("1. found ", e.ListedLocation, "at", ele["Name"])
 			return ele["Latitude, Longitude"]
 		}
 	}
@@ -128,6 +129,7 @@ func checkPartialName(locations []map[string]string, e Event) string {
 	for _, ele := range locations {
 		non_spec := strings.ToLower(replaceSpecials(e.ListedLocation))
 		if matchWord(strings.ToLower(ele["Name"]), non_spec) {
+			//log.Println("2. found ", non_spec, "at", ele["Name"])
 			return ele["Latitude, Longitude"]
 		}
 	}
@@ -136,6 +138,10 @@ func checkPartialName(locations []map[string]string, e Event) string {
 
 func checkPartialAbbre(locations []map[string]string, e Event) string {
 	for _, ele := range locations {
+		//error checking
+		if ele["Abbreviation"] == "" {
+			continue
+		}
 		//split the comma seperated string
 		abbs := strings.Split(ele["Abbreviation"], ",")
 		non_spec := strings.ToLower(replaceSpecials(e.ListedLocation))
@@ -143,11 +149,13 @@ func checkPartialAbbre(locations []map[string]string, e Event) string {
 		for _, abb := range abbs {
 			//search for abbreviation (regularly)
 			if matchWord(strings.ToLower(abb), non_spec) {
+				//log.Println("3. found ", non_spec, "at", abb)
 				return ele["Latitude, Longitude"]
 			}
 
 			//search for abbreviation without numbers
 			if matchWord(strings.ToLower(abb), replaceNumbers(non_spec)) {
+				//log.Println("4. found ", e.ListedLocation, "at", ele["Name"])
 				return ele["Latitude, Longitude"]
 			}
 		}
@@ -158,6 +166,10 @@ func checkPartialAbbre(locations []map[string]string, e Event) string {
 
 func checkPartialAlias(locations []map[string]string, e Event) string {
 	for _, ele := range locations {
+		//error checking
+		if ele["Alias"] == "" {
+			continue
+		}
 		//split the comma seperated string
 		aliases := strings.Split(ele["Alias"], ",")
 		non_spec := strings.ToLower(replaceSpecials(e.ListedLocation))
@@ -165,6 +177,7 @@ func checkPartialAlias(locations []map[string]string, e Event) string {
 		for _, alias := range aliases {
 			//search for aliases
 			if matchWord(strings.ToLower(alias), non_spec) {
+				//log.Println("5. found ", e.ListedLocation, "at", alias, ele["Name"])
 				return ele["Latitude, Longitude"]
 			}
 		}
@@ -225,6 +238,8 @@ func massRename(e []Event) []map[string]interface{} {
 				"endsOn":           "endsOn",
 				"name":             "name",
 				"description":      "description",
+				"locationQueryID":  "locationQueryID",
+				"timeTilExpire":    "timeTilExpire",
 			},
 			m2,
 		)

@@ -369,20 +369,17 @@ func constructRequest(events []map[string]interface{}, limit int) []*dynamodb.Ba
 	return requests
 }
 
-func ExecutePut(requests []*dynamodb.BatchWriteItemInput) (int, error) {
-	unprocessed := 0
+func ExecutePut(requests []*dynamodb.BatchWriteItemInput) error {
 
 	for _, ele := range requests {
-		out, err := client.BatchWriteItem(context.TODO(), ele)
+		_, err := client.BatchWriteItem(context.TODO(), ele)
 
 		if err != nil {
 			log.Println(err)
 		}
-
-		unprocessed += len(out.UnprocessedItems[table])
 	}
 
-	return unprocessed, nil
+	return nil
 }
 
 // #endregion DATABASE_FUNCTIONS
@@ -406,11 +403,14 @@ func handler(config PageConfig) (map[string]interface{}, error) {
 
 	//how many days in advance should the program parse
 	str_days := os.Getenv("ADVANCE_DAYS")
+	if str_days == "" {
+		str_days = "1"
+	}
 	days, err := strconv.Atoi(str_days)
 	if err != nil {
 		return nil, err
 	}
-	if days < 0 {
+	if days <= 0 {
 		days = 5
 	}
 	date := getRelativeDate(0)
@@ -458,15 +458,14 @@ func handler(config PageConfig) (map[string]interface{}, error) {
 
 	//-----------------------------------------ADD TO DATABASE-----------------------------------------
 	requests := constructRequest(payload, 20)
-	unprocessed, err := ExecutePut(requests)
+	err = ExecutePut(requests)
 	if err != nil {
 		return nil, err
 	}
 
 	//-----------------------------------------SETUP RETURN-----------------------------------------
 	ret := map[string]interface{}{
-		"unprocessed": unprocessed,
-		"total":       total,
+		"total": total,
 	}
 
 	return ret, nil

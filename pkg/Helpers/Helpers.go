@@ -204,6 +204,21 @@ func ConstructDynamoHost() (*dynamodb.Client, string) {
 	return dynamodb.NewFromConfig(cfg), table_func
 }
 
+// override to create an actual host
+func ConstructRealDynamoHost() (*dynamodb.Client, string) {
+	var err error
+	var cfg aws.Config
+	var table_func string
+
+	cfg, err = config.LoadDefaultConfig(context.Background())
+	if err != nil {
+		panic(err)
+	}
+	table_func = os.Getenv("TABLE_NAME")
+
+	return dynamodb.NewFromConfig(cfg), table_func
+}
+
 // determines if in local environment based on existance of named testing file
 func IsLambdaLocal() bool {
 	test := os.Getenv("LAMBDA_TASK_ROOT")

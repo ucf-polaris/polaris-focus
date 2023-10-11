@@ -11,6 +11,7 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/aws/aws-sdk-go/aws"
@@ -78,13 +79,19 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		return Helpers.ResponseGeneration(fmt.Sprintf("Event name and dateTime missing"), http.StatusBadRequest)
 	}
 
+	eventObj, err := getEventByIndex(context.Background(), name, dateTime)
+	if err != nil {
+		return Helpers.ResponseGeneration(fmt.Sprintf("fetching Event data: %v", err), http.StatusBadRequest)
+	}
+	if len(eventObj) == 0 {
+		return Helpers.ResponseGeneration(fmt.Sprintf("No event found with that name and dateTime"), http.StatusBadRequest)
+	}
+
 	input := &dynamodb.DeleteItemInput{
 		TableName: aws.String(table),
 		Key: map[string]types.AttributeValue{
-			"name": &types.AttributeValueMemberS{Value: name},
-			"dateTime": &types.AttributeValueMemberS{Value: dateTime},
+			"EventID": &types.AttributeValueMemberS{Value: eventObj[0].EventID},
 		},
-		ConditionExpression: aws.String("attribute_exists(name) AND attribute_exists(dateTime)"),
 	}
 
 	_, err = client.DeleteItem(context.Background(), input)
@@ -110,6 +117,43 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		Body:		string(retJSON),
 		Headers:	map[string]string{"content-type": "application/json"},
 	}, nil
+}
+
+func getEventByIndex(ctx context.Context, name, dateTime string) ([]Event, error) {
+	// Construct the get item input given the Event ID provided
+	inp := &dynamodb.QueryInput{
+		TableName:                aws.String(table),
+		IndexName:                aws.String("name-dateTime-index"),
+		KeyConditionExpression:   aws.String("#name = :name AND #dateTime = :dateTime"),
+		ExpressionAttributeNames: map[string]string{"#name": "name", "#dateTime": "dateTime"},
+		ExpressionAttributeValues: map[string]types.AttributeValue{
+			":name":     &types.AttributeValueMemberS{Value: name},
+			":dateTime": &types.AttributeValueMemberS{Value: dateTime},
+		},
+	}
+
+	// Try to query dynamodb with this get item
+	output, err := client.Query(ctx, inp)
+
+	// Return the error if it fails
+	if err != nil {
+		return nil, err
+	}
+
+	// Return nil if the item didn't end up existing
+	if output.Count == 0 {
+		return nil, nil
+	}
+
+	// construct the go struct from dynamo's item
+	event := []Event{}
+	err = attributevalue.UnmarshalListOfMaps(output.Items, &event)
+	if err != nil { // if this failed, early exit
+		return nil, err
+	}
+
+	// yay!
+	return event, nil
 }
 
 func main() {

@@ -2,117 +2,138 @@ package main
 
 import (
 	"context"
-	"log"
-	"net/http"
 	"encoding/json"
 	"fmt"
+	"log"
+	"net/http"
 	"polaris-api/pkg/Helpers"
+	"strings"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
-	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
-	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go/aws"
 )
 
-type Building struct {
-	BuildingLong    float64    		`json:"BuildingLong"`
-	BuildingLat     float64    		`json:"BuildingLat"`
-	BuildingDesc    string          `json:"BuildingDesc"`
-	BuildingEvents  []string        `json:"BuildingEvents"`
-	BuildingName    string   		`json:"BuildingName"`
+type EventLocation struct {
+	BuildingLong    float64    `json:"BuildingLong"`
+	BuildingLat     float64    `json:"BuildingLat"`
+}
+type Event struct {
+	EventID     	string        `json:"EventID"`
+	DateTime    	string        `json:"dateTime"`
+	Description 	string        `json:"description"`
+	Host        	string        `json:"host"`
+	Location    	EventLocation `json:"location"`
+	ListedLocation 	string 		  `json:"listedLocation,omitempty"`
+	Image 			string 	      `json:"image,omitempty"`
+	EndsOn 			string        `json:"endsOn,omitempty"`
+	Name        	string        `json:"name"`
 }
 type Payload struct {
-	BuildingLong	float64		`json:"BuildingLong"`
-	BuildingLat		float64		`json:"BuildingLat"`
+	Name     string `json:"name"`
+	DateTime string `json:"dateTime"`
 }
-
 type Response struct {
-	Building Building `json:"building"`
 	Tokens Tokens  `json:"tokens"`
 }
-
 type Tokens struct {
 	Token        string `json:"token,omitempty"`
 	RefreshToken string `json:"refreshToken,omitempty"`
 }
 
+// 1. use table and client as variable names
 var table string
 var client *dynamodb.Client
 
 func init() {
+	// 2. Use the helper function for dynamodb host
 	client, table = Helpers.ConstructDynamoHost()
 
+	// 3. error checking on env variables
 	if table == "" {
 		log.Fatal("missing environment variable TABLE_NAME")
 	}
 }
 
+// 4. only request in parameters, replace ctx to context.Background()
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	// 5. Add tokens
 	token, refreshToken, err := Helpers.GetTokens(request)
+	// 6. Proper error checking
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
 	}
 
 	var payload Payload
     err = json.Unmarshal([]byte(request.Body), &payload)
-    if err != nil {
-        return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
-    }
-
-    bLong := payload.BuildingLong
-    bLat := payload.BuildingLat
-
-	// Fetch the building in the form of a go struct from the database
-	building, err := getBuildingByLongLat(context.Background(), bLong, bLat)
-	// If an error came up, early exit and return the error
 	if err != nil {
-		return Helpers.ResponseGeneration(fmt.Sprintf("fetching building data: %v", err), http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
 	}
 
-	// If the building didn't end up existing, return that information to the caller
-	if building == nil {
-		return Helpers.ResponseGeneration("Building not found in table", http.StatusBadRequest)
+	name := payload.Name
+	dateTime := payload.DateTime
+	if name == "" || dateTime == "" {
+		return Helpers.ResponseGeneration(fmt.Sprintf("Event name and dateTime missing"), http.StatusBadRequest)
 	}
 
+	eventObj, err := getEventByIndex(context.Background(), name, dateTime)
+	if err != nil {
+		return Helpers.ResponseGeneration(fmt.Sprintf("fetching Event data: %v", err), http.StatusBadRequest)
+	}
+	if len(eventObj) == 0 {
+		return Helpers.ResponseGeneration(fmt.Sprintf("No event found with that name and dateTime"), http.StatusBadRequest)
+	}
+
+	input := &dynamodb.DeleteItemInput{
+		TableName: aws.String(table),
+		Key: map[string]types.AttributeValue{
+			"EventID": &types.AttributeValueMemberS{Value: eventObj[0].EventID},
+		},
+	}
+
+	_, err = client.DeleteItem(context.Background(), input)
+	if err != nil {
+		if strings.Contains(err.Error(), "ConditionalCheckFailedException") {
+			return Helpers.ResponseGeneration("Event not found in the table", http.StatusBadRequest)
+		}
+		return Helpers.ResponseGeneration(fmt.Sprintf("deleting item: %v", err), http.StatusInternalServerError)
+	}
+
+	// 7. Pack the tokens with the struct
 	tokens := Tokens{
-		Token:			token,
-		RefreshToken: 	refreshToken,
+		Token: token,
+		RefreshToken: refreshToken,
 	}
 
 	ret := Response{
-		Building: *building,
 		Tokens: tokens,
 	}
-
-	// Convert the building go struct to a json for return
-	buildingJSON, err := json.Marshal(ret)
-	// If marshaling failed, early exit
-	if err != nil {
-		return Helpers.ResponseGeneration("when marshaling data", http.StatusBadRequest)
-	}
-
-	// Return the building info in the form of a stringified JSON
+	retJSON, err := json.Marshal(ret)
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusOK,
-		Body:       string(buildingJSON),
-		Headers:    map[string]string{"content-type": "application/json"},
+		Body:		string(retJSON),
+		Headers:	map[string]string{"content-type": "application/json"},
 	}, nil
 }
 
-func getBuildingByLongLat(ctx context.Context, BuildingLong float64, BuildingLat float64) (*Building, error) {
-	// Construct the get item input given the long and lat provided
-	inp := &dynamodb.GetItemInput{
-		TableName: aws.String(table),
-		Key: map[string]types.AttributeValue{
-			"BuildingLong": &types.AttributeValueMemberN{Value: fmt.Sprintf("%f", BuildingLong)},
-			"BuildingLat": &types.AttributeValueMemberN{Value: fmt.Sprintf("%f", BuildingLat)},
+func getEventByIndex(ctx context.Context, name, dateTime string) ([]Event, error) {
+	// Construct the get item input given the Event ID provided
+	inp := &dynamodb.QueryInput{
+		TableName:                aws.String(table),
+		IndexName:                aws.String("name-dateTime-index"),
+		KeyConditionExpression:   aws.String("#name = :name AND #dateTime = :dateTime"),
+		ExpressionAttributeNames: map[string]string{"#name": "name", "#dateTime": "dateTime"},
+		ExpressionAttributeValues: map[string]types.AttributeValue{
+			":name":     &types.AttributeValueMemberS{Value: name},
+			":dateTime": &types.AttributeValueMemberS{Value: dateTime},
 		},
 	}
 
 	// Try to query dynamodb with this get item
-	output, err := client.GetItem(ctx, inp)
+	output, err := client.Query(ctx, inp)
 
 	// Return the error if it fails
 	if err != nil {
@@ -120,18 +141,19 @@ func getBuildingByLongLat(ctx context.Context, BuildingLong float64, BuildingLat
 	}
 
 	// Return nil if the item didn't end up existing
-	if output.Item == nil {
+	if output.Count == 0 {
 		return nil, nil
 	}
+
 	// construct the go struct from dynamo's item
-	building := &Building{}
-	err = attributevalue.UnmarshalMap(output.Item, building)
+	event := []Event{}
+	err = attributevalue.UnmarshalListOfMaps(output.Items, &event)
 	if err != nil { // if this failed, early exit
 		return nil, err
 	}
-	
+
 	// yay!
-	return building, nil
+	return event, nil
 }
 
 func main() {

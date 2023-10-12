@@ -38,6 +38,7 @@
                 }
             ],
             "ignore_in_get":["timeTilExpire", "EventID"],
+            "ignore_in_body":["EventID"],
             "handle_token": true
         },
         {
@@ -78,7 +79,7 @@
             "expected_response_body":{
 
             },
-            "ignore_in_body":[],
+            "ignore_in_body":["EventID"],
             "ADD":[
             ],
             "GET":[
@@ -116,6 +117,17 @@
                 }
             ],
             "GET":[
+                {
+                    "EventID": "0",
+                    "name": "named",
+                    "host": "Herold",
+                    "description": "The meeting where we decide what to name the meeting",
+                    "dateTime": "2023-09-20T01:34:41+00:00",
+                    "location": {
+                        "BuildingLong": 1,
+                        "BuildingLat": 1
+                    }
+                }
             ],
             "ignore_in_get":[],
             "handle_token": true
@@ -153,6 +165,44 @@
                 }
             ],
             "ignore_in_get":["timeTilExpire", "EventID"],
+            "ignore_in_body":["EventID"],
+            "handle_token": true
+        },
+        {
+            "name": "Define UUID",
+            "request":{
+                "name": "named",
+                "host": "Herold",
+                "description": "The meeting where we decide what to name the meeting",
+                "dateTime": "2023-09-20T01:34:41+00:00",
+                "location": {
+                    "BuildingLong": 1,
+                    "BuildingLat": 1
+                },
+                "EventID": "3432"
+            },
+            "expected_response":"",
+            "expected_response_body":{
+
+            },
+            "ADD":[
+            ],
+            "GET":[
+                {
+                    "name": "named",
+                    "host": "Herold",
+                    "description": "The meeting where we decide what to name the meeting",
+                    "dateTime": "2023-09-20T01:34:41+00:00",
+                    "location": {
+                        "BuildingLong": 1,
+                        "BuildingLat": 1
+                    },
+                    "locationQueryID": "1 1",
+                    "EventID": "3432"
+                }
+            ],
+            "ignore_in_get":["timeTilExpire"],
+            "ignore_in_body":["EventID"],
             "handle_token": true
         }
     ]

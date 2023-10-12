@@ -49,6 +49,7 @@ var table string
 var client *dynamodb.Client
 
 func init() {
+	//create session for dynamodb
 	client, table = Helpers.ConstructDynamoHost()
 
 	if table == "" {

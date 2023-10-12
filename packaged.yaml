@@ -14,7 +14,7 @@ Resources:
       FunctionName: stream_reader_sam
       Handler: StreamReader
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/5534750ce01692ddf01c1f1f12c6e125
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/e2b948ed3ad5e48b3bfc037db66a85a1
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -110,7 +110,7 @@ Resources:
       FunctionName: building_delete_sam
       Handler: BuildingDelete
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/2e338788f9b79913444000da505d03b7
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/9e27c684463bd8bd6b1f2e151d8573a0
       MemorySize: 256
       Timeout: 10
       Policies:

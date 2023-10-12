@@ -16,7 +16,7 @@ Resources:
       FunctionName: stream_reader_sam
       Handler: StreamReader
       Runtime: go1.x
-      CodeUri: StreamReader/
+      CodeUri: StreamReader/StreamReader
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -26,6 +26,7 @@ Resources:
       Environment:
         Variables:
           TABLE_NAME: "Buildings"
+
 # --- BUILDING FUNCTIONS ---
   BuildingAddFunction:
     Type: AWS::Serverless::Function

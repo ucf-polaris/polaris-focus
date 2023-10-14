@@ -4,48 +4,35 @@ Resources:
   TheBestApi:
     Type: AWS::Serverless::Api
     Properties:
-      Name: PolarisAPI
+      Name: PolarisFocusAPI
       StageName: Testing
-      Auth:
-        DefaultAuthorizer: JwtAuthorizer
-        Authorizers:
-          JwtAuthorizer:
-            FunctionArn:
-              Ref: JwtAuthorizerFunction
-          JwtAuthorizerRegister:
-            FunctionArn:
-              Ref: JwtAuthorizerRegisterFunction
     Metadata:
       SamResourceId: TheBestApi
-  JwtAuthorizerFunction:
+  EventStreamReaderFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: jwt_authorizer_sam
-      Handler: TokenVerify
+      FunctionName: stream_reader_sam
+      Handler: StreamReader
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/e12606954120e521b985e69c3afce719
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/e2b948ed3ad5e48b3bfc037db66a85a1
       MemorySize: 256
       Timeout: 10
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: Buildings
     Metadata:
-      SamResourceId: JwtAuthorizerFunction
-  JwtAuthorizerRegisterFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: jwt_authorizer_register_sam
-      Handler: TokenVerify
-      Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/e12606954120e521b985e69c3afce719
-      MemorySize: 256
-      Timeout: 10
-    Metadata:
-      SamResourceId: JwtAuthorizerRegisterFunction
+      SamResourceId: EventStreamReaderFunction
   BuildingAddFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: location_add_sam
       Handler: BuildingAdd
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/2232b457dd7b2d5c55efffbebb7548d2
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/d95d6b3e1a2db377f5d43ce743914f3a
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -63,8 +50,6 @@ Resources:
               Ref: TheBestApi
             Path: /building/add
             Method: POST
-            Auth:
-              Authorizer: JwtAuthorizer
     Metadata:
       SamResourceId: BuildingAddFunction
   BuildingGetFunction:
@@ -73,7 +58,7 @@ Resources:
       FunctionName: building_get_sam
       Handler: BuildingGet
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/f4aa51e1a54931d958211bb49ccaffc3
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/6f9174d13c67dbf0340cf5861caa3fe0
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -99,7 +84,7 @@ Resources:
       FunctionName: building_update_sam
       Handler: BuildingUpdate
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/44d432541ba835300eb471cb50f3677e
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/70ed544700b3ad9f3eb274a2b6e27a64
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -125,7 +110,7 @@ Resources:
       FunctionName: building_delete_sam
       Handler: BuildingDelete
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/898514fbab87aef8292d4a5d84f115ca
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/9e27c684463bd8bd6b1f2e151d8573a0
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -145,13 +130,13 @@ Resources:
             Method: DELETE
     Metadata:
       SamResourceId: BuildingDeleteFunction
-  BuildingQueryFunction:
+  BuildingScanFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: location_query_sam
-      Handler: BuildingQuery
+      FunctionName: location_scan_sam
+      Handler: Scan
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/b8a3069f6fb5452336f533e0941b0f1d
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/13ff46d617a7d214932f6919993f30de
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -162,22 +147,22 @@ Resources:
         Variables:
           TABLE_NAME: Buildings
       Events:
-        BuildingQueryEvent:
+        BuildingScanEvent:
           Type: Api
           Properties:
             RestApiId:
               Ref: TheBestApi
-            Path: /building/query
+            Path: /building/scan
             Method: POST
     Metadata:
-      SamResourceId: BuildingQueryFunction
+      SamResourceId: BuildingScanFunction
   EventGetFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: event_get_sam
       Handler: EventGet
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/5f8137b09aa6327f435694f19be325ab
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/0a760815fe40788f80cb2629e49cec4e
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -249,13 +234,13 @@ Resources:
             Method: POST
     Metadata:
       SamResourceId: EventUpdateFunction
-  EventQueryFunction:
+  EventScanFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: event_query_sam
-      Handler: EventsQuery
+      FunctionName: event_scan_sam
+      Handler: EventsScan
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/d6acd5b8df05e2abaeb0e52570a3b299
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/13ff46d617a7d214932f6919993f30de
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -266,22 +251,22 @@ Resources:
         Variables:
           TABLE_NAME: Events
       Events:
-        QueryEventEvent:
+        ScanEventEvent:
           Type: Api
           Properties:
             RestApiId:
               Ref: TheBestApi
-            Path: /event/query
+            Path: /event/scan
             Method: POST
     Metadata:
-      SamResourceId: EventQueryFunction
+      SamResourceId: EventScanFunction
   EventDeleteFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: event_delete_sam
       Handler: EventDelete
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/2a2260e81cd39718ebf9deb1f3e3b8cd
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/70c4748e2f7589864935cd4e0de6cc04
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -307,7 +292,7 @@ Resources:
       FunctionName: user_registration_code_sam
       Handler: RegistrationCode
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/a1c94d7b59a3e4995e1b09ed57ec9513
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/f909c602ca4afa8ef2b7050af0cc3263
       MemorySize: 256
       Timeout: 10
       Policies:

@@ -6,37 +6,27 @@ Resources:
   TheBestApi:
     Type: AWS::Serverless::Api
     Properties:
-      Name: PolarisAPI
+      Name: PolarisFocusAPI
       StageName: Testing
-      Auth:
-        DefaultAuthorizer: JwtAuthorizer
-        Authorizers:
-          JwtAuthorizer:
-            FunctionArn: !Ref JwtAuthorizerFunction
-          JwtAuthorizerRegister:
-            FunctionArn: !Ref JwtAuthorizerRegisterFunction
 
-# --- LAMBDA AUTHORIZER ---
-  JwtAuthorizerFunction:
+# --- STREAM FUNCTION ---
+  EventStreamReaderFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: jwt_authorizer_sam
-      Handler: TokenVerify
+      FunctionName: stream_reader_sam
+      Handler: StreamReader
       Runtime: go1.x
-      CodeUri: JWTFiles/TokenVerify
+      CodeUri: StreamReader/StreamReader
       MemorySize: 256
       Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Buildings"
 
-  JwtAuthorizerRegisterFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: jwt_authorizer_register_sam
-      Handler: TokenVerify
-      Runtime: go1.x
-      CodeUri: JWTFiles/TokenVerify
-      MemorySize: 256
-      Timeout: 10
-    
 # --- BUILDING FUNCTIONS ---
   BuildingAddFunction:
     Type: AWS::Serverless::Function
@@ -61,8 +51,6 @@ Resources:
             RestApiId: !Ref TheBestApi
             Path: /building/add
             Method: POST
-            Auth:
-              Authorizer: !Ref JwtAuthorizer
   BuildingGetFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -132,13 +120,13 @@ Resources:
             RestApiId: !Ref TheBestApi
             Path: /building/delete
             Method: DELETE
-  BuildingQueryFunction:
+  BuildingScanFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: location_query_sam
-      Handler: BuildingQuery
+      FunctionName: location_scan_sam
+      Handler: Scan
       Runtime: go1.x
-      CodeUri: LocationEndpoints/BuildingQuery
+      CodeUri: Scan/Scan
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -149,11 +137,11 @@ Resources:
         Variables:
           TABLE_NAME: "Buildings"
       Events:
-        BuildingQueryEvent:
+        BuildingScanEvent:
           Type: Api
           Properties:
             RestApiId: !Ref TheBestApi
-            Path: /building/query
+            Path: /building/scan
             Method: POST
 
 # --- EVENT FUNCTIONS ---
@@ -226,13 +214,13 @@ Resources:
             RestApiId: !Ref TheBestApi
             Path: /event/update
             Method: POST
-  EventQueryFunction:
+  EventScanFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: event_query_sam
-      Handler: EventsQuery
+      FunctionName: event_scan_sam
+      Handler: EventsScan
       Runtime: go1.x
-      CodeUri: EventEndpoints/EventsQuery
+      CodeUri: Scan/Scan
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -243,11 +231,11 @@ Resources:
         Variables:
           TABLE_NAME: "Events"
       Events:
-        QueryEventEvent:
+        ScanEventEvent:
           Type: Api
           Properties:
             RestApiId: !Ref TheBestApi
-            Path: /event/query
+            Path: /event/scan
             Method: POST
   EventDeleteFunction:
     Type: AWS::Serverless::Function

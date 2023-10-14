@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strconv"
 
 	"github.com/aws/aws-lambda-go/lambda"
 	"gopkg.in/gomail.v2"
@@ -31,7 +30,7 @@ func main() {
 func handler(request map[string]interface{}) error {
 
 	var email string
-	var code int
+	var code string
 	var emailType int
 
 	if val, ok := request["email"].(string); ok {
@@ -40,8 +39,8 @@ func handler(request map[string]interface{}) error {
 		return errors.New("email not found in body")
 	}
 
-	if val, ok := request["code"].(float64); ok {
-		code = int(val)
+	if val, ok := request["code"].(string); ok {
+		code = val
 	} else {
 		return errors.New("code not found in body")
 	}
@@ -57,11 +56,11 @@ func handler(request map[string]interface{}) error {
 		Subject string
 	}{
 		{
-			Body:    "You've registered for a new UCF Polaris account. The code to activate your account is " + strconv.Itoa(code),
+			Body:    "You've registered for a new UCF Polaris account. The code to activate your account is " + code,
 			Subject: "UCF Polaris Registration Code",
 		},
 		{
-			Body:    "The code to reset your password is " + strconv.Itoa(code) + ". Once you enter this code into the app you'll be redirected to fields to reset your password",
+			Body:    "The code to reset your password is " + code + ". Once you enter this code into the app you'll be redirected to fields to reset your password",
 			Subject: "UCF Polaris Password Recovery Code",
 		},
 	}

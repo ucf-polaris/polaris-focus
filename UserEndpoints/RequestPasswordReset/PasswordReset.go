@@ -124,9 +124,8 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}
 
 	//-----------------------------------------PACK BODY FOR EMAIL TEMPLATE-----------------------------------------
-	code_float, _ := strconv.ParseFloat(code, 64)
 	pre_js := map[string]interface{}{
-		"code":  code_float,
+		"code":  code,
 		"email": search.Email,
 		"type":  1.0,
 	}

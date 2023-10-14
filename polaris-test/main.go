@@ -3,152 +3,178 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"log"
 	"net/http"
 	"polaris-api/pkg/Helpers"
-	"strconv"
 	"time"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/google/uuid"
+	"github.com/aws/aws-sdk-go/aws/session"
+	lambdaCall "github.com/aws/aws-sdk-go/service/lambda"
+	"github.com/golang-jwt/jwt/v4"
 )
+
+type Claims struct {
+	UserID string `json:"userID,omitempty"`
+	jwt.RegisteredClaims
+}
+
+type CodeQuery struct {
+	UserID string `json:"UserID"`
+	Code   string `json:"code,omitempty"`
+}
 
 var table string
 var client *dynamodb.Client
+var lambdaClient *lambdaCall.Lambda
 
 func init() {
-	//create session for dynamodb
+	//dynamo stuff
 	client, table = Helpers.ConstructDynamoHost()
 
-	if table == "" {
-		log.Fatal("missing environment variable TABLE_NAME")
-	}
+	//set up lambda client
+	//create session for lambda
+	sess := session.Must(session.NewSessionWithOptions(session.Options{
+		SharedConfigState: session.SharedConfigEnable,
+	}))
+	lambdaClient = lambdaCall.New(sess, &aws.Config{Region: aws.String("us-east-2")})
+
 }
 
 func main() {
 	lambda.Start(handler)
 }
 
-// make a TTL
-func makeTTL(item map[string]types.AttributeValue, search map[string]interface{}, expire int) error {
-	date, _ := search["dateTime"].(string)
-	thetime, err := time.Parse(time.RFC3339, date)
+// is current time within the time frame of 'compare - minutes' and 'compare'
+func CheckTime(minutes int64, compare int64) bool {
+	first := compare - (minutes * 60)
+
+	now := time.Now().UTC().Unix()
+
+	return first <= now && now <= compare
+}
+
+// check if time is valid and if user is verified
+func CheckIfValid(UserID string) error {
+	item := make(map[string]types.AttributeValue)
+
+	item["UserID"] = &types.AttributeValueMemberS{Value: UserID}
+	GetOutput, err := client.GetItem(context.Background(), &dynamodb.GetItemInput{
+		TableName:            aws.String(table),
+		Key:                  item,
+		ProjectionExpression: aws.String("timeTilExpire, resetRequestExpireTime"),
+	})
+
 	if err != nil {
 		return err
 	}
 
-	var timeVal string
-	if expire == -2 {
-		timeVal = strconv.FormatInt(thetime.UTC().Add(time.Hour*24).Unix(), 10)
-	} else if expire <= 0 {
-		timeVal = "0"
-	} else {
-		timeVal = strconv.FormatInt(thetime.UTC().Add(time.Hour*time.Duration(expire)).Unix(), 10)
+	val, ok := GetOutput.Item["resetRequestExpireTime"]
+	_, okCode := GetOutput.Item["timeTilExpire"]
+
+	//is valid (timeTilExpire doesn't exist)
+	if okCode {
+		return errors.New("this is an non-validated user")
 	}
 
-	//make sure dates aren't older than the current day (or by 5 years)
-	item["timeTilExpire"] = &types.AttributeValueMemberN{Value: timeVal}
+	//has a resetRequestExpireTime
+	if ok {
+		var val_unmarsh float64
+
+		err := attributevalue.Unmarshal(val, &val_unmarsh)
+		if err != nil {
+			return err
+		}
+
+		//check if timestamp, set for 15 minutes from when code was sent, is still valid
+		if !CheckTime(15, int64(val_unmarsh)) {
+			return errors.New("code is expired")
+		}
+	} else {
+		return errors.New("no password reset request found")
+	}
 
 	return nil
 }
 
-func produceUUID() string {
-	//allows unit testing to be consistent
-	if Helpers.IsLambdaLocal() {
-		return "0"
-	}
-	return uuid.Must(uuid.NewRandom()).String()
-}
-
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	//-----------------------------------------EXTRACT TOKEN FIELDS-----------------------------------------
-	token, rfsTkn, err := Helpers.GetTokens(request)
-	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
-	}
 	//-----------------------------------------EXTRACT FIELDS-----------------------------------------
-	search := Helpers.UnpackRequest(request.Body)
+	var contextString string
+	query := CodeQuery{}
+	ctxt := make(map[string]interface{})
 
-	item, _, _, errs := Helpers.ExtractFields(
-		[]string{"name", "host", "description", "dateTime", "location"},
-		search,
-		false,
-		false)
-
-	if errs != nil {
-		return Helpers.ResponseGeneration(errs.Error(), http.StatusOK)
+	err := json.Unmarshal([]byte(request.Body), &query)
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
 	}
 
-	var uuid_new string
-	if val, ok := search["EventID"].(string); ok {
-		uuid_new = val
-	} else {
-		uuid_new = produceUUID()
+	if request.RequestContext.Authorizer != nil {
+		contextString = request.RequestContext.Authorizer["stringKey"].(string)
+		log.Println(contextString)
 	}
 
-	item["EventID"] = &types.AttributeValueMemberS{Value: uuid_new}
+	json.Unmarshal([]byte(contextString), &ctxt)
 
-	//-----------------------------------------GET QUERY LOCATION FIELD-----------------------------------------
-	if val, ok := search["location"].(map[string]interface{}); ok {
-		long, ok2 := val["BuildingLong"].(float64)
-		lat, ok3 := val["BuildingLat"].(float64)
-
-		if !ok2 || !ok3 {
-			return Helpers.ResponseGeneration("location schema missing BuildingLong and/or BuildingLat", http.StatusOK)
-		}
-
-		slong := strconv.FormatFloat(long, 'f', -1, 64)
-		slat := strconv.FormatFloat(lat, 'f', -1, 64)
-		item["locationQueryID"] = &types.AttributeValueMemberS{Value: (slong + " " + slat)}
-	} else {
-		return Helpers.ResponseGeneration("location schema missing BuildingLong and/or BuildingLat", http.StatusOK)
+	//look for email from JWT first, if not there look in passed in body
+	if val, ok := ctxt["UserID"].(string); ok && query.UserID == "" {
+		query.UserID = val
 	}
 
-	//-----------------------------------------MAKE TTL VALUE-----------------------------------------
-	expire := -2
-	if val, ok := search["expires"].(float64); ok {
-		expire = int(val)
+	if query.Code == "" {
+		return Helpers.ResponseGeneration("code field not set", http.StatusOK)
 	}
-	makeTTL(item, search, expire)
-	//-----------------------------------------GET KEYS TO FILTER-----------------------------------------
-	keys := make(map[string]types.AttributeValue)
-	keys[":EventID"] = &types.AttributeValueMemberS{Value: uuid_new}
 
-	if errs != nil {
-		return Helpers.ResponseGeneration(errs.Error(), http.StatusOK)
+	codeStr := query.Code
+	//-----------------------------------------VAIDATE USER-----------------------------------------
+	if err := CheckIfValid(query.UserID); err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
-	//-----------------------------------------PUT INTO DATABASE-----------------------------------------
+	//-----------------------------------------THE UPDATE CALL-----------------------------------------
+	//pass changes into update
+	item := make(map[string]types.AttributeValue)
+	item[":code"] = &types.AttributeValueMemberS{Value: codeStr}
 
-	_, err = client.PutItem(context.Background(), &dynamodb.PutItemInput{
-		ExpressionAttributeValues: keys,
+	//who we're trying to find
+	key := make(map[string]types.AttributeValue)
+	key["UserID"] = &types.AttributeValueMemberS{Value: query.UserID}
+
+	input := &dynamodb.UpdateItemInput{
+		ExpressionAttributeValues: item,
 		TableName:                 aws.String(table),
-		Item:                      item,
-		ConditionExpression:       aws.String("EventID <> :EventID"),
-	})
+		Key:                       key,
+		UpdateExpression:          aws.String("remove resetCode, resetRequestExpireTime"),
+		ConditionExpression:       aws.String("resetCode = :code"),
+	}
 
+	_, err = client.UpdateItem(context.Background(), input)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
-	//-----------------------------------------PACK RETURN VALUES-----------------------------------------
+
+	//-----------------------------------------RESULTS PROCESSING-----------------------------------------
+	map_output := make(map[string]interface{})
 	ret := make(map[string]interface{})
-	tokens := make(map[string]interface{})
-	if token != "" {
-		tokens["token"] = token
+	ret["success"] = true
+	//-----------------------------------------CREATE TOKENS-----------------------------------------
+	map_output["token"], err = Helpers.CreateToken(lambdaClient, 15, "", 0)
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
-	if rfsTkn != "" {
-		tokens["refreshToken"] = rfsTkn
+	map_output["refreshToken"], err = Helpers.CreateToken(lambdaClient, 1440, "", 1)
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
-	ret["tokens"] = tokens
-	ret["EventID"] = uuid_new
+	ret["tokens"] = map_output
 
 	js, err := json.Marshal(ret)
-
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}

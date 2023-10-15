@@ -218,7 +218,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: event_scan_sam
-      Handler: EventsScan
+      Handler: Scan
       Runtime: go1.x
       CodeUri: Scan/Scan
       MemorySize: 256

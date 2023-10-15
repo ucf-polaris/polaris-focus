@@ -260,6 +260,29 @@ Resources:
             RestApiId: !Ref TheBestApi
             Path: /event/delete
             Method: DELETE
+  EventQueryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: event_query_sam
+      Handler: EventsScan
+      Runtime: go1.x
+      CodeUri: EventEndpoints/EventsQuery
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Events"
+      Events:
+        QueryEventEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TheBestApi
+            Path: /event/query
+            Method: POST
 
 # --- USER FUNCTIONS ---
   # Registration Code

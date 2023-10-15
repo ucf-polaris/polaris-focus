@@ -52,7 +52,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	//format BuildingEvents
 	Helpers.ListToStringSet(
-		[]string{"BuildingEvents"},
+		[]string{"BuildingEvents", "BuildingAllias", "BuildingAbbreviation"},
 		items,
 		false,
 	)

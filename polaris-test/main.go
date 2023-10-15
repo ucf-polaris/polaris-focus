@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"encoding/json"
-<<<<<<< HEAD
 	"errors"
 	"log"
 	"net/http"
@@ -29,48 +28,6 @@ type Claims struct {
 type CodeQuery struct {
 	UserID string `json:"UserID"`
 	Code   string `json:"code,omitempty"`
-=======
-	"fmt"
-	"log"
-	"net/http"
-	"polaris-api/pkg/Helpers"
-	"strconv"
-
-	"github.com/aws/aws-lambda-go/events"
-	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
-	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
-	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
-)
-
-type Building struct {
-	BuildingLong         float64  `json:"BuildingLong"`
-	BuildingLat          float64  `json:"BuildingLat"`
-	BuildingDesc         string   `json:"BuildingDesc"`
-	BuildingEvents       []string `json:"BuildingEvents,omitempty"`
-	BuildingName         string   `json:"BuildingName"`
-	BuildingAltitude     float64  `json:"BuildingAltitude,omitempty"`
-	BuildingLocationType string   `json:"BuildingLocationType,omitempty"`
-	BuildingAbbreviation string   `json:"BuildingAbbreviation,omitempty"`
-	BuildingAllias 		 string   `json:"BuildingAllias,omitempty"`
-	BuildingAddress      string   `json:"BuildingAddress,omitempty"`
-	BuildingImage        string   `json:"BuildingImage,omitempty"`
-}
-type Payload struct {
-	BuildingLong float64 `json:"BuildingLong"`
-	BuildingLat  float64 `json:"BuildingLat"`
-}
-
-type Response struct {
-	Building Building `json:"building"`
-	Tokens   Tokens   `json:"tokens"`
-}
-
-type Tokens struct {
-	Token        string `json:"token,omitempty"`
-	RefreshToken string `json:"refreshToken,omitempty"`
->>>>>>> 8a9028944cb86dfa66684ebfbb4f8b8125458b0e
 }
 
 var table string
@@ -130,7 +87,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	// Convert the building go struct to a json for return
 	buildingJSON, err := json.Marshal(ret)
 	// If marshaling failed, early exit
-	if err != nil {
+	if err != nil {s
 		return Helpers.ResponseGeneration("when marshaling data", http.StatusBadRequest)
 	}
 

@@ -1,0 +1,65 @@
+{
+    "schema":{
+        "keys":["BuildingLong",  "BuildingLat"],
+        "attributes":{
+            "BuildingLong": "N",
+            "BuildingLat": "N"
+        }   
+    },
+    "test_cases": [
+        {
+            "name": "Successful Update",
+            "request":{
+                "BuildingLong": 1,
+                "BuildingLat": 1,
+                "BuildingAbbreviation":[
+                    "a_cool_event_id",
+                    "someone to love"
+                ]
+            },
+            "expected_response":"",
+            "expected_response_body":{
+
+            },
+            "ignore_in_body":[],
+            "ADD":[
+                {
+                    "BuildingLong": 1,
+                "BuildingLat": 1,
+                "BuildingDesc": "An old historical building",
+                "BuildingEvents":[
+                    "a_cool_event_id"
+                ],
+                "BuildingName": "MSB",
+                "BuildingAllias":[
+                    "a_cool_event_id"
+                ],
+                "BuildingAbbreviation":[
+                    "a_cool_event_id"
+                ]
+                }
+            ],
+            "GET":[
+                {
+                    "BuildingLong": 1,
+                    "BuildingLat": 1,
+                    "BuildingDesc": "An old historical building",
+                    "BuildingEvents":[
+                        "a_cool_event_id"
+                    ],
+                    "BuildingName": "MSB",
+                    "BuildingAllias":[
+                        "a_cool_event_id"
+                    ],
+                    "BuildingAbbreviation":[
+                        "a_cool_event_id",
+                        "someone to love"
+                    ]
+                }
+            ],
+            "ignore_in_get":[],
+            "convert_to_set":["BuildingEvents", "BuildingAbbreviation", "BuildingAllias"],
+            "handle_token": true
+        }
+    ]
+}

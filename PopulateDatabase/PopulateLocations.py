@@ -19,8 +19,12 @@ def get_json():
     df = df.rename(columns={"Name": "BuildingName", "Informative Text": "BuildingDesc",
                             "Image":"BuildingImage","Altitude": "BuildingAltitude","Abbreviation":"BuildingAbbreviation",
                             "Alias":"BuildingAllias","Address": "BuildingAddress", "Location Type":"BuildingLocationType"})
-
+    #strings to lists
+    df["BuildingAllias"] = df["BuildingAllias"].str.split(",")
+    df["BuildingAbbreviation"] = df["BuildingAbbreviation"].str.split(",")
+    
     #convert to json
+    
     df_json = df.to_json(double_precision=15, orient='records')
     ret = json.loads(df_json)
     
@@ -44,15 +48,15 @@ def populate_database(js_list):
     api_url = input("provide api url: ")
     
     headers = {"Content-Type":"application/json",
-               "authorizationToken":"{\"token\":\"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTY4ODE2MjV9.-FB-ttxWHR-V6oX0L68qxSoEH7MKjGOXETsyb0P0R0xTg_KEuO0KyD4AFYOyUUhnP4S3gqRYL96IXXM-h6Iknw\"}"}
+               "authorizationToken":"{\"token\":\"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Mjg1NDUwOTF9.RPs4A5MjKsXqxIpR4ZL5xKsyqzcI8jqWuCXXKivFMWoghpD3KYdas-FXwv8MfE0kFmc1x3o5fWCEaU6xZwe_zg\"}"}
     
     for js in js_list:
         response = requests.post(api_url, data=json.dumps(js), headers=headers)
             
         if("BuildingName" in js):
-            print(js["BuildingName"] + ": ", response.text)
+            print(js["BuildingName"] + ": ", response.text+"\n")
         else:
-            print(response.text)
+            print(response.text+"\n")
 
 def main():
     js = get_json()

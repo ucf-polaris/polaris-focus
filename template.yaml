@@ -51,6 +51,41 @@ Resources:
         Variables:
           TABLE_NAME: "Buildings"
 
+# --- EVENT POPULATION FUNCTIONS ---
+  UcfEventsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ucf_events_sam
+      Handler: UCFEvents
+      Runtime: go1.x
+      CodeUri: PopulateDatabase/PopulateEvents/UCFEvents
+      MemorySize: 256
+      Timeout: 20
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Events"
+          ADVANCE_PAGES: 2
+  KnightsParserFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: knights_parser_sam
+      Handler: KnightsConnect
+      Runtime: go1.x
+      CodeUri: PopulateDatabase/PopulateEvents/KnightsConnect
+      MemorySize: 256
+      Timeout: 20
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Events"
+          ADVANCE_DAYS: 5
 # --- BUILDING FUNCTIONS ---
   BuildingAddFunction:
     Type: AWS::Serverless::Function
@@ -451,3 +486,49 @@ Resources:
             RestApiId: !Ref TheBestApi
             Path: /user/delete
             Method: DELETE
+  UserResetPasswordCodeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: user_reset_password_code_sam
+      Handler: ResetPasswordCode
+      Runtime: go1.x
+      CodeUri: UserEndpoints/ResetPasswordCode
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Users"
+      Events:
+        UserResetPasswordCodeEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TheBestApi
+            Path: /user/passwordresetcode
+            Method: POST
+  UserResetPasswordFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: user_reset_password_sam
+      Handler: PasswordReset
+      Runtime: go1.x
+      CodeUri: UserEndpoints/PasswordReset
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Users"
+      Events:
+        UserResetPasswordEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TheBestApi
+            Path: /user/passwordreset
+            Method: POST

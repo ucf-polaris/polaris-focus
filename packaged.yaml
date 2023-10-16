@@ -97,7 +97,7 @@ Resources:
       FunctionName: location_add_sam
       Handler: BuildingAdd
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/13c8714986f90fdfd28d1b6fc1fe6ef3
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/92614dcf401e4ae4d99c4361c276a89b
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -123,7 +123,7 @@ Resources:
       FunctionName: building_get_sam
       Handler: BuildingGet
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/594556785e3ac24bb684771baaf5a219
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/f1a841441eb9a8ba29e7d5894f6b86a5
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -149,7 +149,7 @@ Resources:
       FunctionName: building_update_sam
       Handler: BuildingUpdate
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/d859468fe642237879d8e5556e27004a
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/95c2f503ebee91c20eee7ddd9e02a708
       MemorySize: 256
       Timeout: 10
       Policies:

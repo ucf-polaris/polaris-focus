@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"net/http"
+	"os"
 	"polaris-api/pkg/Helpers"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -11,11 +12,13 @@ import (
 )
 
 var table string
+var counter string
 var client *dynamodb.Client
 
 func init() {
 	//dynamo db
 	client, table = Helpers.ConstructDynamoHost()
+	counter = os.Getenv("COUNTER_NAME")
 }
 
 func main() {
@@ -23,7 +26,7 @@ func main() {
 }
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	counter, err := Helpers.GetCounterTable(client, "EventParseAmount", "Counters")
+	counter, err := Helpers.GetCounterTable(client, counter, table)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}

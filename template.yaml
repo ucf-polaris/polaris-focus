@@ -8,7 +8,31 @@ Resources:
     Properties:
       Name: PolarisFocusAPI
       StageName: Testing
-
+# --- TRACKER FUNCTIONS ---
+  TrackerGetFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        FunctionName: tracker_get_sam
+        Handler: TrackerGet
+        Runtime: go1.x
+        CodeUri: EventEndpoints/TrackerGet
+        MemorySize: 256
+        Timeout: 10
+        Policies:
+          - AmazonDynamoDBFullAccess
+          - AWSLambdaBasicExecutionRole
+          - AWSLambdaRole
+        Environment:
+          Variables:
+            TABLE_NAME: "Counters"
+            COUNTER_NAME: "EventParseAmount"
+        Events:
+          TrackerGetEvent:
+            Type: Api
+            Properties:
+              RestApiId: !Ref TheBestApi
+              Path: /tracker/event/get
+              Method: GET
 # --- STREAM FUNCTION ---
   EventStreamReaderFunction:
     Type: AWS::Serverless::Function

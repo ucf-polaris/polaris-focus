@@ -41,7 +41,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	search := Helpers.UnpackRequest(request.Body)
 
 	items, queryString, mapQuery, err := Helpers.ExtractFields(
-		[]string{"BuildingDesc", "BuildingEvents", "BuildingName", "BuildingImage", "BuildingAddress", "BuildingLocationType", "BuildingAltitude", "BuildingAbbreviation", "BuildingAllias"},
+		[]string{"BuildingDesc", "BuildingEvents", "BuildingName", "BuildingImage", "BuildingAddress", "BuildingLocationType", "BuildingAltitude", "BuildingAbbreviation", "BuildingAllias", "BuildingEntrances"},
 		search,
 		true,
 		true)

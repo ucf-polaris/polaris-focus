@@ -14,7 +14,7 @@ Resources:
       FunctionName: tracker_get_sam
       Handler: TrackerGet
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/0b4fbb1643111c4f2fdd0ae8f21f13ec
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/7cd01f0ea186ebe8cf7eddb8b541a575
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -41,7 +41,7 @@ Resources:
       FunctionName: stream_reader_sam
       Handler: StreamReader
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/ef8e53178fb4e36178bd5d1486af6bc5
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/e2b948ed3ad5e48b3bfc037db66a85a1
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -53,13 +53,51 @@ Resources:
           TABLE_NAME: Buildings
     Metadata:
       SamResourceId: EventStreamReaderFunction
+  UcfEventsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ucf_events_sam
+      Handler: UCFEvents
+      Runtime: go1.x
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/00ff06533b8e15f64d0e95dcd62acbdf
+      MemorySize: 256
+      Timeout: 20
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: Events
+          ADVANCE_PAGES: 2
+    Metadata:
+      SamResourceId: UcfEventsFunction
+  KnightsParserFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: knights_parser_sam
+      Handler: KnightsConnect
+      Runtime: go1.x
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/7b538752aa2207f65b2a50e7e606511b
+      MemorySize: 256
+      Timeout: 20
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: Events
+          ADVANCE_DAYS: 5
+    Metadata:
+      SamResourceId: KnightsParserFunction
   BuildingAddFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: location_add_sam
       Handler: BuildingAdd
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/47967ffa7f6f0701c5369d58b64f6b7f
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/13c8714986f90fdfd28d1b6fc1fe6ef3
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -85,7 +123,7 @@ Resources:
       FunctionName: building_get_sam
       Handler: BuildingGet
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/79304460dd3c99622693a3cb63672a1f
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/594556785e3ac24bb684771baaf5a219
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -111,7 +149,7 @@ Resources:
       FunctionName: building_update_sam
       Handler: BuildingUpdate
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/48af5815504f33fd5415bb4de4ee7d53
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/d859468fe642237879d8e5556e27004a
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -137,7 +175,7 @@ Resources:
       FunctionName: building_delete_sam
       Handler: BuildingDelete
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/8303c32d1e8f01b4579e8faed2569d67
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/1acad8f92af93e4eb677a2f3b87f8598
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -163,7 +201,7 @@ Resources:
       FunctionName: location_scan_sam
       Handler: Scan
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/9dde6abae17b3a5f0605824e55d7fb68
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/de7b394607b6f6c0e21421e90ec64844
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -189,7 +227,7 @@ Resources:
       FunctionName: event_get_sam
       Handler: EventGet
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/db06a7889a415207995bbd594e141a1a
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/342910656d0855cf3da62f9ca9497c6c
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -215,7 +253,7 @@ Resources:
       FunctionName: event_add_sam
       Handler: EventsAdd
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/bacb349706ac37832aac96da7932d10d
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/4697fcaac84bffc9ddc17259a6ae84f7
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -241,7 +279,7 @@ Resources:
       FunctionName: event_update_sam
       Handler: EventsUpdate
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/59afdbbdc7b1bad100d34d4dc3efa7ff
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/79f3dc38be6e854b3fba61c668b36a39
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -267,7 +305,7 @@ Resources:
       FunctionName: event_scan_sam
       Handler: Scan
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/9dde6abae17b3a5f0605824e55d7fb68
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/de7b394607b6f6c0e21421e90ec64844
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -293,7 +331,7 @@ Resources:
       FunctionName: event_delete_sam
       Handler: EventDelete
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/cf1b0baa577c33af629bb601eab5ba75
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/f164ee93feaedf6c676a1506bde93cfd
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -319,7 +357,7 @@ Resources:
       FunctionName: event_query_sam
       Handler: EventsScan
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/d53dd76460e967f9aff1eef28e7e6436
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/3ca708ea40ba66ae0d78c4ac3be8315a
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -345,7 +383,7 @@ Resources:
       FunctionName: user_registration_code_sam
       Handler: RegistrationCode
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/d53fb2de816bf1964d138c0b61a9b446
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/a7c6f9d1ad939a873015fb043c1bbade
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -371,7 +409,7 @@ Resources:
       FunctionName: user_register_sam
       Handler: Register
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/92fbcd9090fda34353cd82f078808bff
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/ebc670e059d186f63e6626ac398b50b7
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -397,7 +435,7 @@ Resources:
       FunctionName: user_verify_sam
       Handler: Login
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/ebaea17bd0ab452a07d8999124b5125a
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/4b3b845b8e7ed43c6a406aa13a6f4d17
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -423,7 +461,7 @@ Resources:
       FunctionName: user_get_sam
       Handler: UserGet
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/08744b026d5ec73e8200962d245b1f32
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/515737127414646e646e39e97e31a078
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -449,7 +487,7 @@ Resources:
       FunctionName: user_update_sam
       Handler: UserUpdate
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/fa75df7c0bb5a9e7e34f09d49b9f297a
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/5f739858dba7a5e8439b03fe1c516584
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -475,7 +513,7 @@ Resources:
       FunctionName: user_delete_sam
       Handler: UserDelete
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/8aacdbefb927c528ac7e443d606b89de
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/5ff5d3875967089a1039acc1d5fa48c2
       MemorySize: 256
       Timeout: 10
       Policies:
@@ -495,3 +533,55 @@ Resources:
             Method: DELETE
     Metadata:
       SamResourceId: UserDeleteFunction
+  UserResetPasswordCodeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: user_reset_password_code_sam
+      Handler: ResetPasswordCode
+      Runtime: go1.x
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/5701d8108e9dbc0835be2d0b8b3564c0
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: Users
+      Events:
+        UserResetPasswordCodeEvent:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: TheBestApi
+            Path: /user/passwordresetcode
+            Method: POST
+    Metadata:
+      SamResourceId: UserResetPasswordCodeFunction
+  UserResetPasswordFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: user_reset_password_sam
+      Handler: PasswordReset
+      Runtime: go1.x
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/200f078a75471da6034505f185beac5d
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+      - AmazonDynamoDBFullAccess
+      - AWSLambdaBasicExecutionRole
+      - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: Users
+      Events:
+        UserResetPasswordEvent:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: TheBestApi
+            Path: /user/passwordreset
+            Method: POST
+    Metadata:
+      SamResourceId: UserResetPasswordFunction

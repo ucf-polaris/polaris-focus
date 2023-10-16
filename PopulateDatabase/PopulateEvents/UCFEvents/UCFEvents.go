@@ -54,7 +54,7 @@ type LocationIndex struct {
 
 func init() {
 	//dynamo db
-	client, table = Helpers.ConstructDynamoHost()
+	client, table = Helpers.ConstructRealDynamoHost()
 }
 
 func renameFields(naming_map map[string]string, m map[string]interface{}) map[string]interface{} {
@@ -488,10 +488,16 @@ func handler(config PageConfig) (map[string]interface{}, error) {
 		return nil, err
 	}
 
+	counter, err := Helpers.IncrementCounterTable(client, "EventParseAmount", "Counters")
+	if err != nil {
+		return nil, err
+	}
+
 	//-----------------------------------------SETUP RETURN-----------------------------------------
 	ret := map[string]interface{}{
 		"total":     len(payload),
 		"processed": processed,
+		"counter":   counter,
 	}
 
 	return ret, nil

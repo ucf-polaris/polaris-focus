@@ -478,10 +478,16 @@ func handler(config PageConfig) (map[string]interface{}, error) {
 		return nil, err
 	}
 
+	counter, err := Helpers.IncrementCounterTable(client, "EventParseAmount", "Counters")
+	if err != nil {
+		return nil, err
+	}
+
 	//-----------------------------------------SETUP RETURN-----------------------------------------
 	ret := map[string]interface{}{
 		"total":     total,
 		"processed": processed,
+		"counter":   counter,
 	}
 
 	return ret, nil

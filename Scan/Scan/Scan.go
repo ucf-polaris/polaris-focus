@@ -88,6 +88,14 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	//-----------------------------------------FILTER BASED ON CIRCULAR RANGE-----------------------------------------
 	ret["locations"] = res
 
+	if table == "Events" {
+		counter, err := Helpers.GetCounterTable(client, "EventParseAmount", "Counters")
+		if err != nil {
+			return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
+		}
+		ret["counter"] = counter
+	}
+
 	js, err := json.Marshal(ret)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -21,6 +22,19 @@ var (
 	ErrRecordNotFound = fmt.Errorf("record not found")
 	ErrKeyNotFound    = fmt.Errorf("key not found")
 )
+
+type Counter struct {
+	Name string `dynamodbav:"ID"`
+}
+
+type CounterAttribute struct {
+	Name string `dynamodbav:":ID"`
+	Inc  int    `dynamodbav:":inc"`
+}
+
+type CounterRet struct {
+	Counter int `json:"Counter"`
+}
 
 // checks if key is in map[string]interface{}
 func containsKey(m map[string]interface{}, k string) bool {
@@ -343,4 +357,78 @@ func QueryKey(client *dynamodb.Client, index_map map[string]interface{}, table s
 	attributevalue.UnmarshalListOfMaps(QueryResults.Items, &output)
 
 	return output, nil
+}
+
+func IncrementCounterTable(client *dynamodb.Client, counter, table string) (int, error) {
+	c := Counter{
+		Name: counter,
+	}
+
+	ca := CounterAttribute{
+		Name: counter,
+		Inc:  1,
+	}
+
+	name := map[string]string{
+		"#Counter": "Counter",
+	}
+
+	key, _ := attributevalue.MarshalMap(c)
+	items, _ := attributevalue.MarshalMap(ca)
+	log.Println(key)
+
+	updateInput := &dynamodb.UpdateItemInput{
+		// table name is a global variable
+		TableName: &table,
+		// Partitiion key for user table is EventID
+		Key: key,
+		// "SET" update expression to update the item in the table.
+		UpdateExpression:          aws.String("ADD #Counter :inc"),
+		ExpressionAttributeValues: items,
+		ExpressionAttributeNames:  name,
+		ReturnValues:              types.ReturnValueUpdatedNew,
+		//don't make new record if key doesn't exist
+		ConditionExpression: aws.String("ID = :ID"),
+	}
+
+	retValues, err := client.UpdateItem(context.Background(), updateInput)
+	if err != nil {
+		return 0, err
+	}
+
+	ret := CounterRet{}
+	err = attributevalue.UnmarshalMap(retValues.Attributes, &ret)
+	if err != nil {
+		return 0, err
+	}
+
+	return ret.Counter, nil
+}
+
+func GetCounterTable(client *dynamodb.Client, counter, table string) (int, error) {
+	c := Counter{
+		Name: counter,
+	}
+
+	key, _ := attributevalue.MarshalMap(c)
+
+	getInput := &dynamodb.GetItemInput{
+		// table name is a global variable
+		TableName: &table,
+		// Partitiion key for user table is EventID
+		Key: key,
+	}
+
+	retValues, err := client.GetItem(context.Background(), getInput)
+	if err != nil {
+		return 0, err
+	}
+
+	ret := CounterRet{}
+	err = attributevalue.UnmarshalMap(retValues.Item, &ret)
+	if err != nil {
+		return 0, err
+	}
+
+	return ret.Counter, nil
 }

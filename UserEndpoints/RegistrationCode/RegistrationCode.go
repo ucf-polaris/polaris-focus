@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 	"polaris-api/pkg/Helpers"
-	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -26,7 +25,7 @@ type Claims struct {
 
 type CodeQuery struct {
 	UserID string `json:"UserID"`
-	Code   int    `json:"code,omitempty"`
+	Code   string `json:"code,omitempty"`
 }
 
 var table string
@@ -77,15 +76,14 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		query.UserID = val
 	}
 
-	if query.Code == 0 {
+	if query.Code == "" {
 		return Helpers.ResponseGeneration("code field not set", http.StatusOK)
 	}
 
-	codeStr := strconv.Itoa(query.Code)
 	//-----------------------------------------THE UPDATE CALL-----------------------------------------
 	//pass changes into update
 	item := make(map[string]types.AttributeValue)
-	item[":code"] = &types.AttributeValueMemberN{Value: codeStr}
+	item[":code"] = &types.AttributeValueMemberS{Value: query.Code}
 
 	//who we're trying to find
 	key := make(map[string]types.AttributeValue)

@@ -8,7 +8,31 @@ Resources:
     Properties:
       Name: PolarisFocusAPI
       StageName: Testing
-
+# --- TRACKER FUNCTIONS ---
+  TrackerGetFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        FunctionName: tracker_get_sam
+        Handler: TrackerGet
+        Runtime: go1.x
+        CodeUri: EventEndpoints/TrackerGet
+        MemorySize: 256
+        Timeout: 10
+        Policies:
+          - AmazonDynamoDBFullAccess
+          - AWSLambdaBasicExecutionRole
+          - AWSLambdaRole
+        Environment:
+          Variables:
+            TABLE_NAME: "Counters"
+            COUNTER_NAME: "EventParseAmount"
+        Events:
+          TrackerGetEvent:
+            Type: Api
+            Properties:
+              RestApiId: !Ref TheBestApi
+              Path: /tracker/event/get
+              Method: GET
 # --- STREAM FUNCTION ---
   EventStreamReaderFunction:
     Type: AWS::Serverless::Function
@@ -218,7 +242,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: event_scan_sam
-      Handler: EventsScan
+      Handler: Scan
       Runtime: go1.x
       CodeUri: Scan/Scan
       MemorySize: 256
@@ -260,6 +284,29 @@ Resources:
             RestApiId: !Ref TheBestApi
             Path: /event/delete
             Method: DELETE
+  EventQueryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: event_query_sam
+      Handler: EventsScan
+      Runtime: go1.x
+      CodeUri: EventEndpoints/EventsQuery
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Events"
+      Events:
+        QueryEventEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TheBestApi
+            Path: /event/query
+            Method: POST
 
 # --- USER FUNCTIONS ---
   # Registration Code

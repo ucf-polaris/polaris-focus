@@ -120,7 +120,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	item["UserID"] = &types.AttributeValueMemberS{Value: uuid_new}
 	item["timeTilExpire"] = &types.AttributeValueMemberN{Value: strconv.FormatInt(time.Now().UTC().Add(time.Minute*15).Unix(), 10)}
-	item["verificationCode"] = &types.AttributeValueMemberN{Value: code}
+	item["verificationCode"] = &types.AttributeValueMemberS{Value: code}
 
 	//-----------------------------------------PUT UNVERIFIED USER INTO DATABASE-----------------------------------------
 	_, err = client.PutItem(context.Background(), &dynamodb.PutItemInput{
@@ -134,7 +134,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	//-----------------------------------------SEND EMAIL CODE-----------------------------------------
 	body := make(map[string]interface{})
 	body["email"] = search["email"].(string)
-	body["code"], err = strconv.ParseFloat(code, 64)
+	body["code"] = code
 
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)

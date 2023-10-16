@@ -18,17 +18,18 @@ import (
 )
 
 type Building struct {
-	BuildingLong         float64  `json:"BuildingLong"`
-	BuildingLat          float64  `json:"BuildingLat"`
-	BuildingDesc         string   `json:"BuildingDesc"`
-	BuildingEvents       []string `json:"BuildingEvents,omitempty"`
-	BuildingName         string   `json:"BuildingName"`
-	BuildingAltitude     float64  `json:"BuildingAltitude,omitempty"`
-	BuildingLocationType string   `json:"BuildingLocationType,omitempty"`
-	BuildingAbbreviation string   `json:"BuildingAbbreviation,omitempty"`
-	BuildingAllias 		 string   `json:"BuildingAllias,omitempty"`
-	BuildingAddress      string   `json:"BuildingAddress,omitempty"`
-	BuildingImage        string   `json:"BuildingImage,omitempty"`
+	BuildingLong         float64   `json:"BuildingLong"`
+	BuildingLat          float64   `json:"BuildingLat"`
+	BuildingDesc         string    `json:"BuildingDesc"`
+	BuildingEvents       []string  `json:"BuildingEvents,omitempty"`
+	BuildingName         string    `json:"BuildingName"`
+	BuildingAltitude     float64   `json:"BuildingAltitude,omitempty"`
+	BuildingLocationType string    `json:"BuildingLocationType,omitempty"`
+	BuildingAbbreviation []string  `json:"BuildingAbbreviation,omitempty"`
+	BuildingAllias       []string  `json:"BuildingAllias,omitempty"`
+	BuildingAddress      string    `json:"BuildingAddress,omitempty"`
+	BuildingImage        string    `json:"BuildingImage,omitempty"`
+	BuildingEntrances    []Payload `json:"BuildingEntrances,omitempty"`
 }
 type Payload struct {
 	BuildingLong float64 `json:"BuildingLong"`

@@ -58,7 +58,7 @@ Resources:
       FunctionName: ucf_events_sam
       Handler: UCFEvents
       Runtime: go1.x
-      CodeUri: PopulateDatabase/PopulateEvents/UCFEvents
+      CodeUri: PopulateDatabase/UCFEvents
       MemorySize: 256
       Timeout: 20
       Policies:
@@ -75,7 +75,7 @@ Resources:
       FunctionName: knights_parser_sam
       Handler: KnightsConnect
       Runtime: go1.x
-      CodeUri: PopulateDatabase/PopulateEvents/KnightsConnect
+      CodeUri: PopulateDatabase/KnightsConnect
       MemorySize: 256
       Timeout: 20
       Policies:

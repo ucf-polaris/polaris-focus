@@ -1,0 +1,139 @@
+{
+    "schema":{
+        "keys":["UserID"],
+        "global_secondary_index":["email"],
+        "global_secondary_index_name": "email-index",
+        "attributes":{
+            "UserID": "S",
+            "email": "S"
+        }   
+    },
+    "test_cases": [
+        {
+            "name": "Successful Update, All Fields",
+            "request":{
+                "email": "kaedenle@gmail.com",
+                "name":"me",
+                "schedule":["mine"],
+                "visited":["apeshit"],
+                "favorite":["yours", "mine"],
+                "UserID": "0"
+            },
+            "expected_response":"",
+            "expected_response_body":{
+                "schedule":["mine"],
+                "visited":["apeshit"],
+                "favorite":["mine", "yours"],
+                "name": "me",
+                "email": "kaedenle@gmail.com"
+            },
+            "ADD":[
+                {
+                "UserID": "0",
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "password": "password",
+                "schedule":["jofdopafdsiojaf"],
+                "visited":["MSB"],
+                "favorite":["SU"],
+                "name": "kaeden le"
+            }
+            ],
+            "GET":[
+            ],
+            "ignore_in_get":["tokens"],
+            "ignore_in_body":["tokens"],
+            "convert_to_set":["visited", "favorite", "schedule"],
+            "handle_token": true
+        },
+        {
+            "name": "Successful Update, Partial Fields",
+            "request":{
+                "email": "kaedenle@gmail.com",
+                "name":"me",
+                "UserID": "0"
+            },
+            "expected_response":"",
+            "expected_response_body":{
+                "name": "me",
+                "email": "kaedenle@gmail.com"
+            },
+            "ADD":[
+                {
+                "UserID": "0",
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "password": "password",
+                "schedule":["jofdopafdsiojaf"],
+                "visited":["MSB"],
+                "favorite":["SU"],
+                "name": "kaeden le"
+            }
+            ],
+            "GET":[
+            ],
+            "ignore_in_get":["tokens"],
+            "ignore_in_body":["tokens"],
+            "convert_to_set":["visited", "favorite", "schedule"],
+            "handle_token": true
+        },
+        {
+            "name": "No Fields",
+            "request":{
+                "UserID": 0
+            },
+            "expected_response":"ERROR",
+            "expected_response_body":{
+            },
+            "ADD":[
+                {
+                "UserID": "0",
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "password": "password",
+                "schedule":["jofdopafdsiojaf"],
+                "visited":["MSB"],
+                "favorite":["SU"],
+                "name": "kaeden le"
+            }
+            ],
+            "GET":[
+            ],
+            "ignore_in_get":["tokens"],
+            "ignore_in_body":["tokens"],
+            "convert_to_set":["visited", "favorite", "schedule"],
+            "handle_token": true
+        },
+        {
+            "name": "No UserID",
+            "request":{
+                "email": "kaedenle@gmail.com",
+                "name":"me",
+                "schedule":["mine"],
+                "visited":["apeshit"],
+                "favorite":["yours", "mine"]
+            },
+            "expected_response":"ERROR",
+            "expected_response_body":{
+            },
+            "ADD":[
+                {
+                "UserID": "0",
+                "email": "kaedenle@gmail.com",
+                "username": "kaedenle",
+                "password": "password",
+                "schedule":["jofdopafdsiojaf"],
+                "visited":["MSB"],
+                "favorite":["SU"],
+                "name": "kaeden le"
+            }
+            ],
+            "GET":[
+            ],
+            "ignore_in_get":["tokens"],
+            "ignore_in_body":["tokens"],
+            "convert_to_set":["visited", "favorite", "schedule"],
+            "handle_token": true
+        }
+    ]
+}

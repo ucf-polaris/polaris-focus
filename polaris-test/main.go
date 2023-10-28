@@ -9,10 +9,10 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
-	"github.com/aws/aws-sdk-go/aws"
 )
 
 var table string
@@ -41,7 +41,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	search := Helpers.UnpackRequest(request.Body)
 
 	items, queryString, mapQuery, err := Helpers.ExtractFields(
-		[]string{"BuildingDesc", "BuildingEvents", "BuildingName", "BuildingImage", "BuildingAddress", "BuildingLocationType", "BuildingAltitude", "BuildingAbbreviation", "BuildingAllias"},
+		[]string{"email", "username", "name", "schedule", "favorite", "visited"},
 		search,
 		true,
 		true)
@@ -50,15 +50,15 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
-	//format BuildingEvents
+	//format the lists
 	Helpers.ListToStringSet(
-		[]string{":BuildingEvents", ":BuildingAllias", ":BuildingAbbreviation"},
+		[]string{":favorite", ":visited", ":schedule"},
 		items,
 		false,
 	)
 	//-----------------------------------------GET KEYS TO FILTER-----------------------------------------
 	key, _, _, err := Helpers.ExtractFields(
-		[]string{"BuildingLong", "BuildingLat"},
+		[]string{"UserID"},
 		search,
 		false,
 		false)
@@ -69,26 +69,13 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	updateInput := &dynamodb.UpdateItemInput{
 		// table name is a global variable
 		TableName: &table,
-		// Partitiion key for user table is EventID
+		// Partitiion key for user table is UserID
 		Key: key,
 		// "SET" update expression to update the item in the table.
 		UpdateExpression:          aws.String(queryString),
 		ExpressionAttributeNames:  mapQuery,
 		ExpressionAttributeValues: items,
 		ReturnValues:              types.ReturnValueUpdatedNew,
-	}
-
-	doConditionExpression := false
-	if val, ok := search["DoOverride"].(bool); ok {
-		doConditionExpression = val
-	}
-
-	if !doConditionExpression {
-		//don't make new record if key doesn't exist (could take this out and make a new add?)
-		updateInput.ConditionExpression = aws.String("BuildingLong = :BuildingLong AND BuildingLat = :BuildingLat")
-		//put keys in ExpressionAttributeValues for ConditionExpression
-		items[":BuildingLong"] = key["BuildingLong"]
-		items[":BuildingLat"] = key["BuildingLat"]
 	}
 
 	retValues, err := client.UpdateItem(context.Background(), updateInput)

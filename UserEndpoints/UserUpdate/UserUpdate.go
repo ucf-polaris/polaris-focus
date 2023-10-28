@@ -2,34 +2,19 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"log"
 	"net/http"
-	"encoding/json"
 	"polaris-api/pkg/Helpers"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
-	"github.com/aws/aws-sdk-go-v2/aws"
 )
 
-type User struct {
-	UserID           string   `json:"UserID"`
-	Email            string   `json:"email"`
-	Password         string   `json:"password"`
-	Schedule         []string `json:"schedule"`
-	Username         string   `json:"username"`
-	Name             string   `json:"name"`
-}
-type Response struct {
-	Tokens Tokens  `json:"tokens"`
-}
-
-type Tokens struct {
-	Token        string `json:"token,omitempty"`
-	RefreshToken string `json:"refreshToken,omitempty"`
-}
 var table string
 var client *dynamodb.Client
 
@@ -41,68 +26,81 @@ func init() {
 	}
 }
 
+func main() {
+	lambda.Start(handler)
+}
+
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	token, refreshToken, err := Helpers.GetTokens(request)
+	//-----------------------------------------EXTRACT TOKEN FIELDS-----------------------------------------
+	token, rfsTkn, err := Helpers.GetTokens(request)
 	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
-	// create instance of user struct
-	var usr User
-	// unmarshal the raw input into a go struct type
-	err = json.Unmarshal([]byte(request.Body), &usr)
 
-	// if parsing failed then the input was invalid, let the caller know and return.
-    if err != nil {
-        return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
-    }
+	//-----------------------------------------EXTRACT FIELDS-----------------------------------------
+	search := Helpers.UnpackRequest(request.Body)
 
-	// Construct the required update input for dynamodb
-	updateInput := &dynamodb.UpdateItemInput {
+	items, queryString, mapQuery, err := Helpers.ExtractFields(
+		[]string{"email", "username", "name", "schedule", "favorite", "visited"},
+		search,
+		true,
+		true)
+
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
+	}
+
+	//format the lists
+	Helpers.ListToStringSet(
+		[]string{":favorite", ":visited", ":schedule"},
+		items,
+		false,
+	)
+	//-----------------------------------------GET KEYS TO FILTER-----------------------------------------
+	key, _, _, err := Helpers.ExtractFields(
+		[]string{"UserID"},
+		search,
+		false,
+		false)
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
+	}
+	//-----------------------------------------PUT INTO DATABASE-----------------------------------------
+	updateInput := &dynamodb.UpdateItemInput{
 		// table name is a global variable
 		TableName: &table,
 		// Partitiion key for user table is UserID
-		Key: map[string]types.AttributeValue{
-			"UserID": &types.AttributeValueMemberS{
-				Value: usr.UserID,
-			},
-		},
+		Key: key,
 		// "SET" update expression to update the item in the table.
-		UpdateExpression: aws.String("SET email = :email, password = :password, schedule = :schedule, username = :username, #N = :name"),
-		ExpressionAttributeNames: map[string]string{"#N": "name",},
-		ExpressionAttributeValues: map[string]types.AttributeValue{
-			":email": &types.AttributeValueMemberS{Value: usr.Email},
-			":password": &types.AttributeValueMemberS{Value: usr.Password},
-			":schedule": &types.AttributeValueMemberSS{Value: usr.Schedule},
-			":username": &types.AttributeValueMemberS{Value: usr.Username},
-			":name": &types.AttributeValueMemberS{Value: usr.Name},
-		},
+		UpdateExpression:          aws.String(queryString),
+		ExpressionAttributeNames:  mapQuery,
+		ExpressionAttributeValues: items,
+		ReturnValues:              types.ReturnValueUpdatedNew,
 	}
 
-	// Try to update the item, if it failed return and tell the user
-	_, err = client.UpdateItem(context.Background(), updateInput)
+	retValues, err := client.UpdateItem(context.Background(), updateInput)
 	if err != nil {
-		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
-	tokens := Tokens{
-		Token:			token,
-		RefreshToken:	refreshToken,
+	//-----------------------------------------PACK RETURN VALUES-----------------------------------------
+	ret := make(map[string]interface{})
+	tokens := make(map[string]interface{})
+	attributevalue.UnmarshalMap(retValues.Attributes, &ret)
+	if token != "" {
+		tokens["token"] = token
 	}
-	ret := Response{
-		Tokens: tokens,
+
+	if rfsTkn != "" {
+		tokens["refreshToken"] = rfsTkn
 	}
-	retJSON, err := json.Marshal(ret)
+
+	ret["tokens"] = tokens
+
+	js, err := json.Marshal(ret)
 	if err != nil {
-		return Helpers.ResponseGeneration("when marshaling data", http.StatusBadRequest)
+		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
-	// Great success!
-    return events.APIGatewayProxyResponse{
-        StatusCode: http.StatusOK,
-        Body:       string(retJSON),
-		Headers:	map[string]string{"content-type": "application/json"},
-    }, nil
-}
 
-func main() {
-	lambda.Start(handler)
+	return events.APIGatewayProxyResponse{StatusCode: http.StatusOK, Body: string(js), Headers: map[string]string{"content-type": "application/json"}}, nil
 }

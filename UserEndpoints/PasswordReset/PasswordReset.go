@@ -93,6 +93,10 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	//set 15 minutes to verify code (checked by other endpoint)
 	timeFrame := time.Now().UTC().Add(time.Minute * 15).Unix()
 
+	if search.Email == "" {
+		return Helpers.ResponseGeneration("Empty email field", http.StatusOK)
+	}
+
 	UserID, err := GetUserIDfromEmail(search.Email)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
@@ -118,7 +122,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		ConditionExpression:       aws.String("UserID = :UserID"),
 	}
 
-	output, err := client.UpdateItem(context.Background(), input)
+	_, err = client.UpdateItem(context.Background(), input)
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
 	}
@@ -148,7 +152,6 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	//-----------------------------------------PACK RESPONSE-----------------------------------------
 	ret := make(map[string]interface{})
-	attributevalue.UnmarshalMap(output.Attributes, &ret)
 	ret["tokens"] = map[string]string{
 		"token": tokenRet,
 	}

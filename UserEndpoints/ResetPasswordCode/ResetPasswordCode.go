@@ -135,7 +135,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	if err := CheckIfValid(query.UserID); err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
-	//-----------------------------------------THE UPDATE CALL-----------------------------------------
+	//-----------------------------------------THE UPDATE CALLS-----------------------------------------
 	//pass changes into update
 	item := make(map[string]types.AttributeValue)
 	item[":code"] = &types.AttributeValueMemberS{Value: codeStr}
@@ -156,7 +156,6 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	if err != nil {
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
-
 	//-----------------------------------------RESULTS PROCESSING-----------------------------------------
 	map_output := make(map[string]interface{})
 	ret := make(map[string]interface{})

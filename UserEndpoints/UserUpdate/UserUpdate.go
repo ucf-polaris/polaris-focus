@@ -41,7 +41,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	search := Helpers.UnpackRequest(request.Body)
 
 	items, queryString, mapQuery, err := Helpers.ExtractFields(
-		[]string{"email", "username", "name", "schedule", "favorite", "visited"},
+		[]string{"email", "username", "name", "schedule", "favorite", "visited", "password"},
 		search,
 		true,
 		true)

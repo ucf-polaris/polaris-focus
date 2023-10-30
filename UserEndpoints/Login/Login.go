@@ -32,7 +32,7 @@ type User struct {
 	Favorite         []string `json:"favorite"`
 	Username         string   `json:"username"`
 	Name             string   `json:"name"`
-	VerificationCode int      `json:"verificationCode"`
+	VerificationCode string   `json:"verificationCode"`
 }
 
 var table string
@@ -93,6 +93,7 @@ func ConstructVerified(queryResponse User, password string) (string, error) {
 	tokens["refreshToken"] = rfs
 
 	ret["tokens"] = tokens
+	ret["verified"] = true
 
 	//package the results
 	js, err = json.Marshal(ret)
@@ -126,6 +127,8 @@ func ConstructNonVerified(queryResponse User) (string, error) {
 	ret["tokens"] = map[string]string{
 		"token": regtkn,
 	}
+
+	ret["verified"] = false
 
 	js, err := json.Marshal(ret)
 	if err != nil {
@@ -184,7 +187,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	var ret string
 
 	//user not verified
-	if newUser.VerificationCode != 0 {
+	if newUser.VerificationCode != "" {
 		ret, err = ConstructNonVerified(newUser)
 
 		if err != nil {

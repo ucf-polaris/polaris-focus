@@ -111,18 +111,22 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		return Helpers.ResponseGeneration(err.Error(), http.StatusOK)
 	}
 
+	uuid_new := uuid.Must(uuid.NewRandom()).String()
+
 	if TheInput.Count != 0 {
 		//check if verified user is in database
-		m := make(map[string]interface{})
-		attributevalue.UnmarshalMap(TheInput.Items[0], m)
+		m := map[string]interface{}{}
+		attributevalue.UnmarshalMap(TheInput.Items[0], &m)
 		_, ok := m["verificationCode"]
 		if !ok {
 			return Helpers.ResponseGeneration("email already in use", http.StatusOK)
 		}
+
+		//set user id to existing one
+		uuid_new = m["UserID"].(string)
 	}
 
 	//-----------------------------------------NEW USER CONSTRUCTION-----------------------------------------
-	uuid_new := uuid.Must(uuid.NewRandom()).String()
 	code := produceRandomNDigits(5)
 
 	item["UserID"] = &types.AttributeValueMemberS{Value: uuid_new}

@@ -12,6 +12,7 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/aws/aws-sdk-go/aws"
@@ -111,7 +112,13 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}
 
 	if TheInput.Count != 0 {
-		return Helpers.ResponseGeneration("email already in use", http.StatusOK)
+		//check if verified user is in database
+		m := make(map[string]interface{})
+		attributevalue.UnmarshalMap(TheInput.Items[0], m)
+		_, ok := m["verificationCode"]
+		if !ok {
+			return Helpers.ResponseGeneration("email already in use", http.StatusOK)
+		}
 	}
 
 	//-----------------------------------------NEW USER CONSTRUCTION-----------------------------------------

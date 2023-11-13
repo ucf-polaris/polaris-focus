@@ -2,16 +2,16 @@ import os
 import subprocess
 
 # define all the root directory names
-roots = ['LocationEndpoints', 'EventEndpoints', 'UserEndpoints', 'JWTFiles', 'Scan', 'StreamReader', 'PopulateDatabase/PopulateEvents']
+roots = ['LocationEndpoints', 'EventEndpoints', 'UserEndpoints', 'JWTFiles', 'Scan', 'StreamReader', 'PopulateDatabase']
 # map each root directory to its list of endpoints
 functions = {
     'LocationEndpoints': ['BuildingAdd', 'BuildingGet', 'BuildingDelete', 'BuildingUpdate'],
     'EventEndpoints': ['EventGet', 'EventsAdd', 'EventsDelete', 'EventsUpdate'],
-    'UserEndpoints': ['RegistrationCode', 'Register', 'Login', 'UserGet', 'UserUpdate', 'UserDelete', 'PasswordReset', 'ResetPasswordCode'],
+    'UserEndpoints': ['RegistrationCode', 'Register', 'Login', 'UserGet', 'UserUpdate', 'UserDelete', 'PasswordReset', 'ResetPasswordCode', 'FavoriteUpdate', 'VisitedUpdate'],
     'JWTFiles': ['TokenVerify'],
     'Scan': ['Scan'],
     'StreamReader': ['StreamReader'],
-    'PopulateDatabase/PopulateEvents': ['UCFEvents', 'KnightsConnect']
+    'PopulateDatabase': ['UCFEvents', 'KnightsConnect']
 }
 
 # go through each of the roots
@@ -20,7 +20,10 @@ for root in roots:
     for func in functions[root]:
         # run proper go build command for this endpoint
         print(f'Building {root}/{func}')
-        cmd = f'GOOS=linux GOARCH=amd64 go build -o {root}/{func}/{func} {root}/{func}/{func}.go'
+        if root == 'PopulateDatabase':
+            cmd = f'GOOS=linux GOARCH=amd64 go build -o {root}/{func} {root}/{func}/{func}.go'
+        else:
+            cmd = f'GOOS=linux GOARCH=amd64 go build -o {root}/{func}/{func} {root}/{func}/{func}.go'
         subprocess.run(cmd, shell=True)
 
 # define file names for sam package and deploy so it can be easily modified

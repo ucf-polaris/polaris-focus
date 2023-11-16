@@ -109,7 +109,7 @@ func getUserByEmail(ctx context.Context, email string) ([]User, error) {
 		ExpressionAttributeValues: map[string]types.AttributeValue{
 			":email":     &types.AttributeValueMemberS{Value: email},
 		},
-		ProjectionExpression: aws.String("UserID, email, schedule, username, #name, visited, favorite"),
+		ProjectionExpression: aws.String("UserID, email, schedule, username, #name, favorite, visited"),
 		ExpressionAttributeNames: map[string]string{"#name": "name"},
 	}
 

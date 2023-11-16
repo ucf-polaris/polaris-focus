@@ -461,7 +461,7 @@ Resources:
       FunctionName: user_get_sam
       Handler: UserGet
       Runtime: go1.x
-      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/1fabc8e69226fb59e52011260d500dfc
+      CodeUri: s3://aws-sam-cli-managed-default-samclisourcebucket-ri5k5ky9x3uv/da5bc04e9250e2727b2a67c4fffe09b8
       MemorySize: 256
       Timeout: 10
       Policies:

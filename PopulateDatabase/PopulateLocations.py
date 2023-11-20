@@ -6,7 +6,6 @@ def get_json():
     df = pd.read_csv("./Polaris-Locations.csv")
     
     #drop non-schema columns
-    df = df.drop("Anchor Type", axis=1)
     pd.set_option("display.precision", 15)
     
     #get correct long and lat
@@ -51,6 +50,8 @@ def populate_database(js_list):
                "authorizationToken":"{\"token\":\"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Mjg1NDUwOTF9.RPs4A5MjKsXqxIpR4ZL5xKsyqzcI8jqWuCXXKivFMWoghpD3KYdas-FXwv8MfE0kFmc1x3o5fWCEaU6xZwe_zg\"}"}
     
     for js in js_list:
+        print(js)
+        js["DoOverride"] = True;
         response = requests.post(api_url, data=json.dumps(js), headers=headers)
             
         if("BuildingName" in js):

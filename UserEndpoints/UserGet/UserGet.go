@@ -2,18 +2,18 @@ package main
 
 import (
 	"context"
-	"log"
-	"net/http"
 	"encoding/json"
 	"fmt"
+	"log"
+	"net/http"
 	"polaris-api/pkg/Helpers"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
-	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
-	"github.com/aws/aws-sdk-go-v2/aws"
 )
 
 type User struct {
@@ -21,6 +21,8 @@ type User struct {
 	Email            string   `json:"email"`
 	Password         string   `json:"password,omitempty"`
 	Schedule         []string `json:"schedule"`
+	Favorite		 []string `json:"favorite"`
+	Visited			 []string `json:"visited"`
 	Username         string   `json:"username"`
 	Name             string   `json:"name"`
 }
@@ -107,7 +109,7 @@ func getUserByEmail(ctx context.Context, email string) ([]User, error) {
 		ExpressionAttributeValues: map[string]types.AttributeValue{
 			":email":     &types.AttributeValueMemberS{Value: email},
 		},
-		ProjectionExpression: aws.String("UserID, email, schedule, username, #name"),
+		ProjectionExpression: aws.String("UserID, email, schedule, username, #name, favorite, visited"),
 		ExpressionAttributeNames: map[string]string{"#name": "name"},
 	}
 

@@ -532,3 +532,49 @@ Resources:
             RestApiId: !Ref TheBestApi
             Path: /user/passwordreset
             Method: POST
+  UserFavoriteUpdateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: user_favorite_update_sam
+      Handler: FavoriteUpdate
+      Runtime: go1.x
+      CodeUri: UserEndpoints/FavoriteUpdate
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Users"
+      Events:
+        UserFavoriteUpdateEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TheBestApi
+            Path: /user/favoriteupdate
+            Method: POST
+  UserVisitedUpdateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: user_visited_update_sam
+      Handler: FavoriteUpdate
+      Runtime: go1.x
+      CodeUri: UserEndpoints/VisitedUpdate
+      MemorySize: 256
+      Timeout: 10
+      Policies:
+        - AmazonDynamoDBFullAccess
+        - AWSLambdaBasicExecutionRole
+        - AWSLambdaRole
+      Environment:
+        Variables:
+          TABLE_NAME: "Users"
+      Events:
+        UserVisitedUpdateEvent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref TheBestApi
+            Path: /user/visitedupdate
+            Method: POST

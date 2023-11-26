@@ -189,6 +189,7 @@ func ConstructDynamoHost() (*dynamodb.Client, string) {
 	var cfg aws.Config
 	var table_func string
 
+	//if local
 	if IsLambdaLocal() {
 		cfg, err = config.LoadDefaultConfig(context.TODO(),
 			config.WithRegion("localhost"),
@@ -207,6 +208,7 @@ func ConstructDynamoHost() (*dynamodb.Client, string) {
 			panic(err)
 		}
 		table_func = "THENEWTABLE"
+		//if not local
 	} else {
 		cfg, err = config.LoadDefaultConfig(context.Background())
 		if err != nil {

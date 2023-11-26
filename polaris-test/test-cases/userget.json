@@ -1,0 +1,43 @@
+{
+    "schema":{
+        "keys":["UserID"],
+        "global_secondary_index":["email"],
+        "global_secondary_index_name": "email-index",
+        "attributes":{
+            "UserID": "S",
+            "email": "S"
+        }   
+    },
+    "test_cases": [
+        {
+            "name": "Successful Update, All Fields",
+            "request":{
+                "email": "kaedenle@gmail.com"
+            },
+            "expected_response":"",
+            "expected_response_body":{
+                "users" : [
+                    {
+                        "UserID": "0",
+                        "email": "kaedenle@gmail.com",
+                        "verificationCode": "54212",
+                        "verified": false
+                    }
+                ]
+            },
+            "ADD":[
+                {
+                "UserID": "0",
+                "email": "kaedenle@gmail.com",
+                "verificationCode": "54212"
+            }
+            ],
+            "GET":[
+            ],
+            "ignore_in_get":["tokens"],
+            "ignore_in_body":["tokens"],
+            "convert_to_set":["visited", "favorite", "schedule"],
+            "handle_token": true
+        }
+    ]
+}

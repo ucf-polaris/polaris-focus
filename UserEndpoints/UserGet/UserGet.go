@@ -21,17 +21,19 @@ type User struct {
 	Email            string   `json:"email"`
 	Password         string   `json:"password,omitempty"`
 	Schedule         []string `json:"schedule"`
-	Favorite		 []string `json:"favorite"`
-	Visited			 []string `json:"visited"`
+	Favorite         []string `json:"favorite"`
+	Visited          []string `json:"visited"`
 	Username         string   `json:"username"`
 	Name             string   `json:"name"`
+	VerificationCode string   `json:"verificationCode,omitempty"`
+	Verified         bool     `json:"verified"`
 }
 type Payload struct {
-	Email			string		`json:"email"`
+	Email string `json:"email"`
 }
 type Response struct {
-	Users []User `json:"users"`
-	Tokens Tokens  `json:"tokens"`
+	Users  []User `json:"users"`
+	Tokens Tokens `json:"tokens"`
 }
 
 type Tokens struct {
@@ -57,10 +59,10 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}
 
 	var payload Payload
-    err = json.Unmarshal([]byte(request.Body), &payload)
-    if err != nil {
-        return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
-    }
+	err = json.Unmarshal([]byte(request.Body), &payload)
+	if err != nil {
+		return Helpers.ResponseGeneration(err.Error(), http.StatusBadRequest)
+	}
 	email := payload.Email
 
 	// Fetch the user in the form of a go struct from the database
@@ -75,13 +77,22 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		return Helpers.ResponseGeneration("User not found in table", http.StatusBadRequest)
 	}
 
+	for index, value := range usr {
+		if value.VerificationCode != "" {
+			usr[index].Verified = false
+			usr[index].VerificationCode = ""
+		} else {
+			usr[index].Verified = true
+		}
+	}
+
 	tokens := Tokens{
-		Token:			token,
-		RefreshToken: 	refreshToken,
+		Token:        token,
+		RefreshToken: refreshToken,
 	}
 
 	ret := Response{
-		Users: usr,
+		Users:  usr,
 		Tokens: tokens,
 	}
 
@@ -95,7 +106,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	// Return the user info in the form of a stringified JSON
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusOK,
-		Body: 		string(usrJSON),
+		Body:       string(usrJSON),
 		Headers:    map[string]string{"content-type": "application/json"},
 	}, nil
 }
@@ -103,13 +114,13 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 func getUserByEmail(ctx context.Context, email string) ([]User, error) {
 	// Construct the get item input given the Event ID provided
 	inp := &dynamodb.QueryInput{
-		TableName:                aws.String(table),
-		IndexName:                aws.String("email-index"),
-		KeyConditionExpression:   aws.String("email = :email"),
+		TableName:              aws.String(table),
+		IndexName:              aws.String("email-index"),
+		KeyConditionExpression: aws.String("email = :email"),
 		ExpressionAttributeValues: map[string]types.AttributeValue{
-			":email":     &types.AttributeValueMemberS{Value: email},
+			":email": &types.AttributeValueMemberS{Value: email},
 		},
-		ProjectionExpression: aws.String("UserID, email, schedule, username, #name, favorite, visited"),
+		ProjectionExpression:     aws.String("UserID, email, schedule, username, #name, favorite, visited, verificationCode"),
 		ExpressionAttributeNames: map[string]string{"#name": "name"},
 	}
 
@@ -132,7 +143,7 @@ func getUserByEmail(ctx context.Context, email string) ([]User, error) {
 	if err != nil { // if this failed, early exit
 		return nil, err
 	}
-	
+
 	// yay!
 	return usr, nil
 }
